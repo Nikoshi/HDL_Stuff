@@ -39,6 +39,7 @@ Im Repository-Root innerhalb der Nix-Dev-Shell:
 
 ```sh
 make logic_basics
+make test_logic_basics
 ```
 
 `make help` zeigt die verfügbaren Targets.
