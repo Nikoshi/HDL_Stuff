@@ -1,4 +1,3 @@
-
 #include "Vmain.h"
 #include "verilated.h"
 
@@ -13,10 +12,18 @@ int main() {
   Vmain dut;
 
   // A, B, S, Expected
+  // clang-format off
   const TestCase tests[] = {
-      {0, 0, 0, 0}, {0, 1, 0, 0}, {1, 0, 0, 1}, {1, 1, 0, 1},
-      {0, 0, 1, 0}, {0, 1, 1, 1}, {1, 0, 1, 0}, {1, 1, 1, 1},
+      {0, 0, 0, 0},
+      {0, 1, 0, 0},
+      {1, 0, 0, 1},
+      {1, 1, 0, 1},
+      {0, 0, 1, 0},
+      {0, 1, 1, 1},
+      {1, 0, 1, 0},
+      {1, 1, 1, 1},
   };
+  // clang-format on
 
   for (const auto &test : tests) {
     dut.a = test.a;
