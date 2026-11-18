@@ -23,6 +23,7 @@
             pkgs.swim
             pkgs.verilator
             pkgs.yosys
+            pkgs.gnumake
             pkgs.git
           ] ++ pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux [
             pkgs.surfer
