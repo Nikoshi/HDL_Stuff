@@ -1,4 +1,5 @@
 #include "Vmain.h"
+#include "verilated_vcd_c.h"
 
 #include <iostream>
 
@@ -8,7 +9,15 @@ struct TestCase {
 };
 
 int main() {
+  Verilated::traceEverOn(true);
+
   Vmain dut;
+
+  VerilatedVcdC trace;
+  dut.trace(&trace, 99);
+  trace.open("build/mux.vcd");
+
+  int sim_time = 0;
 
   // A, B, S, Expected
   // clang-format off
@@ -34,6 +43,9 @@ int main() {
 
     dut.eval();
 
+    trace.dump(sim_time);
+    sim_time += 10;
+
     if (dut.y != test.expected) {
       std::cerr << "FAILED: A=" << test.a << " B=" << test.b << " S=" << test.s
                 << " expected=" << test.expected << " actual=" << int(dut.y)
@@ -45,6 +57,8 @@ int main() {
   }
 
   dut.final();
+  trace.close();
+
   std::cout << passed << "/" << total << " tests passed\n";
   return 0;
 }
