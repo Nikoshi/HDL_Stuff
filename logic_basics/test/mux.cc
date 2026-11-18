@@ -9,20 +9,20 @@ struct TestCase {
 };
 
 int main() {
-  // Enable waveform tracing before constructing the simulated design.
+  // Die Aufzeichnung aktivieren, bevor das simulierte Design erzeugt wird.
   Verilated::traceEverOn(true);
 
   Vmain dut;
 
-  // Register the design's signals (including nested levels up to depth 99).
-  // The path is relative to logic_basics/, where the Makefile runs this test.
+  // Signale des Designs bis zu einer Hierarchietiefe von 99 registrieren.
+  // Der Dateipfad ist relativ zu logic_basics/, wo das Makefile den Test ausführt.
   VerilatedVcdC trace;
   dut.trace(&trace, 99);
   trace.open("build/mux.vcd");
 
   int sim_time = 0;
 
-  // A, B, S, Expected
+  // A, B, Auswahl, erwarteter Ausgang
   // clang-format off
   const TestCase tests[] = {
       {0, 0, 0, 0},
@@ -44,11 +44,11 @@ int main() {
     dut.b = test.b;
     dut.s = test.s;
 
-    // Recompute the output before recording this input combination.
+    // Erst den Ausgang neu berechnen, dann die aktuelle Eingangskombination aufzeichnen.
     dut.eval();
 
-    // The mux has no clock: these are testbench-defined time steps,
-    // not physical gate propagation delays.
+    // Der Multiplexer hat keinen Takt: Die Testbench legt die Zeitschritte fest.
+    // Sie entsprechen keinen tatsächlichen Gatterlaufzeiten.
     trace.dump(sim_time);
     sim_time += 10;
 
