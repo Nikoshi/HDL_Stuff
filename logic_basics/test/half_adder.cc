@@ -9,28 +9,25 @@ struct TestCase {
 };
 
 int main() {
-  // Die Aufzeichnung aktivieren, bevor das simulierte Design erzeugt wird.
+  // Die VCD-Aufzeichnung muss vor dem Erzeugen des Simulationsmodells aktiv sein.
   Verilated::traceEverOn(true);
 
   Vhalf_adder_top dut;
 
-  // Signale des Designs bis zu einer Hierarchietiefe von 99 registrieren.
-  // Der Dateipfad ist relativ zu logic_basics/, wo das Makefile den Test
-  // ausführt.
+  // Signale für die Waveform erfassen; Pfad relativ zu logic_basics/.
   VerilatedVcdC trace;
   dut.trace(&trace, 99);
   trace.open("build/half_adder.vcd");
 
   int sim_time = 0;
 
-  // A, B, Auswahl, erwarteter Ausgang
+  // Wahrheitstabelle: A, B, erwartete Summe, erwarteter Übertrag.
   // clang-format off
   const TestCase tests[] = {
       {0, 0, 0, 0},
       {0, 1, 1, 0},
       {1, 0, 1, 0},
       {1, 1, 0, 1},
-
   };
   // clang-format on
 
@@ -41,26 +38,22 @@ int main() {
     dut.a = test.a;
     dut.b = test.b;
 
+    // Ausgänge berechnen und den aktuellen Zustand zur Simulationszeit speichern.
     dut.eval();
-
-    // Erst den Ausgang neu berechnen, dann die aktuelle Eingangskombination
-    // aufzeichnen.
-    dut.eval();
-
-    // Der Multiplexer hat keinen Takt: Die Testbench legt die Zeitschritte
-    // fest. Sie entsprechen keinen tatsächlichen Gatterlaufzeiten.
     trace.dump(sim_time);
     sim_time += 10;
 
     if (dut.sum != test.sum) {
-      std::cerr << "SUM falsch: erwartet " << test.sum << ", erhalten "
-                << int(dut.sum) << '\n';
+      std::cerr << "SUM falsch: A=" << test.a << " B=" << test.b
+                << " erwartet=" << test.sum << " erhalten=" << int(dut.sum)
+                << '\n';
       return 1;
     }
 
     if (dut.carry != test.carry) {
-      std::cerr << "CARRY falsch: erwartet " << test.carry << ", erhalten "
-                << int(dut.carry) << '\n';
+      std::cerr << "CARRY falsch: A=" << test.a << " B=" << test.b
+                << " erwartet=" << test.carry << " erhalten=" << int(dut.carry)
+                << '\n';
       return 1;
     }
 
@@ -70,6 +63,6 @@ int main() {
   dut.final();
   trace.close();
 
-  std::cout << passed << "/" << total << " tests passed\n";
+  std::cout << "Halbaddierer: " << passed << "/" << total << " Tests bestanden\n";
   return 0;
 }

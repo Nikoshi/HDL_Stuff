@@ -1,8 +1,12 @@
+// 2:1-Multiplexer: s=0 wählt a, s=1 wählt b.
+// no_mangle(all) hält die Signalnamen für die Verilator-Tests stabil.
+// inv bool kennzeichnet einen Ausgang, der mit set beschrieben wird.
 #[no_mangle(all)]
 entity main(a: bool, b: bool, s: bool, y: inv bool) {
     set y = (a && !s) || (b && s);
 }
 
+// Test-Entity: macht die beiden Rückgabewerte der Funktion als Ports zugänglich.
 #[no_mangle(all)]
 entity half_adder_top(a: bool, b: bool, sum: inv bool, carry: inv bool) {
     let (s, c) = half_adder(a, b);
@@ -11,7 +15,7 @@ entity half_adder_top(a: bool, b: bool, sum: inv bool, carry: inv bool) {
     set carry = c;
 }
 
+// Halbaddierer ohne Eingangsübertrag: Rückgabewert (Summe, Übertrag).
 fn half_adder(a: bool, b: bool) -> (bool, bool) {
     (a ^^ b, a && b)
 }
-

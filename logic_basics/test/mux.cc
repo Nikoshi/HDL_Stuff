@@ -9,20 +9,20 @@ struct TestCase {
 };
 
 int main() {
-  // Die Aufzeichnung aktivieren, bevor das simulierte Design erzeugt wird.
+  // Die VCD-Aufzeichnung muss vor dem Erzeugen des Simulationsmodells aktiv sein.
   Verilated::traceEverOn(true);
 
   Vmain dut;
 
-  // Signale des Designs bis zu einer Hierarchietiefe von 99 registrieren.
-  // Der Dateipfad ist relativ zu logic_basics/, wo das Makefile den Test ausführt.
+  // Signale bis zur Hierarchietiefe 99 erfassen.
+  // Der Dateipfad ist relativ zu logic_basics/, dem Arbeitsverzeichnis des Tests.
   VerilatedVcdC trace;
   dut.trace(&trace, 99);
   trace.open("build/mux.vcd");
 
   int sim_time = 0;
 
-  // A, B, Auswahl, erwarteter Ausgang
+  // Wahrheitstabelle: A, B, Auswahl, erwarteter Ausgang.
   // clang-format off
   const TestCase tests[] = {
       {0, 0, 0, 0},
@@ -44,18 +44,18 @@ int main() {
     dut.b = test.b;
     dut.s = test.s;
 
-    // Erst den Ausgang neu berechnen, dann die aktuelle Eingangskombination aufzeichnen.
+    // Erst die kombinatorische Logik auswerten, dann den Zustand aufzeichnen.
     dut.eval();
 
-    // Der Multiplexer hat keinen Takt: Die Testbench legt die Zeitschritte fest.
-    // Sie entsprechen keinen tatsächlichen Gatterlaufzeiten.
+    // Der Multiplexer hat keinen Takt: Diese Zeitpunkte bestimmt die Testbench.
+    // Sie entsprechen keinen echten Gatterlaufzeiten.
     trace.dump(sim_time);
     sim_time += 10;
 
     if (dut.y != test.expected) {
-      std::cerr << "FAILED: A=" << test.a << " B=" << test.b << " S=" << test.s
-                << " expected=" << test.expected << " actual=" << int(dut.y)
-                << '\n';
+      std::cerr << "MUX falsch: A=" << test.a << " B=" << test.b
+                << " S=" << test.s << " erwartet=" << test.expected
+                << " erhalten=" << int(dut.y) << '\n';
       return 1;
     }
 
@@ -65,6 +65,6 @@ int main() {
   dut.final();
   trace.close();
 
-  std::cout << passed << "/" << total << " tests passed\n";
+  std::cout << "Multiplexer: " << passed << "/" << total << " Tests bestanden\n";
   return 0;
 }
