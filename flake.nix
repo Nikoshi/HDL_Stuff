@@ -24,7 +24,7 @@
             pkgs.verilator
             pkgs.yosys
             pkgs.git
-          ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
+          ] ++ pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux [
             pkgs.surfer
           ];
         };
