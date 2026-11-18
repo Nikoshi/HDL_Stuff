@@ -1,5 +1,4 @@
 #include "Vmain.h"
-#include "verilated.h"
 
 #include <iostream>
 
