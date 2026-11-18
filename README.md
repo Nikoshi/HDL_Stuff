@@ -62,6 +62,12 @@ Swim verwaltet die Projektkonfiguration in `swim.toml` und übersetzt Spade nach
 4. Kleine ALU
 5. 4-Bit-CPU
 
+## Projektinfos
+
+- [Roadmap](ROADMAP.md)
+- [Agent Guidance](AGENTS.md)
+- [Neuer Chat](NEW_CHAT.md)
+
 ## Links
 
 - [Spade Documentation](https://docs.spade-lang.org/)
