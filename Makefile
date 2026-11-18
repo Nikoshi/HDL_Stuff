@@ -10,6 +10,7 @@ logic_basics:
 	@cd logic_basics && swim build
 
 test_logic_basics: logic_basics
+	@cd logic_basics && ln -sfn "$$(verilator --getenv VERILATOR_ROOT)/include" build/verilator_include
 	@cd logic_basics && verilator --quiet-build --quiet-stats --cc --exe --build \
 		--top-module main \
 		--Mdir build/obj_mux \
