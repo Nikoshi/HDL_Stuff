@@ -22,8 +22,16 @@ nix --extra-experimental-features 'nix-command flakes' develop
 
 ### Waveform-Viewer
 
+[Surfer](https://surfer-project.org/) und [GTKWave](https://gtkwave.sourceforge.net/) visualisieren Signalverläufe aus Simulationen, unter anderem im VCD- und FST-Format. GTKWave bietet eine klassische Oberfläche mit etablierten Debugging-Funktionen; Surfer setzt auf eine modernere Oberfläche und Erweiterbarkeit.
+
 - **Linux:** Surfer ist in der Nix-Dev-Shell enthalten.
-- **macOS:** GTKWave ist über MacPorts verfügbar: `sudo port install gtkwave`. Wer Surfer bevorzugt, kann es [aus dem Quellcode installieren](https://docs.surfer-project.org/book/).
+- **macOS:** GTKWave kann über [MacPorts](https://ports.macports.org/port/gtkwave/) installiert werden:
+
+```sh
+sudo port install gtkwave
+```
+
+Surfer lässt sich bei Bedarf auch unter macOS [aus dem Quellcode installieren](https://docs.surfer-project.org/book/). Beide Viewer können dieselben üblichen Simulationsdateien öffnen.
 
 ## Neues Projekt
 
