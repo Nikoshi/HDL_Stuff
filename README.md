@@ -43,6 +43,14 @@ swim build
 
 Swim verwaltet die Projektkonfiguration in `swim.toml` und übersetzt Spade nach SystemVerilog. Für Simulationen und Tests kann die Toolchain mit Verilator verwendet werden.
 
+## Geplante Projekte
+
+1. Logikgatter, Multiplexer und Addierer
+2. Register, Zähler und Schieberegister
+3. Zustandsautomaten und einfache Schnittstellen
+4. Kleine ALU
+5. 4-Bit-CPU
+
 ## Links
 
 - [Spade Documentation](https://docs.spade-lang.org/)
