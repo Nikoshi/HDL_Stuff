@@ -20,6 +20,11 @@ Falls Flakes noch nicht aktiviert sind:
 nix --extra-experimental-features 'nix-command flakes' develop
 ```
 
+### Waveform-Viewer
+
+- **Linux:** Surfer ist in der Nix-Dev-Shell enthalten.
+- **macOS:** GTKWave ist über MacPorts verfügbar: `sudo port install gtkwave`. Wer Surfer bevorzugt, kann es [aus dem Quellcode installieren](https://docs.surfer-project.org/book/).
+
 ## Neues Projekt
 
 ```sh
