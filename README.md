@@ -12,7 +12,7 @@ cd HDL_Stuff
 nix develop
 ```
 
-Die Dev-Shell enthält Spade, Swim, Verilator und Yosys. Unter Linux ist außerdem Surfer enthalten.
+Die Dev-Shell enthält Spade, Swim, Verilator, Yosys und GNU Make. Unter Linux ist außerdem Surfer enthalten.
 
 Falls Flakes noch nicht aktiviert sind:
 
@@ -33,11 +33,21 @@ sudo port install gtkwave
 
 Surfer lässt sich bei Bedarf auch unter macOS [aus dem Quellcode installieren](https://docs.surfer-project.org/book/). Beide Viewer können dieselben üblichen Simulationsdateien öffnen.
 
+## Build
+
+Im Repository-Root innerhalb der Nix-Dev-Shell:
+
+```sh
+make logic_basics
+```
+
+`make help` zeigt die verfügbaren Targets.
+
 ## Neues Projekt
 
 ```sh
-swim init logic_basics
-cd logic_basics
+swim init <projektname>
+cd <projektname>
 swim build
 ```
 
