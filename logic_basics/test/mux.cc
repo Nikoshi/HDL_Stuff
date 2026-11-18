@@ -25,6 +25,9 @@ int main() {
   };
   // clang-format on
 
+  int passed = 0;
+  const auto total = sizeof(tests) / sizeof(tests[0]);
+
   for (const auto &test : tests) {
     dut.a = test.a;
     dut.b = test.b;
@@ -38,9 +41,11 @@ int main() {
                 << '\n';
       return 1;
     }
+
+    ++passed;
   }
 
   dut.final();
-  std::cout << "8/8 tests passed\n";
+  std::cout << passed << "/" << total << " tests passed\n";
   return 0;
 }
