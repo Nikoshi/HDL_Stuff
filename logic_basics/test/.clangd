@@ -1,2 +1,5 @@
 CompileFlags:
-  Add: [-I../build/obj_mux]
+  Add:
+    - -I../build/obj_mux
+    - -I../build/verilator_include
+    - -I../build/verilator_include/vltstd
