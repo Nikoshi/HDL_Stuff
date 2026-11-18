@@ -1,3 +1,4 @@
-entity main(a: bool, b: bool, s: bool) -> bool {
-    (a && !s) || (b && s)
+#[no_mangle(all)]
+entity main(a: bool, b: bool, s: bool, y: inv bool) {
+    set y = (a && !s) || (b && s);
 }
