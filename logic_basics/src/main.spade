@@ -48,5 +48,8 @@ entity add2_top(a: uint<2>, b: uint<2>, sum: inv uint<3>) {
 // TODO (TDD): Dieser Platzhalter ist absichtlich falsch und soll den Test scheitern lassen.
 // Deine Aufgabe: Hier zwei vorhandene Volladdierer miteinander verbinden.
 fn add2(a: uint<2>, b: uint<2>) -> uint<3> {
-    0u3
+    let (s1, c1) = full_adder(a.lsb(), b.lsb(), false);
+    let (s2, c2) = full_adder(a.msb(), b.msb(), c1);
+    
+    [s1, s2, c2].as_uint()
 }
