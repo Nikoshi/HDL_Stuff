@@ -16,7 +16,7 @@ entity register4_top(
     rst: bool,
     enable: bool,
     d: uint<4>,
-    q: inv uint<4>,
+    q: inv uint<4>
 ) {
     reg(clk) stored reset(rst: 0) = d;
 
