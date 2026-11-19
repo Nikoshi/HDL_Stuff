@@ -69,10 +69,13 @@ Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.
 
 Im Repository-Root als VS-Code-Workspace: `Cmd+Shift+P` (macOS) bzw.
 `Ctrl+Shift+P` (Linux), dann **Tasks: Run Test Task** ausführen.
-Der Standard-Testtask in `.vscode/tasks.json` führt
-`nix develop --command make test` aus. Die Nix-CLI muss aus VS Code
-erreichbar sein. Während der Schieberegister-TDD-Phase ist das Scheitern
-des neuen Tests beabsichtigt.
+Der Standard-Testtask heißt derzeit **HDL: Aktuelle Übung (Schieberegister)**
+und führt `nix develop --command make test_shift4` aus.
+
+Unter **Tasks: Run Task** gibt es außerdem **HDL: Einzeltest auswählen**
+(mit Auswahl aller vorhandenen Make-Testtargets) und **HDL: Alle Tests (Nix)**
+für den vollständigen Regressionstest. Den Standard-Testtask passen wir
+bei neuen Übungen an. Die Nix-CLI muss aus VS Code erreichbar sein.
 
 ## Neues Projekt
 

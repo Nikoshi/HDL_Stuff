@@ -2,14 +2,14 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "HDL: Alle Tests (Nix)",
+      "label": "HDL: Aktuelle Übung (Schieberegister)",
       "type": "shell",
       "command": "nix",
       "args": [
         "develop",
         "--command",
         "make",
-        "test"
+        "test_shift4"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -24,6 +24,94 @@
         "clear": true
       },
       "problemMatcher": []
+    },
+    {
+      "label": "HDL: Einzeltest auswählen",
+      "type": "shell",
+      "command": "nix",
+      "args": [
+        "develop",
+        "--command",
+        "make",
+        "${input:hdlTestTarget}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "HDL: Alle Tests (Nix)",
+      "type": "shell",
+      "command": "nix",
+      "args": [
+        "develop",
+        "--command",
+        "make",
+        "test"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "hdlTestTarget",
+      "type": "pickString",
+      "description": "Welchen HDL-Test möchtest du ausführen?",
+      "options": [
+        {
+          "label": "Schieberegister (4 Bit)",
+          "value": "test_shift4"
+        },
+        {
+          "label": "Zähler (4 Bit)",
+          "value": "test_counter4"
+        },
+        {
+          "label": "Register (4 Bit)",
+          "value": "test_register4"
+        },
+        {
+          "label": "Register (1 Bit)",
+          "value": "test_register1"
+        },
+        {
+          "label": "Addierer (4 Bit)",
+          "value": "test_add4"
+        },
+        {
+          "label": "Addierer (2 Bit)",
+          "value": "test_add2"
+        },
+        {
+          "label": "Volladdierer",
+          "value": "test_full_adder"
+        },
+        {
+          "label": "Halbaddierer",
+          "value": "test_half_adder"
+        },
+        {
+          "label": "Multiplexer",
+          "value": "test_mux"
+        }
+      ],
+      "default": "test_shift4"
     }
   ]
 }
