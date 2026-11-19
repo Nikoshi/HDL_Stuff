@@ -92,8 +92,9 @@ Siehe:
 - Synchronen Reset mit Vorrang berücksichtigen.
 - Danach nur den Akkumulator testen, anschließend die Regressionstests.
 
-Die zu implementierende Logik bleibt bewusst offen. Der anfängliche
-Platzhalter speichert dauerhaft 0 und soll den Funktionstest nicht bestehen.
+Die Implementierung wurde inzwischen abgeschlossen und mit
+**16.774/16.774 Prüfungen** getestet. Der Akkumulator kann nun als
+öffentliche Entity in der Befehlsausführungsstufe verwendet werden.
 
 ## Testen
 

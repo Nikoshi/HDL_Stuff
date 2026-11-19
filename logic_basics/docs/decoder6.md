@@ -70,8 +70,9 @@ entity decoder6_top(
 }
 ```
 
-Die beiden Nullwerte sind **nur Platzhalter**. Wie beim
-Akkumulator soll der Test bis zur Implementierung scheitern.
+Die beiden Nullwerte waren die **TDD-Platzhalter** der ursprünglichen
+Übung. Im aktuellen Quellcode sind sie durch die funktionierende
+Bitaufteilung ersetzt.
 
 ### 1. Die sechs Bits sichtbar machen
 
@@ -152,13 +153,10 @@ die *vorgeschriebene Wirkung* eines Befehls direkt als Software.
 Wenn beide bei jeder ausgefuehrten Instruktion denselben Zustand
 liefern, ist das ein starker, unabhaengiger Funktionstest.
 
-## Arbeitsauftrag
+## Stand und nächster Schritt
 
-1. Ersetze die beiden Platzhalter in `src/decoder6.spade`.
-2. Pruefe die Feldzuordnung mit `10_1101` (OR 13).
-3. Fuehre `make test_decoder6` aus.
-4. Stelle sicher, dass die Ausgaenge ohne Takt sofort folgen.
-
-Nach bestandenem Decoder testen wir seine Integration in den
-Akkumulator. Dann bekommen unsere sechs Bit erstmals eine
-**ausfuehrbare** Bedeutung.
+Die ursprüngliche Übung ist mit **96/96 Tests** bestanden.
+Der Decoder ist nun eine öffentliche Entity, die in
+`instruction_exec6.spade` wiederverwendet werden kann.
+Im nächsten Schritt verbinden wir ihn mit dem Akkumulator,
+ohne die Bitlogik erneut zu schreiben.

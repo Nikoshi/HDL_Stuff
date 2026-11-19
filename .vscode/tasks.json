@@ -2,14 +2,14 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "HDL: Aktuelle Übung (6-Bit-Decoder)",
+      "label": "HDL: Aktuelle Übung (Befehlsausführung)",
       "type": "shell",
       "command": "nix",
       "args": [
         "develop",
         "--command",
         "make",
-        "test_decoder6"
+        "test_instruction_exec6"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -117,6 +117,10 @@
       "description": "Welchen HDL-Test möchtest du ausführen?",
       "options": [
         {
+          "label": "Befehlsausführung (6 Bit)",
+          "value": "test_instruction_exec6"
+        },
+        {
           "label": "Befehlsdecoder (6 Bit)",
           "value": "test_decoder6"
         },
@@ -173,7 +177,7 @@
           "value": "test_mux"
         }
       ],
-      "default": "test_decoder6"
+      "default": "test_instruction_exec6"
     }
   ]
 }

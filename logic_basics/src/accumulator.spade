@@ -1,12 +1,10 @@
 use lib::alu;
 
-// Erster Datenpfad: Die 4-Bit-ALU soll ihren gespeicherten ACC-Wert
-// zusammen mit dem externen Operanden b verarbeiten.
-// Reset setzt ACC synchron auf 0, vor Enable.
-// TODO (TDD): ALU als bestehenden Baustein instanziieren und ihr
-// Ergebnis bei enable auf der steigenden Taktflanke übernehmen.
+// Erster CPU-Datenpfad: Der gespeicherte ACC-Wert wird als ALU-Eingang
+// verwendet. Ein neues Ergebnis gelangt nur an der Taktflanke ins Register.
+// Synchroner Reset hat Vorrang vor Enable.
 #[no_mangle(all)]
-entity accumulator4_top(
+pub entity accumulator4_top(
     clk: clock,
     rst: bool,
     enable: bool,
@@ -14,9 +12,12 @@ entity accumulator4_top(
     op: uint<2>,
     q: inv uint<4>
 ) {
+    // Vorwärtsdeklaration: Die ALU liest ACC, bevor das Register unten steht.
     decl acc;
 
+    // Lesbare Signalwerte und deren inv-Enden für die ALU-Ausgänge.
     let (alu_result, result_wire) = port();
+    // Carry und Zero sind verbunden, werden hier aber noch nicht gespeichert.
     let (_, carry_wire) = port();
     let (_, zero_wire) = port();
 
@@ -31,6 +32,7 @@ entity accumulator4_top(
         zero_wire
     );
 
+    // Die ALU arbeitet kombinatorisch; erst dieses Register hält den Wert.
     reg(clk) acc: uint<4> reset(rst: 0) = if enable {
         alu_result
     } else {

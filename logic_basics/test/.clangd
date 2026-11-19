@@ -14,5 +14,6 @@ CompileFlags:
     - -I../build/obj_alu4_ripple
     - -I../build/obj_accumulator4
     - -I../build/obj_decoder6
+    - -I../build/obj_instruction_exec6
     - -I../build/verilator_include
     - -I../build/verilator_include/vltstd

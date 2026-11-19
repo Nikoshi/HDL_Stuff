@@ -98,13 +98,14 @@ make test_alu4          # Nur die 4-Bit-ALU testen
 make test_alu4_ripple   # Ripple-Carry-Vergleichsvariante prüfen
 make test_accumulator4  # 4-Bit-Akkumulator testen
 make test_decoder6      # 6-Bit-Decoder testen
+make test_instruction_exec6 # Befehle in Hardware und Emulator vergleichen
 make synth_alu4         # ALU mit Yosys analysieren (optionaler Einstieg)
 make compare_alu4       # Beide ALUs mit Yosys vergleichen
 ```
 
-Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd`, `logic_basics/build/full_adder.vcd`, `logic_basics/build/add2.vcd`, `logic_basics/build/add4.vcd` und `logic_basics/build/register1.vcd`, `logic_basics/build/register4.vcd` sowie `logic_basics/build/counter4.vcd` und `logic_basics/build/shift4.vcd` und `logic_basics/build/traffic_light.vcd` und `logic_basics/build/alu4.vcd` und `logic_basics/build/alu4_ripple.vcd` und `logic_basics/build/accumulator4.vcd` und `logic_basics/build/decoder6.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
+Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd`, `logic_basics/build/full_adder.vcd`, `logic_basics/build/add2.vcd`, `logic_basics/build/add4.vcd` und `logic_basics/build/register1.vcd`, `logic_basics/build/register4.vcd` sowie `logic_basics/build/counter4.vcd` und `logic_basics/build/shift4.vcd` und `logic_basics/build/traffic_light.vcd` und `logic_basics/build/alu4.vcd` und `logic_basics/build/alu4_ripple.vcd` und `logic_basics/build/accumulator4.vcd` und `logic_basics/build/decoder6.vcd` und `logic_basics/build/instruction_exec6.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
 
-**TDD:** Der 6-Bit-Befehlsdecoder ist als absichtlich unvollständiger Platzhalter vorbereitet; `make test_decoder6` soll bis zur Implementierung fehlschlagen. `make test` enthält den neuen Test. Die Akkumulator-Datei im Repository enthält noch das ältere TDD-Gerüst; lokale Lösungen müssen separat übernommen werden.
+**TDD:** Akkumulator und 6-Bit-Decoder sind inzwischen implementiert. Die neue Befehlsausführungsstufe ist als absichtlich unvollständiger Platzhalter vorbereitet; `make test_instruction_exec6` soll bis zur Implementierung fehlschlagen. `make test` umfasst den neuen Test.
 
 **Synthese-Einstieg:** `make synth_alu4` startet Yosys nach dem Swim-Build und schreibt einen Bericht nach `logic_basics/build/alu4_synth.log`. Die Zahlen beschreiben eine generische, optimierte Gatternetzliste, noch keine konkrete FPGA-Ressourcenbelegung. Mit `make compare_alu4` werden beide ALU-Varianten unter identischen Syntheseschritten einschließlich `synth -flatten` verglichen. Neben den Zellzahlen zeigt `ltp -noff` die längsten Logikpfade als Stufenzahl an. Das sind keine physikalischen Laufzeiten. Näheres steht in den [ALU-Lernnotizen](logic_basics/docs/alu4.md).
 
@@ -121,14 +122,16 @@ Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.
 - `logic_basics/src/alu.spade`: Standard-ALU mit nativer Spade-Addition.
 - `logic_basics/src/alu_ripple.spade`: ursprüngliche Ripple-Carry-ALU als Vergleich.
 - `logic_basics/src/accumulator.spade`: erster CPU-Datenpfad aus ALU und Register.
-- `logic_basics/src/decoder6.spade`: 6-Bit-Befehlsdecoder, nächste TDD-Übung.
+- `logic_basics/src/decoder6.spade`: kombinatorischer 6-Bit-Befehlsdecoder.
+- `logic_basics/src/instruction_exec6.spade`: aktuelle Übung zur Verbindung von Decoder und Akkumulator.
+- `logic_basics/test/instruction6_model.hpp`: erstes C++-Referenzmodell unserer CPU-Befehle.
 
 ### VS-Code-Testtask
 
 Im Repository-Root als VS-Code-Workspace: `Cmd+Shift+P` (macOS) bzw.
 `Ctrl+Shift+P` (Linux), dann **Tasks: Run Test Task** ausführen.
-Der Standard-Testtask heißt derzeit **HDL: Aktuelle Übung (6-Bit-Decoder)**
-und führt `nix develop --command make test_decoder6` aus.
+Der Standard-Testtask heißt derzeit **HDL: Aktuelle Übung (Befehlsausführung)**
+und führt `nix develop --command make test_instruction_exec6` aus.
 
 Unter **Tasks: Run Task** gibt es außerdem **HDL: Einzeltest auswählen**
 (mit Auswahl aller vorhandenen Make-Testtargets) und **HDL: Alle Tests (Nix)**
@@ -139,6 +142,7 @@ Die Begleitnotizen zur Ampel stehen unter [`logic_basics/docs/fsm_ampel.md`](log
 Die ALU-Spezifikation steht unter [`logic_basics/docs/alu4.md`](logic_basics/docs/alu4.md).
 Die Akkumulator-Notizen stehen unter [`logic_basics/docs/akkumulator4.md`](logic_basics/docs/akkumulator4.md).
 Der Einstieg in Maschinenbefehle und Decoder steht unter [`logic_basics/docs/decoder6.md`](logic_basics/docs/decoder6.md).
+Die Befehlsausführungsstufe und das erste Emulator-Referenzmodell stehen unter [`logic_basics/docs/instruction_exec6.md`](logic_basics/docs/instruction_exec6.md).
 
 ## Neues Projekt
 
