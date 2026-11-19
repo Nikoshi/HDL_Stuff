@@ -48,11 +48,12 @@ make test_add4         # Nur den 4-Bit-Addierer testen
 make test_register1    # Nur das 1-Bit-Register testen
 make test_register4    # Nur das 4-Bit-Register mit Enable testen
 make test_counter4     # Nur den 4-Bit-Zähler mit Enable testen
+make test_shift4       # Nur das 4-Bit-Schieberegister testen
 ```
 
-Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd`, `logic_basics/build/full_adder.vcd`, `logic_basics/build/add2.vcd`, `logic_basics/build/add4.vcd` und `logic_basics/build/register1.vcd`, `logic_basics/build/register4.vcd` sowie `logic_basics/build/counter4.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
+Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd`, `logic_basics/build/full_adder.vcd`, `logic_basics/build/add2.vcd`, `logic_basics/build/add4.vcd` und `logic_basics/build/register1.vcd`, `logic_basics/build/register4.vcd` sowie `logic_basics/build/counter4.vcd` und `logic_basics/build/shift4.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
 
-**TDD:** Die bisherigen Registerübungen sind implementiert. `counter4_top` ist noch ein Platzhalter, der bei jedem Takt 0 speichert. `make test_counter4` (und damit `make test`) soll bis zur Zählerimplementierung fehlschlagen.
+**TDD:** Der 4-Bit-Zähler ist implementiert. `shift4_top` ist noch ein Platzhalter, der bei jedem Takt 0 speichert. `make test_shift4` (und damit `make test`) soll bis zur Schieberegister-Implementierung fehlschlagen.
 
 ### Quellcode-Struktur
 
@@ -62,6 +63,16 @@ Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.
 - `logic_basics/src/test_tops.spade`: Verilator-Schnittstellen der Addierer.
 - `logic_basics/src/registers.spade`: Register mit synchronem Reset und Register-Enable.
 - `logic_basics/src/counters.spade`: Aufwärtszähler mit festgelegter Bitbreite.
+- `logic_basics/src/shift_registers.spade`: serielles Schieberegister mit Enable und Reset.
+
+### VS-Code-Testtask
+
+Im Repository-Root als VS-Code-Workspace: `Cmd+Shift+P` (macOS) bzw.
+`Ctrl+Shift+P` (Linux), dann **Tasks: Run Test Task** ausführen.
+Der Standard-Testtask in `.vscode/tasks.json` führt
+`nix develop --command make test` aus. Die Nix-CLI muss aus VS Code
+erreichbar sein. Während der Schieberegister-TDD-Phase ist das Scheitern
+des neuen Tests beabsichtigt.
 
 ## Neues Projekt
 

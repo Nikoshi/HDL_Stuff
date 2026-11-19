@@ -1,6 +1,5 @@
 // 4-Bit-Aufwärtszähler mit synchronem, aktiv-hohem Reset und Enable.
-// TODO (TDD): Der Zähler bleibt vorerst bei 0.
-// Deine Aufgabe: Den nächsten Zustand aus dem aktuellen Wert berechnen.
+// Die überlaufende Addition hält den gespeicherten Zustand vier Bit breit.
 #[no_mangle(all)]
 entity counter4_top(
     clk: clock,
