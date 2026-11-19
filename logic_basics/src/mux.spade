@@ -1,0 +1,7 @@
+// 2:1-Multiplexer: s=0 wählt a, s=1 wählt b.
+// no_mangle(all) hält die Signalnamen für die Verilator-Tests stabil.
+// inv bool kennzeichnet einen Ausgang, der mit set beschrieben wird.
+#[no_mangle(all)]
+entity main(a: bool, b: bool, s: bool, y: inv bool) {
+    set y = (a && !s) || (b && s);
+}

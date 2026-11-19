@@ -1,0 +1,30 @@
+// Test-Entities: Die #[no_mangle(all)]-Namen sind die Top-Module der C++-Tests.
+use lib::adders;
+
+// Test-Entity: macht die beiden Rückgabewerte der Funktion als Ports zugänglich.
+#[no_mangle(all)]
+entity half_adder_top(a: bool, b: bool, sum: inv bool, carry: inv bool) {
+    let (s, c) = adders::half_adder(a, b);
+
+    set sum = s;
+    set carry = c;
+}
+
+// Test-Entity: macht Summe und Ausgangsübertrag des Volladdierers zugänglich.
+#[no_mangle(all)]
+entity full_adder_top(a: bool, b: bool, carry_in: bool, sum: inv bool, carry_out: inv bool) {
+    let (s, c) = adders::full_adder(a, b, carry_in);
+
+    set sum = s;
+    set carry_out = c;
+}
+// Test-Entity: stellt das dreibittige Ergebnis als Ausgang für Verilator bereit.
+#[no_mangle(all)]
+entity add2_top(a: uint<2>, b: uint<2>, sum: inv uint<3>) {
+    set sum = adders::add2(a, b);
+}
+// Test-Entity: stellt die vollständige 5-Bit-Summe als Verilator-Port bereit.
+#[no_mangle(all)]
+entity add4_top(a: uint<4>, b: uint<4>, sum: inv uint<5>) {
+    set sum = adders::add4(a, b);
+}
