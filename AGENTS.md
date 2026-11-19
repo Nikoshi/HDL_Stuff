@@ -7,7 +7,9 @@ HDL_Stuff ist eine Sammlung kleiner Experimente zu digitalen Schaltungen, HDLs u
 ## Arbeitsweise
 
 - Verständnis vor Implementierung: zuerst Schaltungsverhalten, Wahrheitstabellen und Hardwarestruktur klären, dann HDL-Code.
-- Beim Lernen nur gezielte Hinweise, Beispiele und Erklärungen geben. Übungen und Testbench-Erweiterungen möglichst selbst implementieren lassen; vollständigen Code nur auf Wunsch liefern oder wenn die technische Hürde unverhältnismäßig ist.
+- Lernaufteilung: Der Nutzer implementiert die Spade-Hardware selbst; der Agent pflegt möglichst testgetrieben Wahrheitstabellen, C++-Testbenches, Makefile-Targets, VCD-Tracing und Editor-Konfiguration.
+- Spade-Lösungen nicht vorwegnehmen. Gezielt erklären und Rückfragen zur Hardware stellen; vollständigen Spade-Code nur auf Wunsch oder zur Fehlerbehebung geben.
+- Quellcode übersichtlich halten und Kommentare auf Deutsch schreiben. Kommentare sollen Entscheidungen und nicht offensichtliche Zusammenhänge erklären, keine trivialen Zeilen wiederholen.
 - Simulation, Verifikation, Synthese und Implementierung klar unterscheiden.
 - Kleine, nachvollziehbare Änderungen bevorzugen. Keine unnötigen Abstraktionen oder Frameworks.
 - Vor Änderungen Repository und Dateistand prüfen; keine nicht gepushten lokalen Änderungen voraussetzen oder überschreiben.
