@@ -1,3 +1,5 @@
+use lib::alu;
+
 // Erster Datenpfad: Die 4-Bit-ALU soll ihren gespeicherten ACC-Wert
 // zusammen mit dem externen Operanden b verarbeiten.
 // Reset setzt ACC synchron auf 0, vor Enable.
@@ -12,8 +14,28 @@ entity accumulator4_top(
     op: uint<2>,
     q: inv uint<4>
 ) {
-    // Platzhalter: hält den Akkumulator zunächst auf 0.
-    reg(clk) acc: uint<4> reset(rst: 0) = 0u4;
+    decl acc;
+
+    let (alu_result, result_wire) = port();
+    let (_, carry_wire) = port();
+    let (_, zero_wire) = port();
+
+    // Reihenfolge wie in der alu4_top-Schnittstelle:
+    // a, b, op, result, carry_out, zero
+    let _ = inst alu::alu4_top(
+        acc,
+        b,
+        op,
+        result_wire,
+        carry_wire,
+        zero_wire
+    );
+
+    reg(clk) acc: uint<4> reset(rst: 0) = if enable {
+        alu_result
+    } else {
+        acc
+    };
 
     set q = acc;
 }
