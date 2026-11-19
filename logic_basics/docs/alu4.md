@@ -125,9 +125,9 @@ make synth_alu4
 ```
 
 Dieses Target baut erst das Spade-Projekt mit Swim und liest dann
-`logic_basics/build/spade.sv` in Yosys ein. `synth -top alu4_top`
-synthetisiert nur die ALU als Top-Modul, optimiert die Logik und gibt
-mit `stat` eine Zusammenfassung aus.
+`logic_basics/build/spade.sv` in Yosys ein. `synth -flatten -top alu4_top`
+löst vor der Synthese alle Untermodulgrenzen auf, damit deren Logik in
+der ausgegebenen Zellzahl enthalten ist. `stat` liefert die Zusammenfassung.
 
 Das vollständige Protokoll liegt in `logic_basics/build/alu4_synth.log`.
 Scrolle im Protokoll ans Ende zum Abschnitt `=== alu4_top ===`.
@@ -173,11 +173,11 @@ Beide Durchläufe verwenden dieselben drei Kommandos:
 
 ```text
 read_verilog -sv build/spade.sv
-synth -top <jeweiliges Top-Modul>
+synth -flatten -top <jeweiliges Top-Modul>
 stat
 ```
 
-Die Zusammenfassung zeigt die generischen Zellzahlen. Die vollständigen
+Die Zusammenfassung zeigt die generischen Zellzahlen der **vollständigen** ALUs. Die vollständigen
 Protokolle liegen in `build/alu4_ripple_compare.log` und
 `build/alu4_native_compare.log`.
 
@@ -185,3 +185,16 @@ Das ist ein kontrollierter Vergleich der **Zellanzahl** unter gleichen
 Synthesebedingungen, kein direkter Vergleich von Laufzeit, LUT-Belegung,
 Transistorzahl oder Leistungsverbrauch. Später können wir dafür
 konkrete Technologien und Timingberichte untersuchen.
+
+### Achtung: 42 vs. 57 ohne `-flatten`
+
+Der erste Variantenvergleich meldete 42 Zellen für die selbst gebaute
+und 57 für die native Addition. Diese Zahlen stammen aus dem jeweiligen
+Top-Modul und können hierarchische Unterbausteine auslassen. Der vorherige
+Einzelbericht mit 62 Zellen passt zu diesem Verdacht; ohne die alten
+Logdateien lässt sich der Unterschied aber nicht abschließend erklären.
+
+Deshalb verwenden sowohl `synth_alu4` als auch `compare_alu4` jetzt
+`synth -flatten`. Die damit gemessenen Zahlen sind eine neue,
+vergleichbare Ausgangsbasis. Eine niedrigere Zellzahl bedeutet weiterhin
+nicht automatisch kürzere Laufzeit oder weniger FPGA-LUTs.

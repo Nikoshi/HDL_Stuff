@@ -60,7 +60,7 @@ Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.
 
 **TDD:** Die 4-Bit-ALU ist implementiert. `make test_alu4` prüft ihre Funktion; `make test` führt alle bisher angelegten Regressionstests aus.
 
-**Synthese-Einstieg:** `make synth_alu4` startet Yosys nach dem Swim-Build und schreibt einen Bericht nach `logic_basics/build/alu4_synth.log`. Die Zahlen beschreiben eine generische, optimierte Gatternetzliste, noch keine konkrete FPGA-Ressourcenbelegung. Mit `make compare_alu4` werden beide ALU-Varianten unter identischen Syntheseschritten verglichen. Näheres steht in den [ALU-Lernnotizen](logic_basics/docs/alu4.md).
+**Synthese-Einstieg:** `make synth_alu4` startet Yosys nach dem Swim-Build und schreibt einen Bericht nach `logic_basics/build/alu4_synth.log`. Die Zahlen beschreiben eine generische, optimierte Gatternetzliste, noch keine konkrete FPGA-Ressourcenbelegung. Mit `make compare_alu4` werden beide ALU-Varianten unter identischen Syntheseschritten einschließlich `synth -flatten` verglichen. Damit zählen die ausgewiesenen Zellen auch Logik aus Untermodulen. Näheres steht in den [ALU-Lernnotizen](logic_basics/docs/alu4.md).
 
 ### Quellcode-Struktur
 

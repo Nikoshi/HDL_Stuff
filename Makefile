@@ -16,17 +16,18 @@ logic_basics:
 # Das Protokoll bleibt im ignorierten build/-Verzeichnis.
 synth_alu4: logic_basics
 	@cd logic_basics && yosys -Q -T -l build/alu4_synth.log -p \
-		'read_verilog -sv build/spade.sv; synth -top alu4_top; stat'
+		'read_verilog -sv build/spade.sv; synth -flatten -top alu4_top; stat'
 	@printf 'Yosys-Protokoll: logic_basics/build/alu4_synth.log\n'
 
 # Beide Varianten werden mit derselben Yosys-Pipeline separat synthetisiert.
-# Das verhindert, dass Optimierungen des ersten Laufs den zweiten beeinflussen.
+# Die Modulhierarchie wird jeweils aufgelöst, damit der komplette Addierer
+# einschließlich aller Unterbausteine im Zellvergleich enthalten ist.
 compare_alu4: logic_basics
 	@cd logic_basics && yosys -Q -T -l build/alu4_ripple_compare.log -p \
-		'read_verilog -sv build/spade.sv; synth -top alu4_top; stat' > /dev/null
+		'read_verilog -sv build/spade.sv; synth -flatten -top alu4_top; stat' > /dev/null
 	@cd logic_basics && yosys -Q -T -l build/alu4_native_compare.log -p \
-		'read_verilog -sv build/spade.sv; synth -top alu4_native_top; stat' > /dev/null
-	@printf '\nZellvergleich (generische Yosys-Gatter):\n'
+		'read_verilog -sv build/spade.sv; synth -flatten -top alu4_native_top; stat' > /dev/null
+	@printf '\nZellvergleich (gesamte, flach synthetisierte ALU):\n'
 	@printf '  Ripple-Carry-Addierer: '
 	@cd logic_basics && awk -v top=alu4_top -f scripts/alu_cell_count.awk build/alu4_ripple_compare.log
 	@printf '  Spade-Addition (+):    '
