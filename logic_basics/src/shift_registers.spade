@@ -9,7 +9,13 @@ entity shift4_top(
     serial_in: bool,
     q: inv uint<4>
 ) {
-    reg(clk) stored: uint<4> reset(rst: 0) = 0u4;
+    reg(clk) stored: uint<4> reset(rst: 0) = if enable {
+        let bits = stored.as_bits();
+        
+        [serial_in, bits[0], bits[1], bits[2]].as_uint()
+    } else {
+        stored
+    };
 
     set q = stored;
 }
