@@ -1,0 +1,28 @@
+// Vierphasige Ampel als Moore-Zustandsautomat.
+// Die Varianten beschreiben Zustände, keine fest vorgegebenen Binärcodes.
+enum TrafficState {
+    Red,
+    RedYellow,
+    Green,
+    Yellow
+}
+
+// advance erlaubt genau einen Zustandswechsel pro steigender Taktflanke.
+// Reset hat Vorrang und führt synchron in den Zustand Red.
+// TODO (TDD): Zustandsübergänge und Lampenausgänge implementieren.
+// Der Platzhalter hält die Ampel zunächst dauerhaft auf Rot.
+#[no_mangle(all)]
+entity traffic_light_top(
+    clk: clock,
+    rst: bool,
+    advance: bool,
+    red: inv bool,
+    yellow: inv bool,
+    green: inv bool
+) {
+    reg(clk) state: TrafficState reset(rst: TrafficState::Red) = TrafficState::Red;
+
+    set red = true;
+    set yellow = false;
+    set green = false;
+}

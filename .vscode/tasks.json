@@ -2,14 +2,14 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "HDL: Aktuelle Übung (Schieberegister)",
+      "label": "HDL: Aktuelle Übung (Ampel-FSM)",
       "type": "shell",
       "command": "nix",
       "args": [
         "develop",
         "--command",
         "make",
-        "test_shift4"
+        "test_traffic_light"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -75,6 +75,10 @@
       "description": "Welchen HDL-Test möchtest du ausführen?",
       "options": [
         {
+          "label": "Ampel-FSM (vier Zustände)",
+          "value": "test_traffic_light"
+        },
+        {
           "label": "Schieberegister (4 Bit)",
           "value": "test_shift4"
         },
@@ -111,7 +115,7 @@
           "value": "test_mux"
         }
       ],
-      "default": "test_shift4"
+      "default": "test_traffic_light"
     }
   ]
 }
