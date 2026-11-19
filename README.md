@@ -47,7 +47,7 @@ make test_add2         # Nur den 2-Bit-Addierer testen
 make test_add4         # Nur den 4-Bit-Addierer testen
 ```
 
-Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd`, `logic_basics/build/full_adder.vcd` , `logic_basics/build/add2.vcd` und `logic_basics/build/add4.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
+Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd`, `logic_basics/build/full_adder.vcd`, `logic_basics/build/add2.vcd` und `logic_basics/build/add4.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
 
 ## Neues Projekt
 
