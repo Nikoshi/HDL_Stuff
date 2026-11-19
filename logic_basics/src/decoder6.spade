@@ -1,0 +1,14 @@
+// Kombinatorischer Decoder fuer das erste 6-Bit-Befehlsformat.
+// instruction[5:4] = ALU-Operation, instruction[3:0] = Immediate.
+// Aufgabe: beide Felder verdrahten, nicht die ALU erneut implementieren.
+#[no_mangle(all)]
+entity decoder6_top(
+    instruction: uint<6>,
+    op: inv uint<2>,
+    operand: inv uint<4>
+) {
+    // TODO (TDD): Die sechs Eingangsbits in 2 + 4 Bits zerlegen.
+    // Achtung: .as_bits()[0] ist das niederwertigste Bit.
+    set op = 0u2;
+    set operand = 0u4;
+}

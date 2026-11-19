@@ -9,3 +9,4 @@ mod fsm;
 mod alu;
 mod alu_ripple;
 mod accumulator;
+mod decoder6;

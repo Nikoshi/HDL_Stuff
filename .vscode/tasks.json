@@ -2,14 +2,14 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "HDL: Aktuelle Übung (4-Bit-Akkumulator)",
+      "label": "HDL: Aktuelle Übung (6-Bit-Decoder)",
       "type": "shell",
       "command": "nix",
       "args": [
         "develop",
         "--command",
         "make",
-        "test_accumulator4"
+        "test_decoder6"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -117,6 +117,10 @@
       "description": "Welchen HDL-Test möchtest du ausführen?",
       "options": [
         {
+          "label": "Befehlsdecoder (6 Bit)",
+          "value": "test_decoder6"
+        },
+        {
           "label": "Akkumulator (4 Bit)",
           "value": "test_accumulator4"
         },
@@ -169,7 +173,7 @@
           "value": "test_mux"
         }
       ],
-      "default": "test_accumulator4"
+      "default": "test_decoder6"
     }
   ]
 }
