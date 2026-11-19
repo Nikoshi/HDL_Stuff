@@ -126,7 +126,13 @@ int main() {
 
   trace.close();
   dut.final();
+  constexpr int expected_checks = 3 + (4 * 16 * 16 * 4 * 4) + (96 * 4) + 3;
+  if (checked != expected_checks) {
+    std::cerr << "Interner Testbench-Fehler: nur " << checked
+              << " von " << expected_checks << " Pruefungen ausgefuehrt\n";
+    return 1;
+  }
   std::cout << "4-Bit-Akkumulator: " << checked
-            << "/" << checked << " Tests bestanden\n";
+            << "/" << expected_checks << " Tests bestanden\n";
   return 0;
 }
