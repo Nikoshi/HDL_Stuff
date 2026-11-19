@@ -2,14 +2,14 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "HDL: Aktuelle Übung (4-Bit-ALU)",
+      "label": "HDL: Aktuelle Übung (4-Bit-Akkumulator)",
       "type": "shell",
       "command": "nix",
       "args": [
         "develop",
         "--command",
         "make",
-        "test_alu4"
+        "test_accumulator4"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -117,6 +117,10 @@
       "description": "Welchen HDL-Test möchtest du ausführen?",
       "options": [
         {
+          "label": "Akkumulator (4 Bit)",
+          "value": "test_accumulator4"
+        },
+        {
           "label": "4-Bit-ALU",
           "value": "test_alu4"
         },
@@ -165,7 +169,7 @@
           "value": "test_mux"
         }
       ],
-      "default": "test_alu4"
+      "default": "test_accumulator4"
     }
   ]
 }
