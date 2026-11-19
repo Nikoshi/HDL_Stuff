@@ -1,6 +1,5 @@
 // Vierstufiges Links-Schieberegister mit synchronem Reset und Enable.
-// Bei jedem aktiven Takt soll serial_in zum niederwertigsten Bit werden.
-// TODO (TDD): Noch kein Schieben: Der Platzhalter speichert immer 0.
+// Bei jeder aktiven Taktflanke wird ein neues Bit an Position 0 eingeschoben.
 #[no_mangle(all)]
 entity shift4_top(
     clk: clock,
@@ -11,7 +10,9 @@ entity shift4_top(
 ) {
     reg(clk) stored: uint<4> reset(rst: 0) = if enable {
         let bits = stored.as_bits();
-        
+
+        // Das bisherige Bit 3 fällt heraus; Bit 0 kommt von serial_in.
+        // as_uint liest das Array vom niederwertigsten zum höchstwertigen Bit.
         [serial_in, bits[0], bits[1], bits[2]].as_uint()
     } else {
         stored

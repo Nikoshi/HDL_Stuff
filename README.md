@@ -53,7 +53,7 @@ make test_shift4       # Nur das 4-Bit-Schieberegister testen
 
 Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd`, `logic_basics/build/full_adder.vcd`, `logic_basics/build/add2.vcd`, `logic_basics/build/add4.vcd` und `logic_basics/build/register1.vcd`, `logic_basics/build/register4.vcd` sowie `logic_basics/build/counter4.vcd` und `logic_basics/build/shift4.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
 
-**TDD:** Der 4-Bit-Zähler ist implementiert. `shift4_top` ist noch ein Platzhalter, der bei jedem Takt 0 speichert. `make test_shift4` (und damit `make test`) soll bis zur Schieberegister-Implementierung fehlschlagen.
+**TDD:** Die bisherigen Schaltungen sind implementiert. Mit `make test_shift4` lässt sich das Schieberegister einzeln prüfen; `make test` führt die komplette Regressionstestsuite aus.
 
 ### Quellcode-Struktur
 
