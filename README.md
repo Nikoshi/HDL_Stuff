@@ -28,27 +28,34 @@ Ein älterer Spade-Pin in `logic_basics/swim.lock` kann beim Build
 `Spade has moved. Update your project` ausgeben. Die Projektquellen
 müssen dafür nicht umgeschrieben werden.
 
-Für die einmalige Migration empfiehlt
-[Spade offiziell](https://blog.spade-lang.org/moving-to-codeberg/),
-zuerst eine aktuelle Swim-Version zu installieren und dann den
-bestehenden Spade-Checkout zu bereinigen und zu aktualisieren:
+**Nix-Nutzer:** Die in `flake.lock` gepinnte nixpkgs-Revision liefert
+bereits **Spade 0.20.0 und Swim 0.20.0** aus Codeberg. Eine zusätzliche
+Cargo-Installation oder ein `nix flake update` ist für diesen Umzug
+nicht erforderlich. Innerhalb der Nix-Dev-Shell im Repository-Root:
 
 ```sh
-cargo install --git https://codeberg.org/spade-lang/swim
+nix develop
+swim --version
 cd logic_basics
-~/.cargo/bin/swim clean --and-spade
-~/.cargo/bin/swim update-spade
-~/.cargo/bin/swim build
+swim clean --and-spade
+swim update-spade
+swim build
 cd ..
+make test
 git diff -- logic_basics/swim.lock
 ```
 
-`~/.cargo/bin/swim` wird hier absichtlich direkt aufgerufen:
-In der Nix-Dev-Shell kann `swim` sonst weiterhin auf die von Nix
-bereitgestellte, eventuell ältere Version zeigen. Nach erfolgreichem
-Update `logic_basics/swim.lock` zusammen mit den Projektänderungen
-einchecken und `make test` erneut ausführen. Die Lockdatei nicht
-von Hand auf einen beliebigen Commit setzen.
+Vorhandene, unter der alten GitLab-Adresse angelegte Swim-Checkouts müssen
+nach der [offiziellen Spade-Migrationsanleitung](https://blog.spade-lang.org/moving-to-codeberg/)
+mit `swim clean --and-spade` bereinigt werden, **bevor**
+`swim update-spade` ausgeführt wird. Swim aktualisiert danach selbst
+seine Compiler-Pin-Datei. Bei Bedarf den Pfad mit `command -v swim`
+prüfen, damit die Nix-Version statt einer anderen Installation läuft.
+
+Nach erfolgreichen Tests die aktualisierte `logic_basics/swim.lock`
+einchecken. Diese Lockdatei nicht von Hand auf einen beliebigen
+Commit setzen. Der Nix-Paketstand und der vom Projekt per Swim
+geholte Compiler sind getrennte Versionsentscheidungen.
 
 ### Waveform-Viewer
 
