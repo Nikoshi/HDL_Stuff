@@ -44,12 +44,12 @@ entity add2_top(a: uint<2>, b: uint<2>, sum: inv uint<3>) {
     set sum = add2(a, b);
 }
 
-// Zwei 2-Bit-Zahlen addieren; das Ergebnis benötigt drei Bits.
-// TODO (TDD): Dieser Platzhalter ist absichtlich falsch und soll den Test scheitern lassen.
-// Deine Aufgabe: Hier zwei vorhandene Volladdierer miteinander verbinden.
+// 2-Bit-Ripple-Carry-Addierer: Der Übertrag von Bit 0 fließt in Bit 1.
+// Das letzte Übertragsbit wird zum höchstwertigen Ergebnisbit.
 fn add2(a: uint<2>, b: uint<2>) -> uint<3> {
-    let (s1, c1) = full_adder(a.lsb(), b.lsb(), false);
-    let (s2, c2) = full_adder(a.msb(), b.msb(), c1);
-    
-    [s1, s2, c2].as_uint()
+    let (sum0, carry0) = full_adder(a.lsb(), b.lsb(), false);
+    let (sum1, carry1) = full_adder(a.msb(), b.msb(), carry0);
+
+    // as_uint interpretiert das erste Arrayelement als niederwertigstes Bit.
+    [sum0, sum1, carry1].as_uint()
 }
