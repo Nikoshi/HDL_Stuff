@@ -1,0 +1,19 @@
+// Erste kombinatorische 4-Bit-ALU.
+// op: 0 = ADD, 1 = AND, 2 = OR, 3 = XOR.
+// ADD liefert nur die unteren vier Ergebnisbits; carry_out zeigt Bit 4 an.
+// Bei allen logischen Operationen ist carry_out = false.
+// zero wird aus dem tatsächlichen 4-Bit-Ergebnis abgeleitet.
+// TODO (TDD): Operationen, Carry und Zero-Flag implementieren.
+#[no_mangle(all)]
+entity alu4_top(
+    a: uint<4>,
+    b: uint<4>,
+    op: uint<2>,
+    result: inv uint<4>,
+    carry_out: inv bool,
+    zero: inv bool
+) {
+    set result = 0u4;
+    set carry_out = false;
+    set zero = true;
+}

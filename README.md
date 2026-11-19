@@ -50,11 +50,12 @@ make test_register4    # Nur das 4-Bit-Register mit Enable testen
 make test_counter4     # Nur den 4-Bit-Zähler mit Enable testen
 make test_shift4       # Nur das 4-Bit-Schieberegister testen
 make test_traffic_light # Nur die Ampel-FSM testen
+make test_alu4          # Nur die 4-Bit-ALU testen
 ```
 
-Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd`, `logic_basics/build/full_adder.vcd`, `logic_basics/build/add2.vcd`, `logic_basics/build/add4.vcd` und `logic_basics/build/register1.vcd`, `logic_basics/build/register4.vcd` sowie `logic_basics/build/counter4.vcd` und `logic_basics/build/shift4.vcd` und `logic_basics/build/traffic_light.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
+Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd`, `logic_basics/build/full_adder.vcd`, `logic_basics/build/add2.vcd`, `logic_basics/build/add4.vcd` und `logic_basics/build/register1.vcd`, `logic_basics/build/register4.vcd` sowie `logic_basics/build/counter4.vcd` und `logic_basics/build/shift4.vcd` und `logic_basics/build/traffic_light.vcd` und `logic_basics/build/alu4.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
 
-**TDD:** Die Ampel-FSM ist implementiert. `make test_traffic_light` prüft ihre Zustandsübergänge und Ausgänge; `make test` führt alle bisher angelegten Regressionstests aus.
+**TDD:** Die bisherigen Übungen sind implementiert. Die neue ALU ist bewusst noch ein Platzhalter. `make test_alu4` soll bis zur Implementierung fehlschlagen; `make test` enthält auch diesen Test.
 
 ### Quellcode-Struktur
 
@@ -66,13 +67,14 @@ Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.
 - `logic_basics/src/counters.spade`: Aufwärtszähler mit festgelegter Bitbreite.
 - `logic_basics/src/shift_registers.spade`: serielles Schieberegister mit Enable und Reset.
 - `logic_basics/src/fsm.spade`: erste Moore-FSM mit vier Ampelzuständen.
+- `logic_basics/src/alu.spade`: erste kombinatorische 4-Bit-ALU.
 
 ### VS-Code-Testtask
 
 Im Repository-Root als VS-Code-Workspace: `Cmd+Shift+P` (macOS) bzw.
 `Ctrl+Shift+P` (Linux), dann **Tasks: Run Test Task** ausführen.
-Der Standard-Testtask heißt derzeit **HDL: Aktuelle Übung (Ampel-FSM)**
-und führt `nix develop --command make test_traffic_light` aus.
+Der Standard-Testtask heißt derzeit **HDL: Aktuelle Übung (4-Bit-ALU)**
+und führt `nix develop --command make test_alu4` aus.
 
 Unter **Tasks: Run Task** gibt es außerdem **HDL: Einzeltest auswählen**
 (mit Auswahl aller vorhandenen Make-Testtargets) und **HDL: Alle Tests (Nix)**
@@ -80,6 +82,7 @@ für den vollständigen Regressionstest. Den Standard-Testtask passen wir
 bei neuen Übungen an. Die Nix-CLI muss aus VS Code erreichbar sein.
 
 Die Begleitnotizen zur Ampel stehen unter [`logic_basics/docs/fsm_ampel.md`](logic_basics/docs/fsm_ampel.md).
+Die neue ALU-Spezifikation steht unter [`logic_basics/docs/alu4.md`](logic_basics/docs/alu4.md).
 
 ## Neues Projekt
 

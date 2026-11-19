@@ -2,14 +2,14 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "HDL: Aktuelle Übung (Ampel-FSM)",
+      "label": "HDL: Aktuelle Übung (4-Bit-ALU)",
       "type": "shell",
       "command": "nix",
       "args": [
         "develop",
         "--command",
         "make",
-        "test_traffic_light"
+        "test_alu4"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -75,6 +75,10 @@
       "description": "Welchen HDL-Test möchtest du ausführen?",
       "options": [
         {
+          "label": "4-Bit-ALU",
+          "value": "test_alu4"
+        },
+        {
           "label": "Ampel-FSM (vier Zustände)",
           "value": "test_traffic_light"
         },
@@ -115,7 +119,7 @@
           "value": "test_mux"
         }
       ],
-      "default": "test_traffic_light"
+      "default": "test_alu4"
     }
   ]
 }

@@ -6,3 +6,4 @@ mod registers;
 mod counters;
 mod shift_registers;
 mod fsm;
+mod alu;
