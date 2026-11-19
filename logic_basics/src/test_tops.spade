@@ -18,6 +18,7 @@ entity full_adder_top(a: bool, b: bool, carry_in: bool, sum: inv bool, carry_out
     set sum = s;
     set carry_out = c;
 }
+
 // Test-Entity: stellt das dreibittige Ergebnis als Ausgang für Verilator bereit.
 #[no_mangle(all)]
 entity add2_top(a: uint<2>, b: uint<2>, sum: inv uint<3>) {

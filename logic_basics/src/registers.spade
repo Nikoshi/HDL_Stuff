@@ -1,0 +1,7 @@
+// 1-Bit-Register mit synchronem, aktiv-hohem Reset.
+// TODO (TDD): Momentan ist q direkt mit d verbunden. Damit scheitern die Takttests.
+// Deine Aufgabe: Ein Register einbauen, das d nur an der steigenden Flanke übernimmt.
+#[no_mangle(all)]
+entity register1_top(clk: clock, rst: bool, d: bool, q: inv bool) {
+    set q = d;
+}

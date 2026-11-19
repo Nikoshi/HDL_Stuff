@@ -45,9 +45,20 @@ make test_half_adder   # Nur den Halbaddierer testen
 make test_full_adder   # Nur den Volladdierer testen
 make test_add2         # Nur den 2-Bit-Addierer testen
 make test_add4         # Nur den 4-Bit-Addierer testen
+make test_register1    # Nur das 1-Bit-Register testen
 ```
 
-Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd`, `logic_basics/build/full_adder.vcd`, `logic_basics/build/add2.vcd` und `logic_basics/build/add4.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
+Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd`, `logic_basics/build/full_adder.vcd`, `logic_basics/build/add2.vcd` , `logic_basics/build/add4.vcd` und `logic_basics/build/register1.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
+
+**TDD:** `test_register1` ist bis zur Implementierung von `register1_top` absichtlich rot; deshalb schlägt auch `make test` zunächst fehl.
+
+### Quellcode-Struktur
+
+- `logic_basics/src/main.spade`: bindet Spade-Module mit `mod` ein.
+- `logic_basics/src/mux.spade`: 2:1-Multiplexer.
+- `logic_basics/src/adders.spade`: kombinatorische Addierer.
+- `logic_basics/src/test_tops.spade`: Verilator-Schnittstellen der Addierer.
+- `logic_basics/src/registers.spade`: erste Übung mit getakteter Logik.
 
 ## Neues Projekt
 
