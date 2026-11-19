@@ -6,5 +6,6 @@ CompileFlags:
     - -I../build/obj_add2
     - -I../build/obj_add4
     - -I../build/obj_register1
+    - -I../build/obj_register4
     - -I../build/verilator_include
     - -I../build/verilator_include/vltstd

@@ -1,9 +1,24 @@
 // 1-Bit-Register mit synchronem, aktiv-hohem Reset.
-// TODO (TDD): Momentan ist q direkt mit d verbunden. Damit scheitern die Takttests.
-// Deine Aufgabe: Ein Register einbauen, das d nur an der steigenden Flanke übernimmt.
+// q zeigt den gespeicherten Wert, nicht direkt den aktuellen Eingang d.
 #[no_mangle(all)]
 entity register1_top(clk: clock, rst: bool, d: bool, q: inv bool) {
     reg(clk) stored reset(rst: false) = d;
+
+    set q = stored;
+}
+
+// 4-Bit-Register mit synchronem Reset und vorbereitetem Enable-Eingang.
+// TODO (TDD): Der Enable-Eingang wird noch ignoriert; die Testbench soll
+// deshalb beim Halten des bisherigen Wertes mit enable=0 fehlschlagen.
+#[no_mangle(all)]
+entity register4_top(
+    clk: clock,
+    rst: bool,
+    enable: bool,
+    d: uint<4>,
+    q: inv uint<4>,
+) {
+    reg(clk) stored reset(rst: 0) = d;
 
     set q = stored;
 }
