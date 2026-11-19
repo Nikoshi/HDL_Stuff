@@ -9,6 +9,8 @@ entity decoder6_top(
 ) {
     // TODO (TDD): Die sechs Eingangsbits in 2 + 4 Bits zerlegen.
     // Achtung: .as_bits()[0] ist das niederwertigste Bit.
-    set op = 0u2;
-    set operand = 0u4;
+    let bits = instruction.as_bits();
+
+    set op = [bits[4], bits[5]].as_uint();
+    set operand = [bits[0], bits[1], bits[2], bits[3]].as_uint();
 }
