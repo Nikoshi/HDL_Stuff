@@ -39,13 +39,14 @@ Im Repository-Root innerhalb der Nix-Dev-Shell:
 
 ```sh
 make logic_basics      # Spade-Code übersetzen
-make test              # Alle drei Testbenches ausführen
+make test              # Alle Testbenches ausführen
 make test_mux          # Nur den Multiplexer testen
 make test_half_adder   # Nur den Halbaddierer testen
 make test_full_adder   # Nur den Volladdierer testen
+make test_add2         # Nur den 2-Bit-Addierer testen
 ```
 
-Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd` und `logic_basics/build/full_adder.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
+Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd` , `logic_basics/build/full_adder.vcd` und `logic_basics/build/add2.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
 
 ## Neues Projekt
 

@@ -37,3 +37,16 @@ fn full_adder(a: bool, b: bool, carry_in: bool) -> (bool, bool) {
 
     (s2, c1 || c2)
 }
+
+// Test-Entity: stellt das dreibittige Ergebnis als Ausgang für Verilator bereit.
+#[no_mangle(all)]
+entity add2_top(a: uint<2>, b: uint<2>, sum: inv uint<3>) {
+    set sum = add2(a, b);
+}
+
+// Zwei 2-Bit-Zahlen addieren; das Ergebnis benötigt drei Bits.
+// TODO (TDD): Dieser Platzhalter ist absichtlich falsch und soll den Test scheitern lassen.
+// Deine Aufgabe: Hier zwei vorhandene Volladdierer miteinander verbinden.
+fn add2(a: uint<2>, b: uint<2>) -> uint<3> {
+    0u3
+}

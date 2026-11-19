@@ -3,5 +3,6 @@ CompileFlags:
     - -I../build/obj_mux
     - -I../build/obj_half_adder
     - -I../build/obj_full_adder
+    - -I../build/obj_add2
     - -I../build/verilator_include
     - -I../build/verilator_include/vltstd
