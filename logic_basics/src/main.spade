@@ -53,3 +53,15 @@ fn add2(a: uint<2>, b: uint<2>) -> uint<3> {
     // as_uint interpretiert das erste Arrayelement als niederwertigstes Bit.
     [sum0, sum1, carry1].as_uint()
 }
+
+// Test-Entity: stellt die vollständige 5-Bit-Summe als Verilator-Port bereit.
+#[no_mangle(all)]
+entity add4_top(a: uint<4>, b: uint<4>, sum: inv uint<5>) {
+    set sum = add4(a, b);
+}
+
+// Vier 1-Bit-Volladdierer sollen eine Carry-Kette für 4-Bit-Zahlen bilden.
+// TODO (TDD): Platzhalter; erst die Testfälle, dann die Hardware implementieren.
+fn add4(a: uint<4>, b: uint<4>) -> uint<5> {
+    0u5
+}
