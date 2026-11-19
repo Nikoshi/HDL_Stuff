@@ -3,5 +3,7 @@
 // Deine Aufgabe: Ein Register einbauen, das d nur an der steigenden Flanke übernimmt.
 #[no_mangle(all)]
 entity register1_top(clk: clock, rst: bool, d: bool, q: inv bool) {
-    set q = d;
+    reg(clk) stored reset(rst: false) = d;
+
+    set q = stored;
 }
