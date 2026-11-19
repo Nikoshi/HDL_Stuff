@@ -22,40 +22,47 @@ nix --extra-experimental-features 'nix-command flakes' develop
 
 ### Spade-Umzug nach Codeberg (bestehendes Projekt)
 
-Spade ist im September 2026 von GitLab zu
-[Codeberg](https://codeberg.org/spade-lang/) umgezogen.
-Ein älterer Spade-Pin in `logic_basics/swim.lock` kann beim Build
-`Spade has moved. Update your project` ausgeben. Die Projektquellen
-müssen dafür nicht umgeschrieben werden.
+Spade ist am 18. September 2026 von GitLab nach
+[Codeberg](https://codeberg.org/spade-lang/) umgezogen. Ältere Projekte
+können deshalb beim Bauen `Spade has moved. Update your project` melden.
 
-**Nix-Nutzer:** Die in `flake.lock` gepinnte nixpkgs-Revision liefert
-bereits **Spade 0.20.0 und Swim 0.20.0** aus Codeberg. Eine zusätzliche
-Cargo-Installation oder ein `nix flake update` ist für diesen Umzug
-nicht erforderlich. Innerhalb der Nix-Dev-Shell im Repository-Root:
+**Wichtig bei Nix:** Der hier gepinnte nixpkgs-Stand enthält Spade
+und Swim **0.20.0**, eine Version vom 20. August 2026, also *vor* dem
+Umzug. Die Paketquellen kommen bereits von Codeberg; daraus folgt aber
+nicht, dass dieses Swim-Release die Migration älterer Projekte unterstützt.
+`nix flake update` allein ist daher keine garantierte Lösung.
+
+Zuerst den tatsächlich verwendeten Compiler-Pin prüfen:
 
 ```sh
 nix develop
 swim --version
-cd logic_basics
+cat logic_basics/swim.lock
+git status --short
+```
+
+Für die einmalige Migration verlangt die
+[offizielle Anleitung](https://blog.spade-lang.org/moving-to-codeberg/)
+eine Swim-Version **nach dem Umzug** und danach diese Reihenfolge im
+Verzeichnis `logic_basics/`:
+
+```sh
 swim clean --and-spade
 swim update-spade
 swim build
-cd ..
-make test
-git diff -- logic_basics/swim.lock
 ```
 
-Vorhandene, unter der alten GitLab-Adresse angelegte Swim-Checkouts müssen
-nach der [offiziellen Spade-Migrationsanleitung](https://blog.spade-lang.org/moving-to-codeberg/)
-mit `swim clean --and-spade` bereinigt werden, **bevor**
-`swim update-spade` ausgeführt wird. Swim aktualisiert danach selbst
-seine Compiler-Pin-Datei. Bei Bedarf den Pfad mit `command -v swim`
-prüfen, damit die Nix-Version statt einer anderen Installation läuft.
+Wenn danach weiterhin der alte Commit `177e5c46` in `swim.lock` steht,
+hat die Migration **nicht** stattgefunden. Erst eine neuere Swim-Version
+verwenden, die den Codeberg-Umzug unterstützt, beispielsweise wie in
+der offiziellen Anleitung aus dem aktuellen Codeberg-Repository installiert.
+Wer alle Werkzeuge ausschließlich über Nix verwalten möchte, kann
+stattdessen den Swim-Paketstand in der Nix-Dev-Shell gezielt auf eine
+Version nach dem Umzug anheben. Die bestehende Lockdatei nicht von Hand
+auf einen geratenen Commit ändern.
 
-Nach erfolgreichen Tests die aktualisierte `logic_basics/swim.lock`
-einchecken. Diese Lockdatei nicht von Hand auf einen beliebigen
-Commit setzen. Der Nix-Paketstand und der vom Projekt per Swim
-geholte Compiler sind getrennte Versionsentscheidungen.
+Nach erfolgreichem Update mit `make test` prüfen und erst dann die
+geänderte `logic_basics/swim.lock` committen.
 
 ### Waveform-Viewer
 
