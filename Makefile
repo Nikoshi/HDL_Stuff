@@ -28,10 +28,10 @@ compare_alu4: logic_basics
 		'read_verilog -sv build/spade.sv; synth -top alu4_native_top; stat' > /dev/null
 	@printf '\nZellvergleich (generische Yosys-Gatter):\n'
 	@printf '  Ripple-Carry-Addierer: '
-	@cd logic_basics && awk '/^=== alu4_top ===/ { active=1; next } active && /Number of cells:/ { n=$NF; active=0 } END { if (n == "") { print "nicht gefunden (siehe Log)"; exit 1 } print n }' build/alu4_ripple_compare.log
+	@cd logic_basics && awk -v top=alu4_top -f scripts/alu_cell_count.awk build/alu4_ripple_compare.log
 	@printf '  Spade-Addition (+):    '
-	@cd logic_basics && awk '/^=== alu4_native_top ===/ { active=1; next } active && /Number of cells:/ { n=$NF; active=0 } END { if (n == "") { print "nicht gefunden (siehe Log)"; exit 1 } print n }' build/alu4_native_compare.log
-	@printf 'Protokolle: logic_basics/build/alu4_{ripple,native}_compare.log\n'
+	@cd logic_basics && awk -v top=alu4_native_top -f scripts/alu_cell_count.awk build/alu4_native_compare.log
+	@printf 'Berichte: logic_basics/build/alu4_ripple_compare.log und alu4_native_compare.log\n'
 
 test_mux: TOP := main
 test_mux: TEST := mux
