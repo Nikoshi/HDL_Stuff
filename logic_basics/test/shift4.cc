@@ -71,7 +71,11 @@ int main() {
     add_cycle(0, 1, 0, "Bit nach links schieben");
   }
 
+  // Erneut einen gesetzten Zustand herstellen und erst bei hohem Takt
+  // reset aktivieren. Bei aktivem Enable darf auch hier nur die Flanke löschen.
+  add_cycle(0, 1, 1, "Wert vor zweitem Reset speichern");
   steps.insert(steps.end(), {
+      {1, 0, 0, 1, true, "Bei Enable=0 den Wert halten"},
       {1, 1, 1, 1, true, "Reset ohne Flanke bei Enable=1"},
       {0, 1, 1, 1, true, "Fallende Flanke mit Reset und Enable"},
       {1, 1, 1, 1, true, "Reset hat Vorrang vor Enable=1"},
