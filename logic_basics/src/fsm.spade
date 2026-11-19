@@ -20,9 +20,25 @@ entity traffic_light_top(
     yellow: inv bool,
     green: inv bool
 ) {
-    reg(clk) state: TrafficState reset(rst: TrafficState::Red) = TrafficState::Red;
+    reg(clk) state: TrafficState reset(rst: TrafficState::Red) = if advance {
+        match state {
+            TrafficState::Red => TrafficState::RedYellow,
+            TrafficState::RedYellow => TrafficState::Green,
+            TrafficState::Green => TrafficState::Yellow,
+            TrafficState::Yellow => TrafficState::Red
+        }
+    } else {
+        state
+    };
 
-    set red = true;
-    set yellow = false;
-    set green = false;
+    let (lamp_red, lamp_yellow, lamp_green) = match state {
+        TrafficState::Red => (true, false, false),
+        TrafficState::RedYellow => (true, true, false),
+        TrafficState::Green => (false, false, true),
+        TrafficState::Yellow => (false, true, false)
+    };
+
+    set red = lamp_red;
+    set yellow = lamp_yellow;
+    set green = lamp_green;
 }
