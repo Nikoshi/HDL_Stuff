@@ -87,6 +87,27 @@
         "clear": true
       },
       "problemMatcher": []
+    },
+    {
+      "label": "HDL: ALU-Variantenvergleich (Yosys)",
+      "type": "shell",
+      "command": "nix",
+      "args": [
+        "develop",
+        "--command",
+        "make",
+        "compare_alu4"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
     }
   ],
   "inputs": [
@@ -98,6 +119,10 @@
         {
           "label": "4-Bit-ALU",
           "value": "test_alu4"
+        },
+        {
+          "label": "4-Bit-ALU (native Addition)",
+          "value": "test_alu4_native"
         },
         {
           "label": "Ampel-FSM (vier Zustände)",

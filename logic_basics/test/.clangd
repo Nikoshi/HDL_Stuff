@@ -11,5 +11,6 @@ CompileFlags:
     - -I../build/obj_shift4
     - -I../build/obj_traffic_light
     - -I../build/obj_alu4
+    - -I../build/obj_alu4_native
     - -I../build/verilator_include
     - -I../build/verilator_include/vltstd

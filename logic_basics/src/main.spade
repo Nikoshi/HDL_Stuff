@@ -7,3 +7,4 @@ mod counters;
 mod shift_registers;
 mod fsm;
 mod alu;
+mod alu_native;

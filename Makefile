@@ -4,10 +4,10 @@
 
 VERILATOR_FLAGS := --quiet-build --quiet-stats --trace-vcd --cc --exe --build
 
-.PHONY: help logic_basics test test_logic_basics synth_alu4 test_mux test_half_adder test_full_adder test_add2 test_add4 test_register1 test_register4 test_counter4 test_shift4 test_traffic_light test_alu4
+.PHONY: help logic_basics test test_logic_basics synth_alu4 compare_alu4 test_mux test_half_adder test_full_adder test_add2 test_add4 test_register1 test_register4 test_counter4 test_shift4 test_traffic_light test_alu4 test_alu4_native
 
 help:
-	@printf 'Targets:\n  logic_basics       Spade-Code übersetzen\n  test_mux           Multiplexer testen\n  test_half_adder    Halbaddierer testen\n  test_full_adder    Volladdierer testen\n  test_add2          2-Bit-Addierer testen\n  test_add4          4-Bit-Addierer testen\n  test_register1     1-Bit-Register testen\n  test_register4     4-Bit-Register mit Enable testen\n  test_counter4      4-Bit-Zähler mit Enable testen\n  test_shift4        4-Bit-Schieberegister testen\n  test_traffic_light Ampel-Zustandsautomat testen\n  test_alu4         4-Bit-ALU testen\n  synth_alu4        ALU-Synthesebericht mit Yosys erzeugen\n  test              Alle Tests ausführen\n  test_logic_basics  Alias für test\n'
+	@printf 'Targets:\n  logic_basics       Spade-Code übersetzen\n  test_mux           Multiplexer testen\n  test_half_adder    Halbaddierer testen\n  test_full_adder    Volladdierer testen\n  test_add2          2-Bit-Addierer testen\n  test_add4          4-Bit-Addierer testen\n  test_register1     1-Bit-Register testen\n  test_register4     4-Bit-Register mit Enable testen\n  test_counter4      4-Bit-Zähler mit Enable testen\n  test_shift4        4-Bit-Schieberegister testen\n  test_traffic_light Ampel-Zustandsautomat testen\n  test_alu4         4-Bit-ALU testen\n  test_alu4_native  Native Additionsvariante testen\n  synth_alu4        ALU-Synthesebericht mit Yosys erzeugen\n  compare_alu4      Ripple-Carry und native Addition vergleichen\n  test              Alle Tests ausführen\n  test_logic_basics  Alias für test\n'
 
 logic_basics:
 	@cd logic_basics && swim build
@@ -18,6 +18,20 @@ synth_alu4: logic_basics
 	@cd logic_basics && yosys -Q -T -l build/alu4_synth.log -p \
 		'read_verilog -sv build/spade.sv; synth -top alu4_top; stat'
 	@printf 'Yosys-Protokoll: logic_basics/build/alu4_synth.log\n'
+
+# Beide Varianten werden mit derselben Yosys-Pipeline separat synthetisiert.
+# Das verhindert, dass Optimierungen des ersten Laufs den zweiten beeinflussen.
+compare_alu4: logic_basics
+	@cd logic_basics && yosys -Q -T -l build/alu4_ripple_compare.log -p \
+		'read_verilog -sv build/spade.sv; synth -top alu4_top; stat' > /dev/null
+	@cd logic_basics && yosys -Q -T -l build/alu4_native_compare.log -p \
+		'read_verilog -sv build/spade.sv; synth -top alu4_native_top; stat' > /dev/null
+	@printf '\nZellvergleich (generische Yosys-Gatter):\n'
+	@printf '  Ripple-Carry-Addierer: '
+	@cd logic_basics && awk '/^=== alu4_top ===/ { active=1; next } active && /Number of cells:/ { n=$NF; active=0 } END { if (n == "") { print "nicht gefunden (siehe Log)"; exit 1 } print n }' build/alu4_ripple_compare.log
+	@printf '  Spade-Addition (+):    '
+	@cd logic_basics && awk '/^=== alu4_native_top ===/ { active=1; next } active && /Number of cells:/ { n=$NF; active=0 } END { if (n == "") { print "nicht gefunden (siehe Log)"; exit 1 } print n }' build/alu4_native_compare.log
+	@printf 'Protokolle: logic_basics/build/alu4_{ripple,native}_compare.log\n'
 
 test_mux: TOP := main
 test_mux: TEST := mux
@@ -52,7 +66,10 @@ test_traffic_light: TEST := traffic_light
 test_alu4: TOP := alu4_top
 test_alu4: TEST := alu4
 
-test_mux test_half_adder test_full_adder test_add2 test_add4 test_register1 test_register4 test_counter4 test_shift4 test_traffic_light test_alu4: logic_basics
+test_alu4_native: TOP := alu4_native_top
+test_alu4_native: TEST := alu4_native
+
+test_mux test_half_adder test_full_adder test_add2 test_add4 test_register1 test_register4 test_counter4 test_shift4 test_traffic_light test_alu4 test_alu4_native: logic_basics
 	@cd logic_basics && ln -sfn "$$(verilator --getenv VERILATOR_ROOT)/include" build/verilator_include
 	@cd logic_basics && verilator $(VERILATOR_FLAGS) \
 		--top-module $(TOP) \
@@ -60,6 +77,6 @@ test_mux test_half_adder test_full_adder test_add2 test_add4 test_register1 test
 		build/spade.sv "$(abspath logic_basics/test/$(TEST).cc)" && \
 		./build/obj_$(TEST)/V$(TOP)
 
-test: test_mux test_half_adder test_full_adder test_add2 test_add4 test_register1 test_register4 test_counter4 test_shift4 test_traffic_light test_alu4
+test: test_mux test_half_adder test_full_adder test_add2 test_add4 test_register1 test_register4 test_counter4 test_shift4 test_traffic_light test_alu4 test_alu4_native
 
 test_logic_basics: test

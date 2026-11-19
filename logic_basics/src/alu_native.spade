@@ -1,0 +1,40 @@
+// Vergleichsvariante der kombinatorischen 4-Bit-ALU.
+// Einziger funktionaler Unterschied: natives + statt adders::add4.
+// op: 0 = ADD, 1 = AND, 2 = OR, 3 = XOR.
+// ADD liefert nur die unteren vier Ergebnisbits; carry_out zeigt Bit 4 an.
+// Bei allen logischen Operationen ist carry_out = false.
+// zero wird aus dem tatsächlichen 4-Bit-Ergebnis abgeleitet.
+// Die Ergebnisauswahl ist rein kombinatorisch und speichert keinen Zustand.
+#[no_mangle(all)]
+entity alu4_native_top(
+    a: uint<4>,
+    b: uint<4>,
+    op: uint<2>,
+    result: inv uint<4>,
+    carry_out: inv bool,
+    zero: inv bool
+) {
+    let (alu_result, alu_carry) = match op {
+        // ADD
+        0 => {
+            let sum: uint<5> = a + b;
+            // Die fünf Summenbits werden nur auf Ergebnis und Carry verteilt.
+            let bits = sum.as_bits();
+
+            let sum4 = [bits[0], bits[1], bits[2], bits[3]].as_uint();
+            let carry = bits[4];
+
+            (sum4, carry)
+        },
+        // AND
+        1 => (a & b, false),
+        // OR
+        2 => (a | b, false),
+        // XOR
+        3 => (a ^ b, false)
+    };
+
+    set result = alu_result;
+    set carry_out = alu_carry;
+    set zero = alu_result == 0u4;
+}

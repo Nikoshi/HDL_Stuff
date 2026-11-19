@@ -138,3 +138,50 @@ Taktfrequenz**. Sie hängt von Syntheseschritten und Zieltechnologie ab.
 Ein späterer fairer Vergleich muss dieselbe Toolversion und dieselben
 Optionen für beide Schaltungsvarianten benutzen. Zuerst interessiert
 uns nur, wie eine Syntheseausgabe überhaupt aussieht.
+
+## Experiment: selbst aufgebauter Addierer gegen `+`
+
+Die originale ALU bleibt in `src/alu.spade` bestehen.
+Die neue Datei `src/alu_native.spade` ist eine bewusst separate
+Vergleichsvariante. Nur ein Ausdruck ändert sich:
+
+```spade
+// Original: let sum = adders::add4(a, b);
+let sum: uint<5> = a + b;
+```
+
+Alle übrigen Operationen, die Ergebnisauswahl und die Zerlegung in
+`result` und `carry_out` sind identisch.
+
+### Schritt 1: Verhalten prüfen
+
+```sh
+make test_alu4_native
+```
+
+Die zusätzliche Testbench prüft dieselben 1048 Fälle wie der Originaltest.
+Sie schreibt `logic_basics/build/alu4_native.vcd`.
+
+### Schritt 2: Synthese vergleichen
+
+```sh
+make compare_alu4
+```
+
+Der Befehl ruft Yosys für jede Variante **in einem neuen Prozess** auf.
+Beide Durchläufe verwenden dieselben drei Kommandos:
+
+```text
+read_verilog -sv build/spade.sv
+synth -top <jeweiliges Top-Modul>
+stat
+```
+
+Die Zusammenfassung zeigt die generischen Zellzahlen. Die vollständigen
+Protokolle liegen in `build/alu4_ripple_compare.log` und
+`build/alu4_native_compare.log`.
+
+Das ist ein kontrollierter Vergleich der **Zellanzahl** unter gleichen
+Synthesebedingungen, kein direkter Vergleich von Laufzeit, LUT-Belegung,
+Transistorzahl oder Leistungsverbrauch. Später können wir dafür
+konkrete Technologien und Timingberichte untersuchen.
