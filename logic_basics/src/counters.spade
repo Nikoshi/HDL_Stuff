@@ -8,7 +8,11 @@ entity counter4_top(
     enable: bool,
     q: inv uint<4>
 ) {
-    reg(clk) count: uint<4> reset(rst: 0) = 0u4;
+    reg(clk) count: uint<4> reset(rst: 0) = if enable {
+        count +. 1
+    } else {
+        count
+    };
 
     set q = count;
 }
