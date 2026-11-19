@@ -1,0 +1,14 @@
+// 4-Bit-Aufwärtszähler mit synchronem, aktiv-hohem Reset und Enable.
+// TODO (TDD): Der Zähler bleibt vorerst bei 0.
+// Deine Aufgabe: Den nächsten Zustand aus dem aktuellen Wert berechnen.
+#[no_mangle(all)]
+entity counter4_top(
+    clk: clock,
+    rst: bool,
+    enable: bool,
+    q: inv uint<4>
+) {
+    reg(clk) count: uint<4> reset(rst: 0) = 0u4;
+
+    set q = count;
+}

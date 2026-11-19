@@ -47,11 +47,12 @@ make test_add2         # Nur den 2-Bit-Addierer testen
 make test_add4         # Nur den 4-Bit-Addierer testen
 make test_register1    # Nur das 1-Bit-Register testen
 make test_register4    # Nur das 4-Bit-Register mit Enable testen
+make test_counter4     # Nur den 4-Bit-Zähler mit Enable testen
 ```
 
-Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd`, `logic_basics/build/full_adder.vcd`, `logic_basics/build/add2.vcd`, `logic_basics/build/add4.vcd` und `logic_basics/build/register1.vcd` sowie `logic_basics/build/register4.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
+Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd`, `logic_basics/build/full_adder.vcd`, `logic_basics/build/add2.vcd`, `logic_basics/build/add4.vcd` und `logic_basics/build/register1.vcd`, `logic_basics/build/register4.vcd` sowie `logic_basics/build/counter4.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
 
-**TDD:** Das 1-Bit-Register ist implementiert. Bei `register4_top` ist der Enable-Eingang noch nicht angeschlossen: `make test_register4` und damit `make test` sollen bis zur nächsten Implementierung fehlschlagen.
+**TDD:** Die bisherigen Registerübungen sind implementiert. `counter4_top` ist noch ein Platzhalter, der bei jedem Takt 0 speichert. `make test_counter4` (und damit `make test`) soll bis zur Zählerimplementierung fehlschlagen.
 
 ### Quellcode-Struktur
 
@@ -60,6 +61,7 @@ Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.
 - `logic_basics/src/adders.spade`: kombinatorische Addierer.
 - `logic_basics/src/test_tops.spade`: Verilator-Schnittstellen der Addierer.
 - `logic_basics/src/registers.spade`: Register mit synchronem Reset und Register-Enable.
+- `logic_basics/src/counters.spade`: Aufwärtszähler mit festgelegter Bitbreite.
 
 ## Neues Projekt
 

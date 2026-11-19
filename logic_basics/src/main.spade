@@ -3,3 +3,4 @@ mod mux;
 mod adders;
 mod test_tops;
 mod registers;
+mod counters;

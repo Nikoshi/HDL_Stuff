@@ -7,9 +7,8 @@ entity register1_top(clk: clock, rst: bool, d: bool, q: inv bool) {
     set q = stored;
 }
 
-// 4-Bit-Register mit synchronem Reset und vorbereitetem Enable-Eingang.
-// TODO (TDD): Der Enable-Eingang wird noch ignoriert; die Testbench soll
-// deshalb beim Halten des bisherigen Wertes mit enable=0 fehlschlagen.
+// 4-Bit-Register mit synchronem Reset und Enable.
+// Ohne Enable wird der bisherige Registerwert zurückgeführt.
 #[no_mangle(all)]
 entity register4_top(
     clk: clock,
