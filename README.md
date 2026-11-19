@@ -51,16 +51,16 @@ make test_counter4     # Nur den 4-Bit-Zähler mit Enable testen
 make test_shift4       # Nur das 4-Bit-Schieberegister testen
 make test_traffic_light # Nur die Ampel-FSM testen
 make test_alu4          # Nur die 4-Bit-ALU testen
-make test_alu4_native   # Native Additionsvariante prüfen
+make test_alu4_ripple   # Ripple-Carry-Vergleichsvariante prüfen
 make synth_alu4         # ALU mit Yosys analysieren (optionaler Einstieg)
 make compare_alu4       # Beide ALUs mit Yosys vergleichen
 ```
 
-Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd`, `logic_basics/build/full_adder.vcd`, `logic_basics/build/add2.vcd`, `logic_basics/build/add4.vcd` und `logic_basics/build/register1.vcd`, `logic_basics/build/register4.vcd` sowie `logic_basics/build/counter4.vcd` und `logic_basics/build/shift4.vcd` und `logic_basics/build/traffic_light.vcd` und `logic_basics/build/alu4.vcd` und `logic_basics/build/alu4_native.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
+Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd`, `logic_basics/build/full_adder.vcd`, `logic_basics/build/add2.vcd`, `logic_basics/build/add4.vcd` und `logic_basics/build/register1.vcd`, `logic_basics/build/register4.vcd` sowie `logic_basics/build/counter4.vcd` und `logic_basics/build/shift4.vcd` und `logic_basics/build/traffic_light.vcd` und `logic_basics/build/alu4.vcd` und `logic_basics/build/alu4_ripple.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
 
 **TDD:** Die 4-Bit-ALU ist implementiert. `make test_alu4` prüft ihre Funktion; `make test` führt alle bisher angelegten Regressionstests aus.
 
-**Synthese-Einstieg:** `make synth_alu4` startet Yosys nach dem Swim-Build und schreibt einen Bericht nach `logic_basics/build/alu4_synth.log`. Die Zahlen beschreiben eine generische, optimierte Gatternetzliste, noch keine konkrete FPGA-Ressourcenbelegung. Mit `make compare_alu4` werden beide ALU-Varianten unter identischen Syntheseschritten einschließlich `synth -flatten` verglichen. Damit zählen die ausgewiesenen Zellen auch Logik aus Untermodulen. Näheres steht in den [ALU-Lernnotizen](logic_basics/docs/alu4.md).
+**Synthese-Einstieg:** `make synth_alu4` startet Yosys nach dem Swim-Build und schreibt einen Bericht nach `logic_basics/build/alu4_synth.log`. Die Zahlen beschreiben eine generische, optimierte Gatternetzliste, noch keine konkrete FPGA-Ressourcenbelegung. Mit `make compare_alu4` werden beide ALU-Varianten unter identischen Syntheseschritten einschließlich `synth -flatten` verglichen. Neben den Zellzahlen zeigt `ltp -noff` die längsten Logikpfade als Stufenzahl an. Das sind keine physikalischen Laufzeiten. Näheres steht in den [ALU-Lernnotizen](logic_basics/docs/alu4.md).
 
 ### Quellcode-Struktur
 
@@ -72,8 +72,8 @@ Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.
 - `logic_basics/src/counters.spade`: Aufwärtszähler mit festgelegter Bitbreite.
 - `logic_basics/src/shift_registers.spade`: serielles Schieberegister mit Enable und Reset.
 - `logic_basics/src/fsm.spade`: erste Moore-FSM mit vier Ampelzuständen.
-- `logic_basics/src/alu.spade`: erste kombinatorische 4-Bit-ALU.
-- `logic_basics/src/alu_native.spade`: Vergleichsvariante mit eingebautem Additionsoperator.
+- `logic_basics/src/alu.spade`: Standard-ALU mit nativer Spade-Addition.
+- `logic_basics/src/alu_ripple.spade`: ursprüngliche Ripple-Carry-ALU als Vergleich.
 
 ### VS-Code-Testtask
 

@@ -99,13 +99,13 @@ Tests stammen aus der lokalen Verilator-Simulation.
 
 ## Zwei sinnvolle Varianten für denselben Addierausgang
 
-Die vorhandene Lösung mit `.as_bits()` ist korrekt und gut nachvollziehbar.
+Die Lösung mit `.as_bits()` ist korrekt und gut nachvollziehbar.
 Sie beschreibt das Aufteilen von fünf bereits vorhandenen Signalleitungen.
 Wenn kürzerer Quellcode gewünscht ist, bietet Spade die Methoden
 `.trunc()` und `.msb()` an:
 
 ```spade
-let sum = adders::add4(a, b);
+let sum: uint<5> = a + b;
 let sum4: uint<4> = sum.trunc();
 let carry = sum.msb();
 ```
@@ -141,12 +141,13 @@ uns nur, wie eine Syntheseausgabe überhaupt aussieht.
 
 ## Experiment: selbst aufgebauter Addierer gegen `+`
 
-Die originale ALU bleibt in `src/alu.spade` bestehen.
-Die neue Datei `src/alu_native.spade` ist eine bewusst separate
-Vergleichsvariante. Nur ein Ausdruck ändert sich:
+Die Standard-ALU in `src/alu.spade` benutzt nach unserem Zellvergleich
+Spades eingebaute Addition. Die ursprüngliche Ripple-Carry-Implementierung
+bleibt unter `src/alu_ripple.spade` erhalten. Der einzige funktionale
+Unterschied zwischen beiden ALUs ist die Addition:
 
 ```spade
-// Original: let sum = adders::add4(a, b);
+// Ripple-Carry-Vergleich: let sum = adders::add4(a, b);
 let sum: uint<5> = a + b;
 ```
 
@@ -156,11 +157,11 @@ Alle übrigen Operationen, die Ergebnisauswahl und die Zerlegung in
 ### Schritt 1: Verhalten prüfen
 
 ```sh
-make test_alu4_native
+make test_alu4_ripple
 ```
 
 Die zusätzliche Testbench prüft dieselben 1048 Fälle wie der Originaltest.
-Sie schreibt `logic_basics/build/alu4_native.vcd`.
+Sie schreibt `logic_basics/build/alu4_ripple.vcd`.
 
 ### Schritt 2: Synthese vergleichen
 
@@ -169,15 +170,17 @@ make compare_alu4
 ```
 
 Der Befehl ruft Yosys für jede Variante **in einem neuen Prozess** auf.
-Beide Durchläufe verwenden dieselben drei Kommandos:
+Beide Durchläufe verwenden dieselben vier Kommandos:
 
 ```text
 read_verilog -sv build/spade.sv
 synth -flatten -top <jeweiliges Top-Modul>
 stat
+ltp -noff
 ```
 
-Die Zusammenfassung zeigt die generischen Zellzahlen der **vollständigen** ALUs. Die vollständigen
+Die Zusammenfassung zeigt die generischen Zellzahlen der **vollständigen** ALUs
+sowie die Logiktiefe des längsten Pfads. Die vollständigen
 Protokolle liegen in `build/alu4_ripple_compare.log` und
 `build/alu4_native_compare.log`.
 
@@ -198,3 +201,28 @@ Deshalb verwenden sowohl `synth_alu4` als auch `compare_alu4` jetzt
 `synth -flatten`. Die damit gemessenen Zahlen sind eine neue,
 vergleichbare Ausgangsbasis. Eine niedrigere Zellzahl bedeutet weiterhin
 nicht automatisch kürzere Laufzeit oder weniger FPGA-LUTs.
+
+## Messergebnis und nächste Frage
+
+Nach korrekter Hierarchieauflösung (`synth -flatten`) ergab der erste
+Vergleich **63 generische Zellen** für den selbst gebauten Addierer und
+**47 Zellen** für die Spade-Addition: 16 Zellen weniger, rund 25,4 %.
+Die Messung wurde vom Nutzer lokal mit Yosys ausgeführt; die genaue
+Verteilung der Zelltypen und die Laufzeit wurden noch nicht geprüft.
+
+Der neue Vergleich ruft zusätzlich `ltp -noff` auf. Dieser Yosys-Pass
+ermittelt die Anzahl der Zellen auf dem längsten topologischen Pfad
+innerhalb der flach synthetisierten Schaltung. Das ist ein erster
+**Hinweis auf die Logiktiefe**, aber **keine Zeitangabe** und
+**keine maximale Taktrate**. Für eine seriöse Laufzeitmessung brauchen
+wir später eine Zieltechnologie, deren Zellverzögerungen und bei
+FPGAs auch Routinginformation.
+
+Ein erster Blick auf Zelltypen lohnt sich: Im letzten `stat`-Abschnitt
+des Berichts tauchen unter anderem Gatterfamilien wie `$_AND_`,
+`$_OR_`, `$_XOR_` und `$_MUX_` auf. Sie bedeuten UND, ODER,
+Exklusiv-ODER und Multiplexer. Unterschiedliche Zellen können
+unterschiedlich aufwendig sein; bloßes Zählen gewichtet sie noch nicht.
+
+Die längsten Pfade stehen im selben Protokoll im Abschnitt von `ltp`.
+Es muss dafür keine separate Simulation gestartet werden.

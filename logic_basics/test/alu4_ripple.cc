@@ -1,4 +1,4 @@
-#include "Valu4_native_top.h"
+#include "Valu4_ripple_top.h"
 #include "verilated_vcd_c.h"
 
 #include <iostream>
@@ -39,10 +39,10 @@ Expected expected_for(int a, int b, int op) {
 int main() {
   Verilated::traceEverOn(true);
 
-  Valu4_native_top dut;
+  Valu4_ripple_top dut;
   VerilatedVcdC trace;
   dut.trace(&trace, 99);
-  trace.open("build/alu4_native.vcd");
+  trace.open("build/alu4_ripple.vcd");
 
   int passed = 0;
   int sim_time = 0;
@@ -59,7 +59,7 @@ int main() {
     if (int(dut.result) != expected.result ||
         bool(dut.carry_out) != expected.carry ||
         bool(dut.zero) != expected.zero) {
-      std::cerr << "4-Bit-ALU (nativ) falsch: " << description
+      std::cerr << "4-Bit-ALU (Ripple-Carry) falsch: " << description
                 << " (op=" << op << ", a=" << a << ", b=" << b
                 << "): erwartet (result,carry,zero)=("
                 << expected.result << "," << expected.carry << ","
@@ -99,6 +99,6 @@ int main() {
 
   dut.final();
   trace.close();
-  std::cout << "4-Bit-ALU (nativ): " << passed << "/1048 Tests bestanden\n";
+  std::cout << "4-Bit-ALU (Ripple-Carry): " << passed << "/1048 Tests bestanden\n";
   return 0;
 }

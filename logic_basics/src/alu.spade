@@ -1,6 +1,5 @@
-use lib::adders;
-
-// Erste kombinatorische 4-Bit-ALU.
+// Standard-ALU: eingebaute Addition, die Yosys kompakter umsetzen konnte.
+// Die selbst aufgebaute Ripple-Carry-Variante bleibt in alu_ripple.spade.
 // op: 0 = ADD, 1 = AND, 2 = OR, 3 = XOR.
 // ADD liefert nur die unteren vier Ergebnisbits; carry_out zeigt Bit 4 an.
 // Bei allen logischen Operationen ist carry_out = false.
@@ -18,7 +17,7 @@ entity alu4_top(
     let (alu_result, alu_carry) = match op {
         // ADD
         0 => {
-            let sum = adders::add4(a, b);
+            let sum: uint<5> = a + b;
             // Die fünf Summenbits werden nur auf Ergebnis und Carry verteilt.
             let bits = sum.as_bits();
 

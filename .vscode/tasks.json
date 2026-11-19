@@ -121,8 +121,8 @@
           "value": "test_alu4"
         },
         {
-          "label": "4-Bit-ALU (native Addition)",
-          "value": "test_alu4_native"
+          "label": "4-Bit-ALU (Ripple-Carry-Vergleich)",
+          "value": "test_alu4_ripple"
         },
         {
           "label": "Ampel-FSM (vier Zustände)",

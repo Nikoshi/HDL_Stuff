@@ -1,12 +1,14 @@
-// Vergleichsvariante der kombinatorischen 4-Bit-ALU.
-// Einziger funktionaler Unterschied: natives + statt adders::add4.
+use lib::adders;
+
+// Vergleichs-ALU mit selbst aufgebautem Ripple-Carry-Addierer.
+// Diese Variante bleibt als Lernbeispiel und Synthese-Referenz erhalten.
 // op: 0 = ADD, 1 = AND, 2 = OR, 3 = XOR.
 // ADD liefert nur die unteren vier Ergebnisbits; carry_out zeigt Bit 4 an.
 // Bei allen logischen Operationen ist carry_out = false.
 // zero wird aus dem tatsächlichen 4-Bit-Ergebnis abgeleitet.
 // Die Ergebnisauswahl ist rein kombinatorisch und speichert keinen Zustand.
 #[no_mangle(all)]
-entity alu4_native_top(
+entity alu4_ripple_top(
     a: uint<4>,
     b: uint<4>,
     op: uint<2>,
@@ -17,7 +19,7 @@ entity alu4_native_top(
     let (alu_result, alu_carry) = match op {
         // ADD
         0 => {
-            let sum: uint<5> = a + b;
+            let sum = adders::add4(a, b);
             // Die fünf Summenbits werden nur auf Ergebnis und Carry verteilt.
             let bits = sum.as_bits();
 
