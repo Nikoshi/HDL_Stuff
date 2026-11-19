@@ -66,6 +66,27 @@
         "clear": true
       },
       "problemMatcher": []
+    },
+    {
+      "label": "HDL: ALU-Synthese (Yosys)",
+      "type": "shell",
+      "command": "nix",
+      "args": [
+        "develop",
+        "--command",
+        "make",
+        "synth_alu4"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
     }
   ],
   "inputs": [

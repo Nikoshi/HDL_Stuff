@@ -5,7 +5,7 @@ use lib::adders;
 // ADD liefert nur die unteren vier Ergebnisbits; carry_out zeigt Bit 4 an.
 // Bei allen logischen Operationen ist carry_out = false.
 // zero wird aus dem tatsächlichen 4-Bit-Ergebnis abgeleitet.
-// TODO (TDD): Operationen, Carry und Zero-Flag implementieren.
+// Die Ergebnisauswahl ist rein kombinatorisch und speichert keinen Zustand.
 #[no_mangle(all)]
 entity alu4_top(
     a: uint<4>,
@@ -15,11 +15,11 @@ entity alu4_top(
     carry_out: inv bool,
     zero: inv bool
 ) {
-
     let (alu_result, alu_carry) = match op {
         // ADD
         0 => {
             let sum = adders::add4(a, b);
+            // Die fünf Summenbits werden nur auf Ergebnis und Carry verteilt.
             let bits = sum.as_bits();
 
             let sum4 = [bits[0], bits[1], bits[2], bits[3]].as_uint();
@@ -32,7 +32,7 @@ entity alu4_top(
         // OR
         2 => (a | b, false),
         // XOR
-        3 => (a ^ b, false) 
+        3 => (a ^ b, false)
     };
 
     set result = alu_result;

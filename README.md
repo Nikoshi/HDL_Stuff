@@ -51,11 +51,14 @@ make test_counter4     # Nur den 4-Bit-Zähler mit Enable testen
 make test_shift4       # Nur das 4-Bit-Schieberegister testen
 make test_traffic_light # Nur die Ampel-FSM testen
 make test_alu4          # Nur die 4-Bit-ALU testen
+make synth_alu4         # ALU mit Yosys analysieren (optionaler Einstieg)
 ```
 
 Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd`, `logic_basics/build/full_adder.vcd`, `logic_basics/build/add2.vcd`, `logic_basics/build/add4.vcd` und `logic_basics/build/register1.vcd`, `logic_basics/build/register4.vcd` sowie `logic_basics/build/counter4.vcd` und `logic_basics/build/shift4.vcd` und `logic_basics/build/traffic_light.vcd` und `logic_basics/build/alu4.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
 
-**TDD:** Die bisherigen Übungen sind implementiert. Die neue ALU ist bewusst noch ein Platzhalter. `make test_alu4` soll bis zur Implementierung fehlschlagen; `make test` enthält auch diesen Test.
+**TDD:** Die 4-Bit-ALU ist implementiert. `make test_alu4` prüft ihre Funktion; `make test` führt alle bisher angelegten Regressionstests aus.
+
+**Synthese-Einstieg:** `make synth_alu4` startet Yosys nach dem Swim-Build und schreibt einen Bericht nach `logic_basics/build/alu4_synth.log`. Die Zahlen beschreiben eine generische, optimierte Gatternetzliste, noch keine konkrete FPGA-Ressourcenbelegung. Näheres steht in den [ALU-Lernnotizen](logic_basics/docs/alu4.md).
 
 ### Quellcode-Struktur
 
