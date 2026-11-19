@@ -20,6 +20,36 @@ Falls Flakes noch nicht aktiviert sind:
 nix --extra-experimental-features 'nix-command flakes' develop
 ```
 
+### Spade-Umzug nach Codeberg (bestehendes Projekt)
+
+Spade ist im September 2026 von GitLab zu
+[Codeberg](https://codeberg.org/spade-lang/) umgezogen.
+Ein älterer Spade-Pin in `logic_basics/swim.lock` kann beim Build
+`Spade has moved. Update your project` ausgeben. Die Projektquellen
+müssen dafür nicht umgeschrieben werden.
+
+Für die einmalige Migration empfiehlt
+[Spade offiziell](https://blog.spade-lang.org/moving-to-codeberg/),
+zuerst eine aktuelle Swim-Version zu installieren und dann den
+bestehenden Spade-Checkout zu bereinigen und zu aktualisieren:
+
+```sh
+cargo install --git https://codeberg.org/spade-lang/swim
+cd logic_basics
+~/.cargo/bin/swim clean --and-spade
+~/.cargo/bin/swim update-spade
+~/.cargo/bin/swim build
+cd ..
+git diff -- logic_basics/swim.lock
+```
+
+`~/.cargo/bin/swim` wird hier absichtlich direkt aufgerufen:
+In der Nix-Dev-Shell kann `swim` sonst weiterhin auf die von Nix
+bereitgestellte, eventuell ältere Version zeigen. Nach erfolgreichem
+Update `logic_basics/swim.lock` zusammen mit den Projektänderungen
+einchecken und `make test` erneut ausführen. Die Lockdatei nicht
+von Hand auf einen beliebigen Commit setzen.
+
 ### Waveform-Viewer
 
 [Surfer](https://surfer-project.org/) und [GTKWave](https://gtkwave.sourceforge.net/) visualisieren Signalverläufe aus Simulationen, unter anderem im VCD- und FST-Format. GTKWave bietet eine klassische Oberfläche mit etablierten Debugging-Funktionen; Surfer setzt auf eine modernere Oberfläche und Erweiterbarkeit.
