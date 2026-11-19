@@ -18,7 +18,11 @@ entity register4_top(
     d: uint<4>,
     q: inv uint<4>
 ) {
-    reg(clk) stored reset(rst: 0) = d;
+    reg(clk) stored reset(rst: 0) = if enable {
+        d
+    } else {
+        stored
+    };
 
     set q = stored;
 }
