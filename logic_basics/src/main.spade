@@ -15,7 +15,22 @@ entity half_adder_top(a: bool, b: bool, sum: inv bool, carry: inv bool) {
     set carry = c;
 }
 
+#[no_mangle(all)]
+entity full_adder_top(a: bool, b: bool, carry_in: bool, sum: inv bool, carry_out: inv bool) {
+    let (s, c) = full_adder(a, b, carry_in);
+
+    set sum = s;
+    set carry_out = c;
+}
+
 // Halbaddierer ohne Eingangsübertrag: Rückgabewert (Summe, Übertrag).
 fn half_adder(a: bool, b: bool) -> (bool, bool) {
     (a ^^ b, a && b)
+}
+
+fn full_adder(a: bool, b: bool, carry_in: bool) -> (bool, bool) {
+    let (s1, c1) = half_adder(a, b);
+    let (s2, c2) = half_adder(s1, carry_in);
+
+    (s2, c1 || c2)
 }
