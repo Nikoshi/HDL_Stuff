@@ -24,6 +24,7 @@ entity full_adder_top(a: bool, b: bool, carry_in: bool, sum: inv bool, carry_out
 entity add2_top(a: uint<2>, b: uint<2>, sum: inv uint<3>) {
     set sum = adders::add2(a, b);
 }
+
 // Test-Entity: stellt die vollständige 5-Bit-Summe als Verilator-Port bereit.
 #[no_mangle(all)]
 entity add4_top(a: uint<4>, b: uint<4>, sum: inv uint<5>) {
