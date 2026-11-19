@@ -3,8 +3,8 @@
 ## Lernziel
 
 Eine Moore-FSM aus drei Bausteinen zusammensetzen: Zustandsregister,
-Übergangslogik und Ausgangsdekodierung. Die Hardwareimplementierung
-bleibt bewusst offen; die C++-Testbench legt das Verhalten fest.
+Übergangslogik und Ausgangsdekodierung. Die C++-Testbench legt das
+geforderte Verhalten unabhängig von der Spade-Implementierung fest.
 
 ## Zustände und Ausgänge
 
@@ -80,5 +80,5 @@ Die Testbench testet mehrere vollständige Umläufe, Ruhephasen,
 Eingangswechsel zwischen Taktflanken und Reset aus jeder Phase.
 Die VCD-Datei heißt `logic_basics/build/traffic_light.vcd`.
 
-Der VS-Code-Standardtest führt diesen einen Test aus. Erst nach der
-Implementierung sollten auch alle Tests mit `make test` grün sein.
+Der VS-Code-Standardtest führt diesen einen Test aus. Nach erfolgreicher
+Implementierung ist `make test` der vollständige Regressionstest.

@@ -9,8 +9,8 @@ enum TrafficState {
 
 // advance erlaubt genau einen Zustandswechsel pro steigender Taktflanke.
 // Reset hat Vorrang und führt synchron in den Zustand Red.
-// TODO (TDD): Zustandsübergänge und Lampenausgänge implementieren.
-// Der Platzhalter hält die Ampel zunächst dauerhaft auf Rot.
+// Übergangslogik und Lampen-Dekodierung sind bewusst getrennt:
+// Nur die registrierte Phase steuert die Ausgänge (Moore-Automat).
 #[no_mangle(all)]
 entity traffic_light_top(
     clk: clock,
@@ -20,6 +20,7 @@ entity traffic_light_top(
     yellow: inv bool,
     green: inv bool
 ) {
+    // Die nächste Phase wird nur bei advance übernommen; Reset hat Vorrang.
     reg(clk) state: TrafficState reset(rst: TrafficState::Red) = if advance {
         match state {
             TrafficState::Red => TrafficState::RedYellow,
@@ -31,6 +32,7 @@ entity traffic_light_top(
         state
     };
 
+    // Die Lampen hängen nicht unmittelbar von advance oder rst ab.
     let (lamp_red, lamp_yellow, lamp_green) = match state {
         TrafficState::Red => (true, false, false),
         TrafficState::RedYellow => (true, true, false),

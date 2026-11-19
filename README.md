@@ -54,7 +54,7 @@ make test_traffic_light # Nur die Ampel-FSM testen
 
 Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd`, `logic_basics/build/full_adder.vcd`, `logic_basics/build/add2.vcd`, `logic_basics/build/add4.vcd` und `logic_basics/build/register1.vcd`, `logic_basics/build/register4.vcd` sowie `logic_basics/build/counter4.vcd` und `logic_basics/build/shift4.vcd` und `logic_basics/build/traffic_light.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
 
-**TDD:** Die bisherigen Schaltungen sind implementiert. Die Ampel-FSM ist als bewusst unvollständiger Platzhalter angelegt; `make test_traffic_light` und zunächst auch `make test` sollen daher fehlschlagen.
+**TDD:** Die Ampel-FSM ist implementiert. `make test_traffic_light` prüft ihre Zustandsübergänge und Ausgänge; `make test` führt alle bisher angelegten Regressionstests aus.
 
 ### Quellcode-Struktur
 
