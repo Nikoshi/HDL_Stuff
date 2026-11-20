@@ -25,7 +25,14 @@ Eine vorhandene ALU dürfen wir gegebenenfalls wiederverwenden; wir
 kopieren sie nicht unnötig. Alte Schnittstellen werden dabei nicht
 für die neue Version umgeschrieben.
 
-Die Spezifikation liegt unter [`docs/cpu_v2/isa.md`](../../docs/cpu_v2/isa.md).
+Die Spezifikation einschließlich eines konkreten Countdown-/LED-Alarm-Programms
+liegt unter [`docs/cpu_v2/isa.md`](../../docs/cpu_v2/isa.md).
+
+Den geplanten Befehlssatz können wir **vor der Spade-Implementierung**
+mit `make demo_cpu_v2` im Repository-Root ausprobieren. Das eigenständige
+C++-Referenzmodell steht unter [`test/cpu_v2_isa_demo.cc`](../../test/cpu_v2_isa_demo.cc).
+Es druckt einen Maschinenbefehl-/Zustands-Trace und prüft den Programmablauf.
+Der Softwaretest ist kein Test einer bereits vorhandenen CPU-v2-Hardware.
 
 ## Entwicklungsregeln
 
