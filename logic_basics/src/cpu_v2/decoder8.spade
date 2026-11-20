@@ -1,0 +1,13 @@
+// Kombinatorischer 8-Bit-Befehlsdecoder fuer CPU v2.
+// TODO: Opcode (obere 4 Bit) und Immediate (untere 4 Bit) extrahieren.
+// Dieser Decoder entscheidet NICHT ueber ACC-Schreibfreigabe oder Spruenge.
+#[no_mangle(all)]
+pub entity decoder8_top(
+    instruction: uint<8>,
+    opcode: inv uint<4>,
+    immediate: inv uint<4>
+) {
+    // Absichtlich unvollstaendig: Die TDD-Tests muessen zunaechst scheitern.
+    set opcode = 0u4;
+    set immediate = 0u4;
+}
