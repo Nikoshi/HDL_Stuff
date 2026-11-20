@@ -102,7 +102,7 @@ nicht. Er verwaltet ausschließlich die Befehlsadresse.
 
 ## 5. Spade: `reg`, `reset` und die nächste Adresse
 
-Der vorbereitete Top-Level ist:
+Der ursprüngliche, noch unvollständige Top-Level der Übung war:
 
 ```spade
 #[no_mangle(all)]
@@ -219,8 +219,8 @@ keine Befehle verarbeitet, oder umgekehrt.
 
 ## 7. Testgetriebene Aufgabe
 
-Im neuen `src/cpu/pc4.spade` fehlt die Zustandsübergangslogik.
-Der Platzhalter hält den PC permanent auf 0.
+Die Zustandsübergangslogik in `src/cpu/pc4.spade` ist inzwischen
+implementiert. Die Testbench prüft sie gegen ein unabhängiges Softwaremodell.
 
 `make test_pc4` prüft:
 
@@ -234,13 +234,13 @@ Der Platzhalter hält den PC permanent auf 0.
 
 Die Testbench nutzt ein unabhängiges Softwaremodell
 und vergleicht den PC nach jedem relevanten Simulationsschritt.
-Insgesamt erwarten wir **12.166 Zustandsprüfungen**.
+Die PC-Implementierung hat **12.166/12.166 Zustandsprüfungen** bestanden.
 Eine Signalaufzeichnung entsteht unter
 `logic_basics/build/pc4.vcd`.
 
-Nach dem Implementieren zuerst `make test_pc4` und dann
-`make test` ausführen. Solange die Übung offen ist,
-kannst du `make test_completed` für den bisherigen Stand nutzen.
+Nach weiteren Änderungen zuerst `make test_pc4` und danach
+`make test` ausführen. `make test_completed` berücksichtigt jetzt
+auch den abgeschlossenen PC-Test.
 
 ## 8. Wohin führt das?
 
