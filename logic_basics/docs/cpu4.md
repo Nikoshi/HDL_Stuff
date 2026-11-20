@@ -1,4 +1,4 @@
-# CPU-Datenpfad IV: PC, ROM und Execute zusammensetzen
+# CPU-Datenpfad IV: PC, ROM und Execute zusammensetzen (abgeschlossen)
 
 ## 1. Lernziel
 
@@ -157,7 +157,7 @@ Die vermeintlich modernere Schreibweise
 `inst ... (port: signal)` ist dagegen für diesen Compilerstand
 nicht geeignet.
 
-Eine mögliche gedankliche Zerlegung deiner Aufgabe:
+Die fertige Verdrahtung in `cpu4.spade` lässt sich in vier Teile zerlegen:
 
 1. **PC-Instanz:** Gespeicherten PC über ein `port()`-Paar auslesen.
 2. **ROM-Instanz:** Dessen Adress-Eingang mit dem gelesenen PC verbinden;
@@ -168,21 +168,22 @@ Eine mögliche gedankliche Zerlegung deiner Aufgabe:
 4. **Top-Level-Ausgänge:** Die drei lesbaren Werte über `set`
    an `pc`, `instruction` und `acc` legen.
 
-**Achtung:** `instruction_exec6_top` heißt das Schrittsignal
-`enable`, während der PC es `advance` nennt. Das ist
-derselbe gewünschte Taktfreigabe-Wert, nicht zwei unabhängige
-Steuersignale.
+**Zwei unterschiedliche Portnamen:** Der PC nennt sein Schrittsignal
+`advance`, die Ausführungsstufe `enable`. Beide erhalten im CPU-Top-Level
+den gleichen Wert (`enable: advance`). Der Ausgang `q` von
+`instruction_exec6_top` bezeichnet den gespeicherten Akkumulatorwert,
+der im CPU-Top-Level unter `acc` sichtbar wird (`q: acc_wire`).
+`q` ist hier ein frei gewählter Portname aus der Register-Terminologie,
+kein zusätzlicher Zustand.
 
-Die vollständige Verdrahtung bleibt deine Übung.
-Kopiere weder die ROM-Tabelle noch ALU-, Decoder- oder PC-Logik
-in dieses neue Modul. Ein weiteres `reg` wäre hier ein
-Architekturfehler, weil es das vereinbarte Timing verändern würde.
+Der Top-Level verwendet die vorhandenen Bausteine unverändert;
+insbesondere enthält er kein eigenes `reg`.
 
-## 5. TDD-Aufgabe
+## 5. Test und Abschluss
 
-Der kompilierbare Platzhalter befindet sich in
-`src/cpu/cpu4.spade`. Er gibt zunächst nur Nullen aus
-und ist deshalb absichtlich noch **keine** CPU.
+Die Implementierung befindet sich in `src/cpu/cpu4.spade`.
+Der ursprünglich vorbereitete Null-Platzhalter wurde durch die
+Verbindungen von PC, ROM und Execute ersetzt.
 
 Im Repository-Root:
 
@@ -203,13 +204,14 @@ Der Test prüft:
 - Änderungen der Steuersignale bei bereits hohem Takt und fallende Flanken.
 - 256 weitere gemischte Schritte mit Pausen, Resets und Sprüngen.
 
-Das ergibt **6.278 Zustandsvergleiche**, sobald die Implementierung
-korrekt ist. Der aktuelle Platzhalter soll den Test nicht bestehen.
+Das ergibt **6.278 Zustandsvergleiche**. Der lokale Testlauf
+wurde mit **6.278/6.278 bestanden** gemeldet; auch die vollständige
+Regression mit allen 18 Testprogrammen war erfolgreich.
 Die Signalverläufe liegen in `logic_basics/build/cpu4.vcd`.
 
-`make test_completed` lässt die noch offene CPU-Übung aus.
-Nach bestandenem `make test_cpu4` folgt `make test`
-für die vollständige Regression.
+`make test_completed` umfasst nun auch `test_cpu4`.
+`make test` führt dieselbe abgeschlossene Testsuite aus, bis
+die nächste TDD-Übung hinzugefügt wird.
 
 ## 6. Was danach möglich wird
 
