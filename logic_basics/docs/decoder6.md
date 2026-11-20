@@ -1,4 +1,4 @@
-# 6-Bit-Befehlsdecoder: Theorie und Spade-Uebung
+# 6-Bit-Befehlsdecoder: Theorie und Spade-Übung
 
 ## Ziel: Bits bekommen Bedeutung
 
@@ -55,24 +55,16 @@ nur zufaellige Beispiele zu waehlen.
 
 ## Spade: Was du fuer die Uebung brauchst
 
-Der bereits vorhandene Top-Level ist:
+Der fertig implementierte Decoder liegt unter
+`src/cpu/decoder6.spade` und verdrahtet die beiden Bitfelder so:
 
 ```spade
-#[no_mangle(all)]
-entity decoder6_top(
-    instruction: uint<6>,
-    op: inv uint<2>,
-    operand: inv uint<4>
-) {
-    // TODO: beide Ausgaenge passend beschalten
-    set op = 0u2;
-    set operand = 0u4;
-}
+let bits = instruction.as_bits();
+set op = [bits[4], bits[5]].as_uint();
+set operand = [bits[0], bits[1], bits[2], bits[3]].as_uint();
 ```
 
-Die beiden Nullwerte waren die **TDD-Platzhalter** der ursprünglichen
-Übung. Im aktuellen Quellcode sind sie durch die funktionierende
-Bitaufteilung ersetzt.
+Die Entity selbst wurde als `pub entity` für die CPU-Integration exportiert.
 
 ### 1. Die sechs Bits sichtbar machen
 
@@ -140,8 +132,8 @@ Befehlscodes und 32 unmittelbare Eingangswechsel, also
 96 Pruefungen. Die Ergebnisse werden in
 `logic_basics/build/decoder6.vcd` aufgezeichnet.
 
-Der C++-Test enthaelt bereits die ersten Zeilen eines
-Software-Referenzmodells. Wenn wir spaeter auch den
+Das unabhängige Software-Referenzmodell der Befehlsausführung liegt
+inzwischen in `test/instruction6_model.hpp`. Wenn wir spaeter auch den
 Programmzaehler und einen Programmspeicher haben, kann
 ein kleiner Emulator dieselben Befehle nacheinander
 ausfuehren und seinen Zustand (`PC`, `ACC`, gegebenenfalls

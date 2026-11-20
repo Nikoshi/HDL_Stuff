@@ -83,7 +83,8 @@ Im Repository-Root innerhalb der Nix-Dev-Shell:
 
 ```sh
 make logic_basics      # Spade-Code übersetzen
-make test              # Alle Testbenches ausführen
+make test              # Alle Tests, auch die offene TDD-Übung
+make test_completed    # Nur bereits abgeschlossene Übungen prüfen
 make test_mux          # Nur den Multiplexer testen
 make test_half_adder   # Nur den Halbaddierer testen
 make test_full_adder   # Nur den Volladdierer testen
@@ -103,28 +104,37 @@ make synth_alu4         # ALU mit Yosys analysieren (optionaler Einstieg)
 make compare_alu4       # Beide ALUs mit Yosys vergleichen
 ```
 
-Die Tests erzeugen `logic_basics/build/mux.vcd`, `logic_basics/build/half_adder.vcd`, `logic_basics/build/full_adder.vcd`, `logic_basics/build/add2.vcd`, `logic_basics/build/add4.vcd` und `logic_basics/build/register1.vcd`, `logic_basics/build/register4.vcd` sowie `logic_basics/build/counter4.vcd` und `logic_basics/build/shift4.vcd` und `logic_basics/build/traffic_light.vcd` und `logic_basics/build/alu4.vcd` und `logic_basics/build/alu4_ripple.vcd` und `logic_basics/build/accumulator4.vcd` und `logic_basics/build/decoder6.vcd` und `logic_basics/build/instruction_exec6.vcd`. Das Verzeichnis `build/` wird nicht eingecheckt. `make help` zeigt die verfügbaren Targets.
+Jede Testbench schreibt eine VCD-Datei nach `logic_basics/build/<testname>.vcd`
+(z. B. `decoder6.vcd`). Das Verzeichnis `build/` wird nicht eingecheckt.
+`make help` listet alle verfügbaren Targets.
 
-**TDD:** Akkumulator und 6-Bit-Decoder sind inzwischen implementiert. Die neue Befehlsausführungsstufe ist als absichtlich unvollständiger Platzhalter vorbereitet; `make test_instruction_exec6` soll bis zur Implementierung fehlschlagen. `make test` umfasst den neuen Test.
+**Stand:** Akkumulator und Decoder sind fertig getestet. Die Befehlsausführungsstufe ist die aktuelle TDD-Übung und gibt bis zu deiner Implementierung fest 0 aus. `make test_instruction_exec6` und der Gesamt-Test `make test` schlagen deshalb erwartungsgemäß fehl. `make test_completed` prüft die abgeschlossenen Übungen.
 
 **Synthese-Einstieg:** `make synth_alu4` startet Yosys nach dem Swim-Build und schreibt einen Bericht nach `logic_basics/build/alu4_synth.log`. Die Zahlen beschreiben eine generische, optimierte Gatternetzliste, noch keine konkrete FPGA-Ressourcenbelegung. Mit `make compare_alu4` werden beide ALU-Varianten unter identischen Syntheseschritten einschließlich `synth -flatten` verglichen. Neben den Zellzahlen zeigt `ltp -noff` die längsten Logikpfade als Stufenzahl an. Das sind keine physikalischen Laufzeiten. Näheres steht in den [ALU-Lernnotizen](logic_basics/docs/alu4.md).
 
 ### Quellcode-Struktur
 
-- `logic_basics/src/main.spade`: bindet Spade-Module mit `mod` ein.
-- `logic_basics/src/mux.spade`: 2:1-Multiplexer.
-- `logic_basics/src/adders.spade`: kombinatorische Addierer.
-- `logic_basics/src/test_tops.spade`: Verilator-Schnittstellen der Addierer.
-- `logic_basics/src/registers.spade`: Register mit synchronem Reset und Register-Enable.
-- `logic_basics/src/counters.spade`: Aufwärtszähler mit festgelegter Bitbreite.
-- `logic_basics/src/shift_registers.spade`: serielles Schieberegister mit Enable und Reset.
-- `logic_basics/src/fsm.spade`: erste Moore-FSM mit vier Ampelzuständen.
-- `logic_basics/src/alu.spade`: Standard-ALU mit nativer Spade-Addition.
-- `logic_basics/src/alu_ripple.spade`: ursprüngliche Ripple-Carry-ALU als Vergleich.
-- `logic_basics/src/accumulator.spade`: erster CPU-Datenpfad aus ALU und Register.
-- `logic_basics/src/decoder6.spade`: kombinatorischer 6-Bit-Befehlsdecoder.
-- `logic_basics/src/instruction_exec6.spade`: aktuelle Übung zur Verbindung von Decoder und Akkumulator.
-- `logic_basics/test/instruction6_model.hpp`: erstes C++-Referenzmodell unserer CPU-Befehle.
+```text
+logic_basics/
+├── src/
+│   ├── main.spade                 # Beide Modulgruppen einbinden
+│   ├── foundations/
+│   │   ├── main.spade             # Übungen zu Gattern, Addierern, Registern, FSM
+│   │   └── *.spade
+│   └── cpu/
+│       ├── main.spade             # ALU, Akkumulator, Decoder, Ausführungsstufe
+│       ├── alu.spade
+│       ├── alu_ripple.spade
+│       ├── accumulator.spade
+│       ├── decoder6.spade
+│       └── instruction_exec6.spade
+├── test/                          # Verilator-C++-Tests und Software-Referenzmodell
+├── docs/                          # Lernnotizen und Spezifikationen
+└── scripts/                       # Auswertung der Yosys-Logs
+```
+
+Die internen Spade-Importe nutzen `lib::foundations::...` bzw.
+`lib::cpu::...`. Die exportierten Verilator-Top-Namen bleiben gleich.
 
 ### VS-Code-Testtask
 

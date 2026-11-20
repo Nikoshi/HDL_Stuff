@@ -53,13 +53,13 @@ Die logischen Operatoren `&&`, `||` und `^^` arbeiten dagegen mit `bool`.
 
 ## Wiederverwendung vorhandener Hardware
 
-Im Modul `adders.spade` existiert bereits:
+Im Modul `src/foundations/adders.spade` existiert bereits:
 
 ```spade
 pub fn add4(a: uint<4>, b: uint<4>) -> uint<5>
 ```
 
-In einer anderen Spade-Datei kann die Funktion über `use lib::adders;`
+In einer anderen Spade-Datei kann die Funktion über `use lib::foundations::adders;`
 und `adders::add4(a, b)` aufgerufen werden.
 
 Der fünfbittige Rückgabewert enthält sowohl den vierbittigen
@@ -93,9 +93,7 @@ Die C++-Testbench prüft systematisch alle vier Operationen mit allen
 Insgesamt werden **1048 Fälle** geprüft. Eine VCD-Datei wird unter
 `logic_basics/build/alu4.vcd` geschrieben.
 
-Der VS-Code-Standard-Testtask führt nur den ALU-Test aus.
-Die Implementierung ist inzwischen vorhanden. Die gemeldeten 1048 grünen
-Tests stammen aus der lokalen Verilator-Simulation.
+Die ALU wurde lokal mit 1048/1048 Prüfungen getestet und bleibt im VS-Code-Einzeltest verfügbar.
 
 ## Zwei sinnvolle Varianten für denselben Addierausgang
 
@@ -118,7 +116,7 @@ auf den selbst aufgebauten Ripple-Carry-Addierer, sagt aber noch nichts
 
 ## Erster Kontakt mit Yosys
 
-Noch kein Variantenvergleich: Zunächst nur den bestehenden Entwurf messen.
+Der Einzelbericht untersucht unsere bereits gewählte Standard-ALU.
 
 ```sh
 make synth_alu4
@@ -141,9 +139,9 @@ uns nur, wie eine Syntheseausgabe überhaupt aussieht.
 
 ## Experiment: selbst aufgebauter Addierer gegen `+`
 
-Die Standard-ALU in `src/alu.spade` benutzt nach unserem Zellvergleich
+Die Standard-ALU in `src/cpu/alu.spade` benutzt nach unserem Zellvergleich
 Spades eingebaute Addition. Die ursprüngliche Ripple-Carry-Implementierung
-bleibt unter `src/alu_ripple.spade` erhalten. Der einzige funktionale
+bleibt unter `src/cpu/alu_ripple.spade` erhalten. Der einzige funktionale
 Unterschied zwischen beiden ALUs ist die Addition:
 
 ```spade
@@ -189,40 +187,21 @@ Synthesebedingungen, kein direkter Vergleich von Laufzeit, LUT-Belegung,
 Transistorzahl oder Leistungsverbrauch. Später können wir dafür
 konkrete Technologien und Timingberichte untersuchen.
 
-### Achtung: 42 vs. 57 ohne `-flatten`
+### Vergleichsergebnis
 
-Der erste Variantenvergleich meldete 42 Zellen für die selbst gebaute
-und 57 für die native Addition. Diese Zahlen stammen aus dem jeweiligen
-Top-Modul und können hierarchische Unterbausteine auslassen. Der vorherige
-Einzelbericht mit 62 Zellen passt zu diesem Verdacht; ohne die alten
-Logdateien lässt sich der Unterschied aber nicht abschließend erklären.
+Die letzte lokal durchgeführte Synthese (`synth -flatten`,
+`ltp -noff`) ergab:
 
-Deshalb verwenden sowohl `synth_alu4` als auch `compare_alu4` jetzt
-`synth -flatten`. Die damit gemessenen Zahlen sind eine neue,
-vergleichbare Ausgangsbasis. Eine niedrigere Zellzahl bedeutet weiterhin
-nicht automatisch kürzere Laufzeit oder weniger FPGA-LUTs.
+| Messwert | Ripple-Carry | Spade-`+` |
+|---|---:|---:|
+| Verilator-Funktionstests | 1048/1048 | 1048/1048 |
+| Generische Yosys-Zellen | 63 | 47 |
+| Längster topologischer Pfad | 10 Stufen | 9 Stufen |
 
-## Messergebnis und nächste Frage
+Die native Addition ist unter diesen Syntheseoptionen kompakter.
+Die Stufenzahl ist **keine Laufzeitmessung** und die Zellen sind
+keine FPGA-LUT-Zahlen. Dafür brauchen wir später eine konkrete Technologie.
 
-Nach korrekter Hierarchieauflösung (`synth -flatten`) ergab der erste
-Vergleich **63 generische Zellen** für den selbst gebauten Addierer und
-**47 Zellen** für die Spade-Addition: 16 Zellen weniger, rund 25,4 %.
-Die Messung wurde vom Nutzer lokal mit Yosys ausgeführt; die genaue
-Verteilung der Zelltypen und die Laufzeit wurden noch nicht geprüft.
-
-Der neue Vergleich ruft zusätzlich `ltp -noff` auf. Dieser Yosys-Pass
-ermittelt die Anzahl der Zellen auf dem längsten topologischen Pfad
-innerhalb der flach synthetisierten Schaltung. Das ist ein erster
-**Hinweis auf die Logiktiefe**, aber **keine Zeitangabe** und
-**keine maximale Taktrate**. Für eine seriöse Laufzeitmessung brauchen
-wir später eine Zieltechnologie, deren Zellverzögerungen und bei
-FPGAs auch Routinginformation.
-
-Ein erster Blick auf Zelltypen lohnt sich: Im letzten `stat`-Abschnitt
-des Berichts tauchen unter anderem Gatterfamilien wie `$_AND_`,
-`$_OR_`, `$_XOR_` und `$_MUX_` auf. Sie bedeuten UND, ODER,
-Exklusiv-ODER und Multiplexer. Unterschiedliche Zellen können
-unterschiedlich aufwendig sein; bloßes Zählen gewichtet sie noch nicht.
-
-Die längsten Pfade stehen im selben Protokoll im Abschnitt von `ltp`.
-Es muss dafür keine separate Simulation gestartet werden.
+Die `stat`-Abschnitte der Berichte zeigen auch Gatterklassen wie
+`$_AND_`, `$_OR_`, `$_XOR_` und `$_MUX_`. Ihre Anzahl
+allein berücksichtigt die unterschiedlichen Zellverzögerungen nicht.

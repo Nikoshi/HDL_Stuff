@@ -72,8 +72,8 @@ Beide Bausteine sind im Repository jetzt als `pub entity` deklariert.
 Du kannst sie aus dem neuen Modul importieren:
 
 ```spade
-use lib::decoder6;
-use lib::accumulator;
+use lib::cpu::decoder6;
+use lib::cpu::accumulator;
 ```
 
 Die aktuelle Spade-Version im Projekt erwartet bei `inst`
@@ -137,7 +137,7 @@ die Ausführungsstufe unabhängig von der Schaltungsstruktur.
 Das ergibt **16.902 Ausgabevergleiche**. Der Test schreibt
 `logic_basics/build/instruction_exec6.vcd`.
 
-Der Platzhalter in `src/instruction_exec6.spade` setzt den
+Der Platzhalter in `src/cpu/instruction_exec6.spade` setzt den
 Ausgang noch auf 0. Nach dem Implementieren zuerst
 `make test_instruction_exec6` ausführen, dann `make test`
 für die Regression.

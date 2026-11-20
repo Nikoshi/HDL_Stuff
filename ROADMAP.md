@@ -6,7 +6,8 @@ Grobe Lern- und Projektreihenfolge, ohne feste Termine:
 2. **Sequentielle Logik:** Flipflops, Register, Zähler und Schieberegister.
 3. **Steuerlogik:** Zustandsautomaten und einfache Schnittstellen.
 4. **Datenpfade:** Kleine ALU und zusammengesetzte Module.
-5. **Computerarchitektur:** Einfache 4-Bit-CPU als größeres Projekt.
+5. **Computerarchitektur:** 4-Bit-CPU mit Decoder, Ausführungsstufe, Programmzähler und ROM.
+6. **Softwaremodell:** Unabhängiger CPU-Emulator zum Funktionstest; später optional GUI und Debugger.
 
 Querschnittsthemen: Waveforms, Syntheseergebnisse, Timing, Debugging und nachvollziehbare Tests.
 

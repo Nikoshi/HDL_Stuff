@@ -84,7 +84,7 @@ Siehe:
 - [Spade: Instantiation](https://docs.spade-lang.org/reference/expressions/instantiation.html)
 - [Spade: Inverted Signals and Wires](https://docs.spade-lang.org/wires.html)
 
-## Sinnvolle Reihenfolge beim Implementieren
+## Implementierungsprinzip
 
 - Den aktuellen Registerwert als Ausgang `q` sichtbar machen.
 - Einen ALU-Baustein instanziieren und dessen Ausgänge beschalten.
@@ -109,4 +109,4 @@ Eingangsänderungen ohne gültige Flanke und einer längeren
 aufeinanderfolgenden Rechenkette.
 
 VCD: `logic_basics/build/accumulator4.vcd`.
-Der VS-Code-Standard-Testtask ruft nur diesen Test auf.
+Der Test bleibt als `make test_accumulator4` und im VS-Code-Einzeltest verfügbar.

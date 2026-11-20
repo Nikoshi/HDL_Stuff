@@ -80,5 +80,4 @@ Die Testbench testet mehrere vollständige Umläufe, Ruhephasen,
 Eingangswechsel zwischen Taktflanken und Reset aus jeder Phase.
 Die VCD-Datei heißt `logic_basics/build/traffic_light.vcd`.
 
-Der VS-Code-Standardtest führt diesen einen Test aus. Nach erfolgreicher
-Implementierung ist `make test` der vollständige Regressionstest.
+Der Ampel-Test ist weiterhin über `make test_traffic_light` und den VS-Code-Einzeltest verfügbar. Solange die CPU-Ausführungsübung offen ist, überprüft `make test_completed` die abgeschlossenen Bausteine.
