@@ -123,7 +123,7 @@ wie `flake.lock` oder `swim.lock` werden weiterhin automatisch berücksichtigt.
 VCD-Dateien; der nächste Testlauf baut anschließend alles frisch.
 `make help` listet alle verfügbaren Targets.
 
-**Stand:** Die erste integrierte **4-Bit-CPU** aus PC, ROM und Befehlsausführung ist abgeschlossen. Die CPU4-Testbench hat lokal **6.278/6.278 Zustandsvergleiche** bestanden, ebenso die vollständige Regression aller 18 Testprogramme. `make test_completed` enthält nun auch `test_cpu4`; die nächste ISA-Erweiterung ist noch nicht festgelegt.
+**Stand:** Die erste integrierte **4-Bit-CPU** aus PC, ROM und Befehlsausführung ist abgeschlossen. Die CPU4-Testbench hat lokal **6.278/6.278 Zustandsvergleiche** bestanden, ebenso die vollständige Regression aller 18 Testprogramme. `make test_completed` enthält nun auch `test_cpu4`. Für **CPU v2** liegt ein separater ISA-Entwurf mit 8-Bit-Befehlen unter `docs/cpu_v2/` vor; die Hardware-Implementierung hat noch nicht begonnen.
 
 **Synthese-Einstieg:** `make synth_alu4` startet Yosys nach dem Swim-Build und schreibt einen Bericht nach `logic_basics/build/alu4_synth.log`. Die Zahlen beschreiben eine generische, optimierte Gatternetzliste, noch keine konkrete FPGA-Ressourcenbelegung. Mit `make compare_alu4` werden beide ALU-Varianten unter identischen Syntheseschritten einschließlich `synth -flatten` verglichen. Neben den Zellzahlen zeigt `ltp -noff` die längsten Logikpfade als Stufenzahl an. Das sind keine physikalischen Laufzeiten. Näheres steht in den [ALU-Lernnotizen](logic_basics/docs/alu4.md).
 
@@ -146,13 +146,17 @@ logic_basics/
 │       ├── pc4.spade
 │       ├── rom16x6.spade
 │       └── cpu4.spade
+│   └── cpu_v2/
+│       └── README.md              # Eigener Bereich für CPU v2 (noch ohne Spade-Code)
 ├── test/                          # Verilator-C++-Tests und Software-Referenzmodell
 ├── docs/                          # Lernnotizen und Spezifikationen
 └── scripts/                       # Auswertung der Yosys-Logs
 ```
 
-Die internen Spade-Importe nutzen `lib::foundations::...` bzw.
-`lib::cpu::...`. Die exportierten Verilator-Top-Namen bleiben gleich.
+Die internen Spade-Importe nutzen bisher `lib::foundations::...` bzw.
+`lib::cpu::...`. Der neue Bereich `cpu_v2` bleibt bis zum ersten eigenen
+Spade-Modul bewusst unregistriert, damit die bestehenden Builds unberührt
+bleiben.
 
 ### VS-Code-Testtask
 
@@ -175,6 +179,7 @@ Die Befehlsausführungsstufe und das erste Emulator-Referenzmodell stehen unter 
 Der Einstieg in den Programmzähler steht unter [`logic_basics/docs/pc4.md`](logic_basics/docs/pc4.md).
 Die ROM-Theorie und abgeschlossene Spade-Übung stehen unter [`logic_basics/docs/rom16x6.md`](logic_basics/docs/rom16x6.md).
 Die abgeschlossene CPU-Integrationsübung mit Timing und Softwaremodell steht unter [`logic_basics/docs/cpu4.md`](logic_basics/docs/cpu4.md).
+Der **CPU-v2-Entwurf** für 4-Bit-Daten und 8-Bit-Befehle steht unter [`logic_basics/docs/cpu_v2/isa.md`](logic_basics/docs/cpu_v2/isa.md); die neue Quellcode-Struktur unter [`logic_basics/src/cpu_v2/`](logic_basics/src/cpu_v2/).
 
 ## Neues Projekt
 
