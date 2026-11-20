@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "HDL: Aktuelle Übung (4-Bit-CPU)",
+      "label": "HDL: CPU4 (abgeschlossen)",
       "type": "shell",
       "command": "nix",
       "args": [
