@@ -104,12 +104,13 @@ make test_instruction_exec6 # Befehle in Hardware und Emulator vergleichen
 make test_pc4          # 4-Bit-Programmzähler testen
 make test_rom16x6       # 16x6-Bit-Programmspeicher testen
 make test_cpu4          # CPU-Verbindung von PC, ROM und Execute testen
+make demo_cpu_v2       # CPU-v2-ISA mit Countdown/LED-Alarm im C++-Modell testen
 make synth_alu4         # ALU mit Yosys analysieren (optionaler Einstieg)
 make compare_alu4       # Beide ALUs mit Yosys vergleichen
 ```
 
-Jede Testbench schreibt eine VCD-Datei nach `logic_basics/build/<testname>.vcd`
-(z. B. `decoder6.vcd`). Das Verzeichnis `build/` wird nicht eingecheckt.
+Jede **Verilator-Testbench** schreibt eine VCD-Datei nach `logic_basics/build/<testname>.vcd`
+(z. B. `decoder6.vcd`). Das rein softwarebasierte `demo_cpu_v2` erzeugt keine VCD. Das Verzeichnis `build/` wird nicht eingecheckt.
 
 Die Test-Binaries werden inkrementell gebaut: `make test` führt jedes Testprogramm
 bei jedem Aufruf aus, kompiliert aber nur neu, wenn passende Spade-Quellen,
@@ -123,7 +124,7 @@ wie `flake.lock` oder `swim.lock` werden weiterhin automatisch berücksichtigt.
 VCD-Dateien; der nächste Testlauf baut anschließend alles frisch.
 `make help` listet alle verfügbaren Targets.
 
-**Stand:** Die erste integrierte **4-Bit-CPU** aus PC, ROM und Befehlsausführung ist abgeschlossen. Die CPU4-Testbench hat lokal **6.278/6.278 Zustandsvergleiche** bestanden, ebenso die vollständige Regression aller 18 Testprogramme. `make test_completed` enthält nun auch `test_cpu4`. Für **CPU v2** liegt ein separater ISA-Entwurf mit 8-Bit-Befehlen unter `docs/cpu_v2/` vor; die Hardware-Implementierung hat noch nicht begonnen.
+**Stand:** Die erste integrierte **4-Bit-CPU** aus PC, ROM und Befehlsausführung ist abgeschlossen. Die CPU4-Testbench hat lokal **6.278/6.278 Zustandsvergleiche** bestanden, ebenso die vollständige Regression aller 18 Testprogramme. `make test_completed` enthält nun auch `test_cpu4`. Für **CPU v2** liegt ein separater ISA-Entwurf mit 8-Bit-Befehlen unter `docs/cpu_v2/` vor. Ein eigenständiger C++-Emulator führt als ISA-Praxistest einen Countdown mit virtuellem LED-Alarm aus (`make demo_cpu_v2`); die Hardware-Implementierung hat noch nicht begonnen.
 
 **Synthese-Einstieg:** `make synth_alu4` startet Yosys nach dem Swim-Build und schreibt einen Bericht nach `logic_basics/build/alu4_synth.log`. Die Zahlen beschreiben eine generische, optimierte Gatternetzliste, noch keine konkrete FPGA-Ressourcenbelegung. Mit `make compare_alu4` werden beide ALU-Varianten unter identischen Syntheseschritten einschließlich `synth -flatten` verglichen. Neben den Zellzahlen zeigt `ltp -noff` die längsten Logikpfade als Stufenzahl an. Das sind keine physikalischen Laufzeiten. Näheres steht in den [ALU-Lernnotizen](logic_basics/docs/alu4.md).
 
