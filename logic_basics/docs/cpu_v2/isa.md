@@ -172,10 +172,10 @@ sich nicht versehentlich neue Befehlssemantik einschleicht.
 
 ## 6. Mögliche nächste Übungen
 
-1. ISA und Verhalten der reservierten Opcode-Werte verbindlich machen.
-2. `decoder8` mit neuer Schnittstelle und unabhängigen C++-Tests.
-3. Neue ACC-/PC-Steuerlogik auf Basis der Befehle.
-4. ROM 16×8 mit einem kleinen Programm, das mindestens einen Sprung benutzt.
+1. **Aktuelle Aufgabe:** [`decoder8` als rein kombinatorischen Felddecoder implementieren](decoder8.md), mit 384 unabhängigen Vergleichen.
+2. Vor dem `control8`-Test die Behandlung reservierter Opcode-Werte festlegen.
+3. ACC-/PC-Steuerlogik aus der neuen Steuersignaltabelle ableiten.
+4. ROM 16×8 mit dem Countdown- und LED-Alarm-Programm bauen.
 5. Eigenständigen `cpu_v2_top` verbinden und gegen einen neuen Emulator testen.
 
 Quellcode: [`src/cpu_v2/README.md`](../../src/cpu_v2/README.md).
