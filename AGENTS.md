@@ -17,6 +17,7 @@ HDL_Stuff ist eine Sammlung kleiner Experimente zu digitalen Schaltungen, HDLs u
 - Öffentliche Dokumentation kurz, technisch und ohne Chatprotokolle halten.
 - Linux und macOS berücksichtigen. Nix-Dev-Shell verwenden; keine festen Nix-Store-Pfade einchecken.
 - Bestehende Make-Targets und Testabläufe nach Änderungen möglichst erhalten.
+- Bei neuen Tests die Makefile-Zuordnung `TEST_NAMES`, `TEST_TOP_<name>` und `TEST_SRCS_<name>` ergänzen. Nur tatsächliche Spade-Abhängigkeiten aufnehmen, damit unabhängige Verilator-Tests nicht unnötig neu kompiliert werden. `make test` soll weiterhin alle Tests ausführen; `make clean` entfernt den generierten Build und die VCD-Dateien.
 
 ## Lernkapitel für neue Übungen
 
