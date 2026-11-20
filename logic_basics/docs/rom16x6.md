@@ -8,9 +8,9 @@ Dazwischen fehlt noch der Baustein, der aus einer Adresse einen Befehl macht.
 
 ```text
      PC (4 Bit)                ROM (16 x 6 Bit)          Execute (später)
-   +-------------+           +-----------------+       +------------------+
-   |  address    | --------> | Befehl je Adresse| ----> | instruction_exec6|
-   +-------------+           +-----------------+       +------------------+
+   +-------------+           +-------------------+       +------------------+
+   |  address    | --------> | Befehl je Adresse | ----> | instruction_exec6|
+   +-------------+           +-------------------+       +------------------+
                               instruction (6 Bit)
 ```
 
