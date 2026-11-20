@@ -156,7 +156,11 @@ Die unabhängige C++-Testbench
 - Für jeden Anfangszustand alle vier PC-Modi und beide ACC-Steuerbits.
 - Unterschiedliche ALU- und Immediate-Werte und die korrekte JZ-Bedingung.
 - Eingangsänderungen bei hohem Takt und fallende Flanken ohne Zustandsänderung.
-- Eine gemischte Folge ohne Reset zwischen allen Schritten.
+- Eine gemischte Folge mit längeren Abschnitten ohne Reset.
+
+**Erwartet: 69.635 Zustandsvergleiche.** Der erste Eingangswechsel vor
+der initialen Reset-Flanke wird nicht verglichen, weil die Register
+zu diesem Zeitpunkt noch keinen definierten Zustand besitzen.
 
 Die erwarteten Zustände berechnet ein eigenständiges Softwaremodell.
 Bei einem Fehler gibt die Testbench die Eingänge sowie
