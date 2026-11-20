@@ -1,2 +1,3 @@
 // Eigenstaendige zweite CPU-Generation; CPU v1 bleibt unter lib::cpu.
 mod decoder8;
+mod control8;
