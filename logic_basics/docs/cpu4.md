@@ -12,8 +12,8 @@ Register**: Der Zustand befindet sich bereits in PC und Akkumulator.
 
 ```text
       +-----------+  4 Bit   +-------------+   6 Bit  +-------------------+
-      |  pc4_top  | -------> | rom16x6_top | -------> |instruction_exec6  |
-      |    PC     |          |  Programm   |          | Decoder/ALU/ACC   |
+      |  pc4_top  | -------> | rom16x6_top | -------> | instruction_exec6 |
+      |    PC     |          |  Programm   |          |  Decoder/ALU/ACC  |
       +-----------+          +-------------+          +-------------------+
            ^                                                  ^
            |                   clk, rst, advance              |
