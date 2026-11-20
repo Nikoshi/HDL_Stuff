@@ -84,6 +84,7 @@ Im Repository-Root innerhalb der Nix-Dev-Shell:
 ```sh
 make logic_basics      # Spade-Code übersetzen
 make test              # Alle derzeitigen Tests
+make clean             # Build-Artefakte und VCD-Traces löschen
 make test_completed    # Nur bereits abgeschlossene Übungen prüfen
 make test_mux          # Nur den Multiplexer testen
 make test_half_adder   # Nur den Halbaddierer testen
@@ -107,6 +108,14 @@ make compare_alu4       # Beide ALUs mit Yosys vergleichen
 
 Jede Testbench schreibt eine VCD-Datei nach `logic_basics/build/<testname>.vcd`
 (z. B. `decoder6.vcd`). Das Verzeichnis `build/` wird nicht eingecheckt.
+
+Die Test-Binaries werden inkrementell gebaut: `make test` führt jedes Testprogramm
+bei jedem Aufruf aus, kompiliert aber nur neu, wenn passende Spade-Quellen,
+C++-Tests oder Toolchain-Eingaben verändert wurden. Eine Änderung an
+`pc4.spade` löst daher keinen Neubau der unabhängigen ALU-Tests aus.
+Nach Änderungen am Makefile oder der Toolchain ist ein einmaliger vollständiger
+Neubau normal. `make clean` entfernt das komplette `logic_basics/build/`
+inklusive VCD-Dateien; der nächste Testlauf baut anschließend alles frisch.
 `make help` listet alle verfügbaren Targets.
 
 **Stand:** Akkumulator, Decoder, Befehlsausführungsstufe und 4-Bit-Programmzähler sind implementiert. Der PC hat **12.166/12.166 Zustandsprüfungen** bestanden. Bis zur nächsten Übung sind alle angelegten Hardwaretests abgeschlossen; `make test_completed` schließt den PC-Test nun mit ein.
