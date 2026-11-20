@@ -1,7 +1,7 @@
 // Kombinatorische Opcode-Decodierung fuer die CPU-v2-Steuersignale.
 // Eine fn garantiert hier, dass keine Register oder Entity-Instanzen
 // in der Steuerentscheidung verborgen sein koennen.
-fn decode_control_signals(opcode: uint<4>) -> (bool, bool, uint<2>, uint<2>) {
+pub fn decode_control_signals(opcode: uint<4>) -> (bool, bool, uint<2>, uint<2>) {
     // Rueckgabe: ACC schreiben, Immediate waehlen, ALU-Operation, PC-Modus.
     // Reservierte Opcodes liefern wie NOP sichere Standardsteuersignale.
     match opcode {
@@ -17,10 +17,10 @@ fn decode_control_signals(opcode: uint<4>) -> (bool, bool, uint<2>, uint<2>) {
     }
 }
 
-// Diese duenne Entity behaelt die vorhandene, einzeln testbare
+// Diese duenne Test-Entity behaelt die vorhandene, einzeln testbare
 // Verilator-Schnittstelle mit vier benannten Ausgaengen bei.
 #[no_mangle(all)]
-pub entity control8_top(
+pub entity test_control8_top(
     opcode: uint<4>,
     acc_write: inv bool,
     acc_from_imm: inv bool,
