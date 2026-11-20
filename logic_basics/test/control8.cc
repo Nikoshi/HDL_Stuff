@@ -1,4 +1,4 @@
-#include "Vcontrol8_top.h"
+#include "Vtest_control8_top.h"
 #include "verilated_vcd_c.h"
 
 #include <array>
@@ -33,7 +33,7 @@ constexpr std::array<Controls, 16> kReference = {{
 
 int main() {
   Verilated::traceEverOn(true);
-  Vcontrol8_top dut;
+  Vtest_control8_top dut;
   VerilatedVcdC trace;
   dut.trace(&trace, 99);
   trace.open("build/control8.vcd");
