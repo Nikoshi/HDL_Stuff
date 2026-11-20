@@ -107,7 +107,7 @@ TEST_TOP_cpu4 := cpu4_top
 TEST_SRCS_cpu4 := $(CPU_COMMON) $(SPADE_SRC)/cpu/cpu4.spade $(SPADE_SRC)/cpu/pc4.spade $(SPADE_SRC)/cpu/rom16x6.spade $(SPADE_SRC)/cpu/instruction_exec6.spade $(SPADE_SRC)/cpu/decoder6.spade $(SPADE_SRC)/cpu/accumulator.spade $(SPADE_SRC)/cpu/alu.spade $(SPADE_DIR)/test/instruction6_model.hpp
 TEST_TOP_decoder8 := decoder8_top
 TEST_SRCS_decoder8 := $(SPADE_SRC)/main.spade $(SPADE_SRC)/cpu_v2/main.spade $(SPADE_SRC)/cpu_v2/decoder8.spade
-TEST_TOP_control8 := control8_top
+TEST_TOP_control8 := test_control8_top
 TEST_SRCS_control8 := $(SPADE_SRC)/main.spade $(SPADE_SRC)/cpu_v2/main.spade $(SPADE_SRC)/cpu_v2/control8.spade
 
 define TEST_RULE
