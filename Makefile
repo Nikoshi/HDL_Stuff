@@ -22,7 +22,7 @@ help:
 $(SPADE_BUILD)/.spade-build.stamp: $(SPADE_SOURCES) $(TOOLCHAIN_INPUTS)
 	@cd $(SPADE_DIR) && swim build
 	@test -f $(SPADE_BUILD)/spade.sv
-	@cd $(SPADE_DIR) && ln -sfn "$(verilator --getenv VERILATOR_ROOT)/include" build/verilator_include
+	@cd $(SPADE_DIR) && ln -sfn "$$(verilator --getenv VERILATOR_ROOT)/include" build/verilator_include
 	@touch $@
 
 logic_basics: $(SPADE_BUILD)/.spade-build.stamp
