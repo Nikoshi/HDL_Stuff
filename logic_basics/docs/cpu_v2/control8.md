@@ -1,6 +1,6 @@
 # CPU v2, Kapitel VI: Steuerlogik fuer Maschinenbefehle (abgeschlossen)
 
-**Status:** Abgeschlossen. Der Nutzer meldet **144/144 bestandene Vergleiche**. Nach dem anschliessenden `fn`-/Wrapper-Refactoring ist ein erneuter Testlauf empfohlen.
+**Status:** Abgeschlossen. Auch nach dem `fn`-/Testhüllen-Refactoring wurden **144/144 bestandene Vergleiche** gemeldet.
 
 ## 1. Warum brauchen wir Steuerlogik?
 
@@ -135,9 +135,8 @@ nicht-monotone Signalwechsel, insgesamt **144 Vergleiche**.
 Dabei sind auch alle acht reservierten Werte abgedeckt.
 
 Der Null-/NOP-Platzhalter ist durch die fertige Funktion ersetzt.
-Der gemeldete Lauf der urspruenglichen Entity hatte **144/144 Tests**
-bestanden. Da die Refaktorierung nun ein neues Test-Top und eine
-`fn` verwendet, sollte `make test_control8` nochmals laufen.
+Der Test wurde nach der Umstellung auf eine `fn` und
+`test_control8_top` erneut ausgeführt: **144/144 Vergleiche bestanden**.
 Die VCD-Datei liegt unter `logic_basics/build/control8.vcd`.
 
 `make test_completed` umfasst jetzt alle **20** abgeschlossenen
