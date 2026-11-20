@@ -41,9 +41,8 @@ nicht verwendet.
 
 ## 3. Verbindlicher Programminhalt
 
-Die vier oberen Befehlstabellen-Bits? Nein: Unser ISA-Format bleibt
-`instruction[5:4] = op` (zwei Bits) und
-`instruction[3:0] = operand` (vier Bits).
+Unser ISA-Format bleibt unverändert: `instruction[5:4] = op`
+(zwei Bits), `instruction[3:0] = operand` (vier Bits).
 
 | Adresse (dez.) | Befehl (binär) | Hex | Bedeutung |
 |---:|---|---:|---|
@@ -167,7 +166,8 @@ Die unabhängige C++-Testbench in `test/rom16x6.cc` prüft:
 - Alle 256 Übergänge von jeder Adresse zu jeder anderen Adresse.
 - Eine weitere deterministische Folge von 64 Adresswechseln.
 
-Das sind **352 Ausgabevergleiche**. Der Platzhalter ist absichtlich
+Das sind **608 Ausgabevergleiche**, da jeder direkte Übergang sowohl
+seine Ausgangs- als auch seine Zieladresse überprüft. Der Platzhalter ist absichtlich
 falsch; der Test schlägt bis zu deiner Implementierung fehl.
 Die Signale werden in `logic_basics/build/rom16x6.vcd` aufgezeichnet.
 
