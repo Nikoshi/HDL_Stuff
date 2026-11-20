@@ -1,3 +1,4 @@
 // Grundlagen und CPU-Entwurf werden in getrennten Modulen gepflegt.
 mod foundations;
 mod cpu;
+mod cpu_v2;
