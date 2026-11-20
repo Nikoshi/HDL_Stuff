@@ -12,10 +12,10 @@ TOOLCHAIN_INPUTS := Makefile flake.nix flake.lock $(SPADE_DIR)/swim.toml $(SPADE
 FOUNDATIONS_COMMON := $(SPADE_SRC)/main.spade $(SPADE_SRC)/foundations/main.spade
 CPU_COMMON := $(SPADE_SRC)/main.spade $(SPADE_SRC)/cpu/main.spade
 
-.PHONY: help logic_basics test test_logic_basics synth_alu4 compare_alu4 test_mux test_half_adder test_full_adder test_add2 test_add4 test_register1 test_register4 test_counter4 test_shift4 test_traffic_light test_alu4 test_alu4_native test_alu4_ripple test_accumulator4 test_decoder6 test_instruction_exec6 test_pc4 test_completed clean
+.PHONY: help logic_basics test test_logic_basics synth_alu4 compare_alu4 test_mux test_half_adder test_full_adder test_add2 test_add4 test_register1 test_register4 test_counter4 test_shift4 test_traffic_light test_alu4 test_alu4_native test_alu4_ripple test_accumulator4 test_decoder6 test_instruction_exec6 test_pc4 test_rom16x6 test_completed clean
 
 help:
-	@printf 'Targets:\n  logic_basics       Spade-Code übersetzen\n  test_mux           Multiplexer testen\n  test_half_adder    Halbaddierer testen\n  test_full_adder    Volladdierer testen\n  test_add2          2-Bit-Addierer testen\n  test_add4          4-Bit-Addierer testen\n  test_register1     1-Bit-Register testen\n  test_register4     4-Bit-Register mit Enable testen\n  test_counter4      4-Bit-Zähler mit Enable testen\n  test_shift4        4-Bit-Schieberegister testen\n  test_traffic_light Ampel-Zustandsautomat testen\n  test_alu4         4-Bit-ALU testen\n  test_alu4_ripple  Ripple-Carry-Vergleichsvariante testen\n  test_alu4_native  Alias für test_alu4\n  test_accumulator4 4-Bit-Akkumulator testen\n  test_decoder6     6-Bit-Befehlsdecoder testen\n  test_instruction_exec6 6-Bit-Befehle ausführen (Emulatorvergleich)\n  test_pc4          4-Bit-Programmzähler testen\n  synth_alu4        ALU-Synthesebericht mit Yosys erzeugen\n  compare_alu4      Zellzahlen, Zelltypen und Logiktiefe vergleichen\n  test              Alle Tests\n  test_completed    Alle abgeschlossenen Tests\n  test_logic_basics  Alias für test\n  clean             Generierte Builds und VCD-Dateien entfernen\n'
+	@printf 'Targets:\n  logic_basics       Spade-Code übersetzen\n  test_mux           Multiplexer testen\n  test_half_adder    Halbaddierer testen\n  test_full_adder    Volladdierer testen\n  test_add2          2-Bit-Addierer testen\n  test_add4          4-Bit-Addierer testen\n  test_register1     1-Bit-Register testen\n  test_register4     4-Bit-Register mit Enable testen\n  test_counter4      4-Bit-Zähler mit Enable testen\n  test_shift4        4-Bit-Schieberegister testen\n  test_traffic_light Ampel-Zustandsautomat testen\n  test_alu4         4-Bit-ALU testen\n  test_alu4_ripple  Ripple-Carry-Vergleichsvariante testen\n  test_alu4_native  Alias für test_alu4\n  test_accumulator4 4-Bit-Akkumulator testen\n  test_decoder6     6-Bit-Befehlsdecoder testen\n  test_instruction_exec6 6-Bit-Befehle ausführen (Emulatorvergleich)\n  test_pc4          4-Bit-Programmzähler testen\n  test_rom16x6      16x6-Bit-Programmspeicher testen (offene TDD-Übung)\n  synth_alu4        ALU-Synthesebericht mit Yosys erzeugen\n  compare_alu4      Zellzahlen, Zelltypen und Logiktiefe vergleichen\n  test              Alle Tests\n  test_completed    Alle abgeschlossenen Tests\n  test_logic_basics  Alias für test\n  clean             Generierte Builds und VCD-Dateien entfernen\n'
 
 # Swim erzeugt eine gemeinsame SystemVerilog-Datei. Die Stamp-Datei
 # verhindert erneute Aufrufe ohne geänderte Spade-/Toolchain-Eingaben.
@@ -62,7 +62,8 @@ compare_alu4: logic_basics
 # Nur seine Spade-Abhängigkeiten (und sein C++-Test) erzwingen einen Neubau.
 # Die Test-Targets selbst bleiben PHONY: Sie starten die vorhandenen Binaries
 # bei jedem make test erneut, ohne sie unnötig zu kompilieren.
-TEST_NAMES := mux half_adder full_adder add2 add4 register1 register4 counter4 shift4 traffic_light alu4 alu4_ripple accumulator4 decoder6 instruction_exec6 pc4
+COMPLETED_TEST_NAMES := mux half_adder full_adder add2 add4 register1 register4 counter4 shift4 traffic_light alu4 alu4_ripple accumulator4 decoder6 instruction_exec6 pc4
+TEST_NAMES := $(COMPLETED_TEST_NAMES) rom16x6
 
 TEST_TOP_mux := main
 TEST_SRCS_mux := $(FOUNDATIONS_COMMON) $(SPADE_SRC)/foundations/mux.spade
@@ -96,6 +97,8 @@ TEST_TOP_instruction_exec6 := instruction_exec6_top
 TEST_SRCS_instruction_exec6 := $(CPU_COMMON) $(SPADE_SRC)/cpu/instruction_exec6.spade $(SPADE_SRC)/cpu/decoder6.spade $(SPADE_SRC)/cpu/accumulator.spade $(SPADE_SRC)/cpu/alu.spade $(SPADE_DIR)/test/instruction6_model.hpp
 TEST_TOP_pc4 := pc4_top
 TEST_SRCS_pc4 := $(CPU_COMMON) $(SPADE_SRC)/cpu/pc4.spade
+TEST_TOP_rom16x6 := rom16x6_top
+TEST_SRCS_rom16x6 := $(CPU_COMMON) $(SPADE_SRC)/cpu/rom16x6.spade
 
 define TEST_RULE
 $(SPADE_BUILD)/obj_$(1)/V$(TEST_TOP_$(1)): $(SPADE_DIR)/test/$(1).cc $(TEST_SRCS_$(1)) $(TOOLCHAIN_INPUTS) | $(SPADE_BUILD)/.spade-build.stamp
@@ -114,6 +117,7 @@ $(foreach name,$(TEST_NAMES),$(eval $(call TEST_RULE,$(name))))
 # Der alte Alias für die Standard-ALU bleibt erhalten.
 test_alu4_native: test_alu4
 
-test_completed: $(addprefix test_,$(TEST_NAMES))
-test: test_completed
+test_completed: $(addprefix test_,$(COMPLETED_TEST_NAMES))
+# Die neue TDD-Übung läuft nur im vollständigen Testlauf mit.
+test: test_completed test_rom16x6
 test_logic_basics: test
