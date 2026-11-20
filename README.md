@@ -83,7 +83,7 @@ Im Repository-Root innerhalb der Nix-Dev-Shell:
 
 ```sh
 make logic_basics      # Spade-Code übersetzen
-make test              # Alle derzeitigen Tests
+make test              # Alle Tests inkl. offener ROM-Übung
 make clean             # Build-Artefakte und VCD-Traces löschen
 make test_completed    # Nur bereits abgeschlossene Übungen prüfen
 make test_mux          # Nur den Multiplexer testen
@@ -102,6 +102,7 @@ make test_accumulator4  # 4-Bit-Akkumulator testen
 make test_decoder6      # 6-Bit-Decoder testen
 make test_instruction_exec6 # Befehle in Hardware und Emulator vergleichen
 make test_pc4          # 4-Bit-Programmzähler testen
+make test_rom16x6       # 16x6-Bit-Programmspeicher testen
 make synth_alu4         # ALU mit Yosys analysieren (optionaler Einstieg)
 make compare_alu4       # Beide ALUs mit Yosys vergleichen
 ```
@@ -118,7 +119,7 @@ Neubau normal. `make clean` entfernt das komplette `logic_basics/build/`
 inklusive VCD-Dateien; der nächste Testlauf baut anschließend alles frisch.
 `make help` listet alle verfügbaren Targets.
 
-**Stand:** Akkumulator, Decoder, Befehlsausführungsstufe und 4-Bit-Programmzähler sind implementiert. Der PC hat **12.166/12.166 Zustandsprüfungen** bestanden. Bis zur nächsten Übung sind alle angelegten Hardwaretests abgeschlossen; `make test_completed` schließt den PC-Test nun mit ein.
+**Stand:** Akkumulator, Decoder, Befehlsausführungsstufe und 4-Bit-Programmzähler sind abgeschlossen. Die aktuelle TDD-Übung ist der **kombinatorische 16x6-Bit-ROM**. Bis zur Implementierung liefert sein Platzhalter immer 0: `make test_rom16x6` und `make test` schlagen deshalb erwartungsgemäß fehl. `make test_completed` prüft die bisherigen abgeschlossenen Module ohne den ROM.
 
 **Synthese-Einstieg:** `make synth_alu4` startet Yosys nach dem Swim-Build und schreibt einen Bericht nach `logic_basics/build/alu4_synth.log`. Die Zahlen beschreiben eine generische, optimierte Gatternetzliste, noch keine konkrete FPGA-Ressourcenbelegung. Mit `make compare_alu4` werden beide ALU-Varianten unter identischen Syntheseschritten einschließlich `synth -flatten` verglichen. Neben den Zellzahlen zeigt `ltp -noff` die längsten Logikpfade als Stufenzahl an. Das sind keine physikalischen Laufzeiten. Näheres steht in den [ALU-Lernnotizen](logic_basics/docs/alu4.md).
 
@@ -138,7 +139,8 @@ logic_basics/
 │       ├── accumulator.spade
 │       ├── decoder6.spade
 │       ├── instruction_exec6.spade
-│       └── pc4.spade
+│       ├── pc4.spade
+│       └── rom16x6.spade
 ├── test/                          # Verilator-C++-Tests und Software-Referenzmodell
 ├── docs/                          # Lernnotizen und Spezifikationen
 └── scripts/                       # Auswertung der Yosys-Logs
@@ -151,8 +153,8 @@ Die internen Spade-Importe nutzen `lib::foundations::...` bzw.
 
 Im Repository-Root als VS-Code-Workspace: `Cmd+Shift+P` (macOS) bzw.
 `Ctrl+Shift+P` (Linux), dann **Tasks: Run Test Task** ausführen.
-Der bisherige Standard-Testtask heißt noch **HDL: Aktuelle Übung (4-Bit-Programmzähler)**
-und führt `nix develop --command make test_pc4` aus. Er bleibt bis zur nächsten Übung so eingestellt.
+Der Standard-Testtask heißt **HDL: Aktuelle Übung (16x6-Bit-ROM)**
+und führt `nix develop --command make test_rom16x6` aus.
 
 Unter **Tasks: Run Task** gibt es außerdem **HDL: Einzeltest auswählen**
 (mit Auswahl aller vorhandenen Make-Testtargets) und **HDL: Alle Tests (Nix)**
@@ -165,6 +167,7 @@ Die Akkumulator-Notizen stehen unter [`logic_basics/docs/akkumulator4.md`](logic
 Der Einstieg in Maschinenbefehle und Decoder steht unter [`logic_basics/docs/decoder6.md`](logic_basics/docs/decoder6.md).
 Die Befehlsausführungsstufe und das erste Emulator-Referenzmodell stehen unter [`logic_basics/docs/instruction_exec6.md`](logic_basics/docs/instruction_exec6.md).
 Der Einstieg in den Programmzähler steht unter [`logic_basics/docs/pc4.md`](logic_basics/docs/pc4.md).
+Die ROM-Theorie und neue Spade-Übung stehen unter [`logic_basics/docs/rom16x6.md`](logic_basics/docs/rom16x6.md).
 
 ## Neues Projekt
 
