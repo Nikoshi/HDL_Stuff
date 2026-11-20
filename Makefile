@@ -16,10 +16,10 @@ TOOLCHAIN_INPUTS := flake.nix flake.lock $(SPADE_DIR)/swim.toml $(SPADE_DIR)/swi
 FOUNDATIONS_COMMON := $(SPADE_SRC)/main.spade $(SPADE_SRC)/foundations/main.spade
 CPU_COMMON := $(SPADE_SRC)/main.spade $(SPADE_SRC)/cpu/main.spade
 
-.PHONY: demo_cpu_v2 help logic_basics test test_logic_basics synth_alu4 compare_alu4 test_mux test_half_adder test_full_adder test_add2 test_add4 test_register1 test_register4 test_counter4 test_shift4 test_traffic_light test_alu4 test_alu4_native test_alu4_ripple test_accumulator4 test_decoder6 test_instruction_exec6 test_pc4 test_rom16x6 test_cpu4 test_decoder8 test_control8 test_completed clean
+.PHONY: demo_cpu_v2 help logic_basics test test_logic_basics synth_alu4 compare_alu4 test_mux test_half_adder test_full_adder test_add2 test_add4 test_register1 test_register4 test_counter4 test_shift4 test_traffic_light test_alu4 test_alu4_native test_alu4_ripple test_accumulator4 test_decoder6 test_instruction_exec6 test_pc4 test_rom16x6 test_cpu4 test_decoder8 test_control8 test_state_v2 test_completed clean
 
 help:
-	@printf 'Targets:\n  logic_basics       Spade-Code übersetzen\n  test_mux           Multiplexer testen\n  test_half_adder    Halbaddierer testen\n  test_full_adder    Volladdierer testen\n  test_add2          2-Bit-Addierer testen\n  test_add4          4-Bit-Addierer testen\n  test_register1     1-Bit-Register testen\n  test_register4     4-Bit-Register mit Enable testen\n  test_counter4      4-Bit-Zähler mit Enable testen\n  test_shift4        4-Bit-Schieberegister testen\n  test_traffic_light Ampel-Zustandsautomat testen\n  test_alu4         4-Bit-ALU testen\n  test_alu4_ripple  Ripple-Carry-Vergleichsvariante testen\n  test_alu4_native  Alias für test_alu4\n  test_accumulator4 4-Bit-Akkumulator testen\n  test_decoder6     6-Bit-Befehlsdecoder testen\n  test_instruction_exec6 6-Bit-Befehle ausführen (Emulatorvergleich)\n  test_pc4          4-Bit-Programmzähler testen\n  test_rom16x6      16x6-Bit-Programmspeicher testen\n  test_cpu4         Integrierte 4-Bit-CPU gegen Emulator testen\n  test_decoder8     CPU-v2-8-Bit-Felddecoder testen\n  test_control8     CPU-v2-Steuerdecoder mit Testhülle testen\n  demo_cpu_v2       ISA-Probeprogramm im C++-Emulator ausfuehren\n  synth_alu4        ALU-Synthesebericht mit Yosys erzeugen\n  compare_alu4      Zellzahlen, Zelltypen und Logiktiefe vergleichen\n  test              Alle Tests\n  test_completed    Alle abgeschlossenen Tests\n  test_logic_basics  Alias für test\n  clean             Generierte Builds und VCD-Dateien entfernen\n'
+	@printf 'Targets:\n  logic_basics       Spade-Code übersetzen\n  test_mux           Multiplexer testen\n  test_half_adder    Halbaddierer testen\n  test_full_adder    Volladdierer testen\n  test_add2          2-Bit-Addierer testen\n  test_add4          4-Bit-Addierer testen\n  test_register1     1-Bit-Register testen\n  test_register4     4-Bit-Register mit Enable testen\n  test_counter4      4-Bit-Zähler mit Enable testen\n  test_shift4        4-Bit-Schieberegister testen\n  test_traffic_light Ampel-Zustandsautomat testen\n  test_alu4         4-Bit-ALU testen\n  test_alu4_ripple  Ripple-Carry-Vergleichsvariante testen\n  test_alu4_native  Alias für test_alu4\n  test_accumulator4 4-Bit-Akkumulator testen\n  test_decoder6     6-Bit-Befehlsdecoder testen\n  test_instruction_exec6 6-Bit-Befehle ausführen (Emulatorvergleich)\n  test_pc4          4-Bit-Programmzähler testen\n  test_rom16x6      16x6-Bit-Programmspeicher testen\n  test_cpu4         Integrierte 4-Bit-CPU gegen Emulator testen\n  test_decoder8     CPU-v2-8-Bit-Felddecoder testen\n  test_control8     CPU-v2-Steuerdecoder mit Testhülle testen\n  test_state_v2     CPU-v2-Registersteuerung (offene TDD-Übung)\n  demo_cpu_v2       ISA-Probeprogramm im C++-Emulator ausfuehren\n  synth_alu4        ALU-Synthesebericht mit Yosys erzeugen\n  compare_alu4      Zellzahlen, Zelltypen und Logiktiefe vergleichen\n  test              Alle Tests\n  test_completed    Alle abgeschlossenen Tests\n  test_logic_basics  Alias für test\n  clean             Generierte Builds und VCD-Dateien entfernen\n'
 
 # Swim erzeugt eine gemeinsame SystemVerilog-Datei. Die Stamp-Datei
 # verhindert erneute Aufrufe ohne geänderte Spade-/Toolchain-Eingaben.
@@ -67,7 +67,7 @@ compare_alu4: logic_basics
 # Die Test-Targets selbst bleiben PHONY: Sie starten die vorhandenen Binaries
 # bei jedem make test erneut, ohne sie unnötig zu kompilieren.
 COMPLETED_TEST_NAMES := mux half_adder full_adder add2 add4 register1 register4 counter4 shift4 traffic_light alu4 alu4_ripple accumulator4 decoder6 instruction_exec6 pc4 rom16x6 cpu4 decoder8 control8
-TEST_NAMES := $(COMPLETED_TEST_NAMES)
+TEST_NAMES := $(COMPLETED_TEST_NAMES) state_v2
 
 TEST_TOP_mux := main
 TEST_SRCS_mux := $(FOUNDATIONS_COMMON) $(SPADE_SRC)/foundations/mux.spade
@@ -109,6 +109,8 @@ TEST_TOP_decoder8 := decoder8_top
 TEST_SRCS_decoder8 := $(SPADE_SRC)/main.spade $(SPADE_SRC)/cpu_v2/main.spade $(SPADE_SRC)/cpu_v2/decoder8.spade
 TEST_TOP_control8 := test_control8_top
 TEST_SRCS_control8 := $(SPADE_SRC)/main.spade $(SPADE_SRC)/cpu_v2/main.spade $(SPADE_SRC)/cpu_v2/control8.spade
+TEST_TOP_state_v2 := cpu_v2_state_top
+TEST_SRCS_state_v2 := $(SPADE_SRC)/main.spade $(SPADE_SRC)/cpu_v2/main.spade $(SPADE_SRC)/cpu_v2/state_v2.spade
 
 define TEST_RULE
 $(SPADE_BUILD)/obj_$(1)/V$(TEST_TOP_$(1)): $(SPADE_DIR)/test/$(1).cc $(TEST_SRCS_$(1)) $(TOOLCHAIN_INPUTS) | $(SPADE_BUILD)/.spade-build.stamp
@@ -128,8 +130,8 @@ $(foreach name,$(TEST_NAMES),$(eval $(call TEST_RULE,$(name))))
 test_alu4_native: test_alu4
 
 test_completed: $(addprefix test_,$(COMPLETED_TEST_NAMES))
-# Der Steuerdecoder ist abgeschlossen; die naechste TDD-Uebung folgt.
-test: test_completed
+# Die aktuelle Zustandssteuerung ist eine offene TDD-Übung.
+test: test_completed test_state_v2
 test_logic_basics: test
 
 # CPU-v2-ISA vor der Hardwareumsetzung pruefen: eigenstaendiges C++-Modell.
