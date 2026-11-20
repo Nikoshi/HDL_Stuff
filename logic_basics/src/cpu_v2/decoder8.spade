@@ -7,7 +7,9 @@ pub entity decoder8_top(
     opcode: inv uint<4>,
     immediate: inv uint<4>
 ) {
+    let bits = instruction.as_bits();
+
     // Absichtlich unvollstaendig: Die TDD-Tests muessen zunaechst scheitern.
-    set opcode = 0u4;
-    set immediate = 0u4;
+    set opcode = [bits[4], bits[5], bits[6], bits[7]].as_uint();
+    set immediate = [bits[0], bits[1], bits[2], bits[3]].as_uint();
 }
