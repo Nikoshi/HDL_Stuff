@@ -2,14 +2,14 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "HDL: Aktuelle Übung (8-Bit-Decoder)",
+      "label": "HDL: Aktuelle Übung (CPU-v2-Steuerdecoder)",
       "type": "shell",
       "command": "nix",
       "args": [
         "develop",
         "--command",
         "make",
-        "test_decoder8"
+        "test_control8"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -138,7 +138,11 @@
       "description": "Welchen HDL-Test möchtest du ausführen?",
       "options": [
         {
-          "label": "CPU v2: 8-Bit-Decoder (aktuelle Übung)",
+          "label": "CPU v2: Steuerdecoder (aktuelle Übung)",
+          "value": "test_control8"
+        },
+        {
+          "label": "CPU v2: 8-Bit-Decoder (abgeschlossen)",
           "value": "test_decoder8"
         },
         {
@@ -218,7 +222,7 @@
           "value": "test_mux"
         }
       ],
-      "default": "test_decoder8"
+      "default": "test_control8"
     }
   ]
 }
