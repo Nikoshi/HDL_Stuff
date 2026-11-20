@@ -16,7 +16,7 @@ Register**: Der Zustand befindet sich bereits in PC und Akkumulator.
       |    PC     |          |  Programm   |          | Decoder/ALU/ACC   |
       +-----------+          +-------------+          +-------------------+
            ^                                                  ^
-           |                   clk, rst, advance               |
+           |                   clk, rst, advance              |
            +--------------------------------------------------+
 ```
 
