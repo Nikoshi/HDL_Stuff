@@ -83,7 +83,7 @@ Im Repository-Root innerhalb der Nix-Dev-Shell:
 
 ```sh
 make logic_basics      # Spade-Code übersetzen
-make test              # Alle Tests inkl. offener ROM-Übung
+make test              # Alle derzeitigen Tests
 make clean             # Build-Artefakte und VCD-Traces löschen
 make test_completed    # Nur bereits abgeschlossene Übungen prüfen
 make test_mux          # Nur den Multiplexer testen
@@ -119,7 +119,7 @@ Neubau normal. `make clean` entfernt das komplette `logic_basics/build/`
 inklusive VCD-Dateien; der nächste Testlauf baut anschließend alles frisch.
 `make help` listet alle verfügbaren Targets.
 
-**Stand:** Akkumulator, Decoder, Befehlsausführungsstufe und 4-Bit-Programmzähler sind abgeschlossen. Die aktuelle TDD-Übung ist der **kombinatorische 16x6-Bit-ROM**. Bis zur Implementierung liefert sein Platzhalter immer 0: `make test_rom16x6` und `make test` schlagen deshalb erwartungsgemäß fehl. `make test_completed` prüft die bisherigen abgeschlossenen Module ohne den ROM.
+**Stand:** Akkumulator, Decoder, Befehlsausführungsstufe, 4-Bit-Programmzähler und kombinatorischer **16x6-Bit-ROM** sind implementiert. Für den ROM wurden **608/608 Prüfungen** als bestanden gemeldet. Der Test ist nun auch in `make test_completed` enthalten. Die nächste Übung wird die Verbindung von PC, ROM und Ausführungsstufe behandeln.
 
 **Synthese-Einstieg:** `make synth_alu4` startet Yosys nach dem Swim-Build und schreibt einen Bericht nach `logic_basics/build/alu4_synth.log`. Die Zahlen beschreiben eine generische, optimierte Gatternetzliste, noch keine konkrete FPGA-Ressourcenbelegung. Mit `make compare_alu4` werden beide ALU-Varianten unter identischen Syntheseschritten einschließlich `synth -flatten` verglichen. Neben den Zellzahlen zeigt `ltp -noff` die längsten Logikpfade als Stufenzahl an. Das sind keine physikalischen Laufzeiten. Näheres steht in den [ALU-Lernnotizen](logic_basics/docs/alu4.md).
 
@@ -167,7 +167,7 @@ Die Akkumulator-Notizen stehen unter [`logic_basics/docs/akkumulator4.md`](logic
 Der Einstieg in Maschinenbefehle und Decoder steht unter [`logic_basics/docs/decoder6.md`](logic_basics/docs/decoder6.md).
 Die Befehlsausführungsstufe und das erste Emulator-Referenzmodell stehen unter [`logic_basics/docs/instruction_exec6.md`](logic_basics/docs/instruction_exec6.md).
 Der Einstieg in den Programmzähler steht unter [`logic_basics/docs/pc4.md`](logic_basics/docs/pc4.md).
-Die ROM-Theorie und neue Spade-Übung stehen unter [`logic_basics/docs/rom16x6.md`](logic_basics/docs/rom16x6.md).
+Die ROM-Theorie und abgeschlossene Spade-Übung stehen unter [`logic_basics/docs/rom16x6.md`](logic_basics/docs/rom16x6.md).
 
 ## Neues Projekt
 
