@@ -1,28 +1,31 @@
-// Kombinatorischer 16x6-Bit-Programmspeicher unserer Lern-CPU.
-// TODO (TDD): Die feste Zuordnung aus docs/rom16x6.md umsetzen.
-// Keine Register und kein Takt: Die Ausgabe folgt der Adresse.
+// Kombinatorischer 16x6-Bit-Programmspeicher mit festem Testprogramm.
+// Die Adresse waehlt direkt ein Befehlswort; es gibt keinen Takt und kein Register.
 #[no_mangle(all)]
 pub entity rom16x6_top(
     address: uint<4>,
     instruction: inv uint<6>
 ) {
-    // Platzhalter: Für die Übung die gesamte ROM-Wahrheitstabelle ergänzen.
+    // Befehlsformat: 0bOO_NNNN (6 Bit insgesamt).
+    // OO = Opcode/Operationskennung: 00=ADD, 01=AND, 10=OR, 11=XOR.
+    // NNNN = Operand: 4-Bit-Immediate, mit dem die ALU arbeitet.
+    // Beispiel: 0b10_0101 bedeutet OR mit Operand 5.
+    // Der Unterstrich ist nur eine Lesehilfe; alle Werte sind 6 Bit breit.
     set instruction = match address {
-        0 => 0b10_0101u6,
-        1 => 0b00_1011u6,
-        2 => 0b11_0111u6,
-        3 => 0b01_0011u6,
-        4 => 0b00_0001u6,
-        5 => 0b11_1111u6,
-        6 => 0b10_1000u6,
-        7 => 0b01_0110u6,
-        8 => 0b00_1110u6,
-        9 => 0b11_0010u6,
-       10 => 0b10_0100u6,
-       11 => 0b00_0011u6,
-       12 => 0b01_1001u6,
-       13 => 0b11_1011u6,
-       14 => 0b10_0010u6,
-       15 => 0b00_0101u6
+        0 => 0b10_0101u6, // OR 5
+        1 => 0b00_1011u6, // ADD 11
+        2 => 0b11_0111u6, // XOR 7
+        3 => 0b01_0011u6, // AND 3
+        4 => 0b00_0001u6, // ADD 1
+        5 => 0b11_1111u6, // XOR 15
+        6 => 0b10_1000u6, // OR 8
+        7 => 0b01_0110u6, // AND 6
+        8 => 0b00_1110u6, // ADD 14
+        9 => 0b11_0010u6, // XOR 2
+       10 => 0b10_0100u6, // OR 4
+       11 => 0b00_0011u6, // ADD 3
+       12 => 0b01_1001u6, // AND 9
+       13 => 0b11_1011u6, // XOR 11
+       14 => 0b10_0010u6, // OR 2
+       15 => 0b00_0101u6  // ADD 5
     };
 }
