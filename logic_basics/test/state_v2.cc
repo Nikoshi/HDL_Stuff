@@ -153,10 +153,11 @@ int main() {
   trace.close();
   dut.final();
 
-  // Initialer Reset: 1 Tick, je Testfall 3 + 4*2*2*4 Ticks,
-  // gemischte Sequenz: 256 Ticks. Jeder Tick liefert 4 Vergleiche.
+  // Initialer Reset: 1 Tick, je Anfangszustand 3 + 4*2*2*4 Ticks,
+  // gemischte Sequenz: 256 Ticks. Der allererste Schritt vor der
+  // ersten Reset-Flanke zählt nicht, weil die Register noch undefiniert sind.
   constexpr int expected_checks = (1 + 16 * 16 * (3 + 4 * 2 * 2 * 4)
-                                   + 256) * 4;
+                                   + 256) * 4 - 1;
   if (checks != expected_checks) {
     std::cerr << "Zustandstest interne Anzahl falsch: "
               << checks << " statt " << expected_checks << "\n";
