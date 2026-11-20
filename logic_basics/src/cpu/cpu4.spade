@@ -2,9 +2,8 @@ use lib::cpu::pc4;
 use lib::cpu::rom16x6;
 use lib::cpu::instruction_exec6;
 
-// Top-Level der ersten programmierbaren 4-Bit-CPU.
-// TODO (TDD): Bestehende Entities PC, ROM und Execute hier verbinden.
-// Der Top-Level soll selbst keine zusaetzlichen Register enthalten.
+// Top-Level der ersten 4-Bit-CPU mit festem 16-Wort-Programm.
+// Der Zustand liegt ausschliesslich in PC und Akkumulator der Unter-Entities.
 #[no_mangle(all)]
 pub entity cpu4_top(
     clk: clock,
@@ -16,11 +15,14 @@ pub entity cpu4_top(
     instruction: inv uint<6>,
     acc: inv uint<4>
 ) {
-
+    // port() liefert jeweils eine lesbare Seite (curr_*) und ein Ende,
+    // das an den inv-Ausgang der betreffenden Unter-Entity angeschlossen wird.
+    // Die Verbindungen selbst enthalten weder Register noch Taktverzoegerung.
     let (curr_pc, pc_wire) = port();
     let (curr_instr, instr_wire) = port();
     let (curr_acc, acc_wire) = port();
 
+    // PC: advance schaltet Zaehlen oder einen externen Sprung frei.
     let _ = inst pc4::pc4_top {
         clk,
         rst,
@@ -30,11 +32,15 @@ pub entity cpu4_top(
         pc: pc_wire
     };
 
+    // Der kombinatorische ROM liest die aktuell gespeicherte PC-Adresse.
     let _ = inst rom16x6::rom16x6_top {
         address: curr_pc,
         instruction: instr_wire
     };
 
+    // Beide Register sehen dieselbe Taktflanke und dasselbe Schritt-Signal.
+    // Execute verarbeitet ROM[PC_alt], waehrend der PC weiterschaltet.
+    // Der Ausgang 'q' der Ausfuehrungsstufe ist unser ACC-Registerwert.
     let _ = inst instruction_exec6::instruction_exec6_top {
         clk,
         rst,
@@ -43,8 +49,8 @@ pub entity cpu4_top(
         q: acc_wire
     };
 
-
-    // Platzhalter: Die drei Bausteine sind noch nicht miteinander verbunden.
+    // Beobachtbare Top-Level-Ausgaenge: gespeicherter PC, aktueller
+    // ROM-Befehl und gespeicherter ACC-Wert.
     set pc = curr_pc;
     set instruction = curr_instr;
     set acc = curr_acc;
