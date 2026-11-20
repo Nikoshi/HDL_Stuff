@@ -1,15 +1,17 @@
-// Kombinatorischer 8-Bit-Befehlsdecoder fuer CPU v2.
-// TODO: Opcode (obere 4 Bit) und Immediate (untere 4 Bit) extrahieren.
-// Dieser Decoder entscheidet NICHT ueber ACC-Schreibfreigabe oder Spruenge.
+// Rein kombinatorischer Felddecoder fuer das 8-Bit-Befehlswort der CPU v2.
+// Die oberen vier Bits enthalten den Opcode, die unteren das Immediate.
+// Welche Wirkung der Opcode hat, entscheidet erst die nachfolgende Steuerlogik.
 #[no_mangle(all)]
 pub entity decoder8_top(
     instruction: uint<8>,
     opcode: inv uint<4>,
     immediate: inv uint<4>
 ) {
+    // as_bits() beginnt mit Bit 0 (LSB). Beim anschliessenden as_uint()
+    // wird das erste Arrayelement wieder zum niederwertigsten Bit.
     let bits = instruction.as_bits();
 
-    // Absichtlich unvollstaendig: Die TDD-Tests muessen zunaechst scheitern.
+    // Nur Leitungen neu gruppieren: kein Register, kein Takt und keine ALU.
     set opcode = [bits[4], bits[5], bits[6], bits[7]].as_uint();
     set immediate = [bits[0], bits[1], bits[2], bits[3]].as_uint();
 }
