@@ -5,3 +5,4 @@ mod decoder6;
 mod instruction_exec6;
 mod pc4;
 mod rom16x6;
+mod cpu4;
