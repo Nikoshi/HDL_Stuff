@@ -18,6 +18,7 @@ HDL_Stuff ist eine Sammlung kleiner Experimente zu digitalen Schaltungen, HDLs u
 - Linux und macOS berücksichtigen. Nix-Dev-Shell verwenden; keine festen Nix-Store-Pfade einchecken.
 - Bestehende Make-Targets und Testabläufe nach Änderungen möglichst erhalten.
 - Bei neuen Tests die Makefile-Zuordnung `TEST_NAMES`, `TEST_TOP_<name>` und `TEST_SRCS_<name>` ergänzen. Nur tatsächliche Spade-Abhängigkeiten aufnehmen, damit unabhängige Verilator-Tests nicht unnötig neu kompiliert werden. `make test` soll weiterhin alle Tests ausführen; `make clean` entfernt den generierten Build und die VCD-Dateien.
+- Das Makefile selbst nicht pauschal als Build-Abhängigkeit eintragen: Änderungen an Targets, Kommentaren oder der Liste abgeschlossener Übungen dürfen vorhandene Test-Binaries nicht invalidieren. Bei Änderungen von Compiler-Flags oder Build-Kommandos muss bewusst `make clean` ausgeführt werden; Toolchain-Dateien bleiben echte Abhängigkeiten.
 
 ## Lernkapitel für neue Übungen
 
