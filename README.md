@@ -114,9 +114,12 @@ Die Test-Binaries werden inkrementell gebaut: `make test` führt jedes Testprogr
 bei jedem Aufruf aus, kompiliert aber nur neu, wenn passende Spade-Quellen,
 C++-Tests oder Toolchain-Eingaben verändert wurden. Eine Änderung an
 `pc4.spade` löst daher keinen Neubau der unabhängigen ALU-Tests aus.
-Nach Änderungen am Makefile oder der Toolchain ist ein einmaliger vollständiger
-Neubau normal. `make clean` entfernt das komplette `logic_basics/build/`
-inklusive VCD-Dateien; der nächste Testlauf baut anschließend alles frisch.
+Änderungen an der Testverwaltung im Makefile lösen keinen Neubau aus.
+Wenn sich hingegen Compiler-Flags oder die Verilator-/Swim-Build-Kommandos
+ändern, ist `make clean` bewusst erforderlich. Geänderte Toolchain-Dateien
+wie `flake.lock` oder `swim.lock` werden weiterhin automatisch berücksichtigt.
+`make clean` entfernt das komplette `logic_basics/build/` inklusive
+VCD-Dateien; der nächste Testlauf baut anschließend alles frisch.
 `make help` listet alle verfügbaren Targets.
 
 **Stand:** Akkumulator, Decoder, Befehlsausführungsstufe, 4-Bit-Programmzähler und kombinatorischer **16x6-Bit-ROM** sind implementiert. Für den ROM wurden **608/608 Prüfungen** als bestanden gemeldet. Der Test ist nun auch in `make test_completed` enthalten. Die nächste Übung wird die Verbindung von PC, ROM und Ausführungsstufe behandeln.
