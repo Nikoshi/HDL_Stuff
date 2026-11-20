@@ -1,6 +1,5 @@
-// Vierbittiger Programmzähler: Adresse des aktuell ausgewählten Befehls.
-// TODO (TDD): Reset, Pause, absoluter Sprung und nächster Schritt.
-// Der Zählerstand muss ausschließlich an steigenden Flanken wechseln.
+// Vierbittiger Programmzähler mit synchronem Reset und absolutem Sprung.
+// Der gespeicherte Zustand ändert sich nur an steigenden Taktflanken.
 #[no_mangle(all)]
 pub entity pc4_top(
     clk: clock,
@@ -10,15 +9,15 @@ pub entity pc4_top(
     target: uint<4>,
     pc: inv uint<4>
 ) {
-
-    // Platzhalter: Der PC wird zunächst nur auf 0 gehalten.
+    // Reset hat Vorrang; ohne advance bleibt der PC auch bei jump stehen.
     reg(clk) current: uint<4> reset(rst: 0) = if advance && jump {
         target
-    } else if advance && !jump {
+    } else if advance {
         current +. 1
     } else {
         current
     };
 
+    // Nur den gespeicherten Zustand ausgeben, nicht den nächsten Wert.
     set pc = current;
 }
