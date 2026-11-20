@@ -175,8 +175,8 @@ sichere NOP-Steuersignale. Das trennt die Software-Regel
 ## 6. Mögliche nächste Übungen
 
 1. **Abgeschlossen:** [`decoder8` als kombinatorischer Felddecoder](decoder8.md), 384/384 gemeldete Vergleiche.
-2. **Aktuelle Aufgabe:** [`control8` mit der Steuersignal-Wahrheitstabelle](control8.md), inklusive sicherem NOP-Fallback.
-3. ACC-/PC-Zustandsübergänge aus den Steuersignalen ableiten.
+2. **Abgeschlossen:** [`control8` mit der Steuersignal-Wahrheitstabelle](control8.md), 144/144 auch nach dem `fn`-Refactoring.
+3. **Aktuelle Aufgabe:** [PC-/ACC-Zustandsübergänge implementieren](state_v2.md).
 4. ROM 16×8 mit dem Countdown- und LED-Alarm-Programm bauen.
 5. Eigenständigen `cpu_v2_top` verbinden und gegen einen neuen Emulator testen.
 
