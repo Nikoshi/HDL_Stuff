@@ -141,7 +141,7 @@ uns nur, wie eine Syntheseausgabe überhaupt aussieht.
 
 Die Standard-ALU in `src/cpu/alu.spade` benutzt nach unserem Zellvergleich
 Spades eingebaute Addition. Die ursprüngliche Ripple-Carry-Implementierung
-bleibt unter `src/cpu/alu_ripple.spade` erhalten. Der einzige funktionale
+bleibt unter `src/foundations/alu_ripple.spade` erhalten. Der einzige funktionale
 Unterschied zwischen beiden ALUs ist die Addition:
 
 ```spade

@@ -1,5 +1,5 @@
 // Standard-ALU: eingebaute Addition, die Yosys kompakter umsetzen konnte.
-// Die selbst aufgebaute Ripple-Carry-Variante bleibt in alu_ripple.spade.
+// Die Ripple-Carry-Vergleichsvariante liegt bei den Grundlagen.
 // op: 0 = ADD, 1 = AND, 2 = OR, 3 = XOR.
 // ADD liefert nur die unteren vier Ergebnisbits; carry_out zeigt Bit 4 an.
 // Bei allen logischen Operationen ist carry_out = false.

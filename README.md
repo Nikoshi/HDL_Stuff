@@ -119,12 +119,12 @@ logic_basics/
 ├── src/
 │   ├── main.spade                 # Beide Modulgruppen einbinden
 │   ├── foundations/
-│   │   ├── main.spade             # Übungen zu Gattern, Addierern, Registern, FSM
+│   │   ├── main.spade             # Gatter, Addierer, Register, FSM und Vergleichs-ALU
+│   │   ├── alu_ripple.spade       # Selbstgebauter Ripple-Carry-Addierer in ALU
 │   │   └── *.spade
 │   └── cpu/
 │       ├── main.spade             # ALU, Akkumulator, Decoder, Ausführungsstufe
 │       ├── alu.spade
-│       ├── alu_ripple.spade
 │       ├── accumulator.spade
 │       ├── decoder6.spade
 │       └── instruction_exec6.spade

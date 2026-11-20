@@ -1,6 +1,7 @@
 // Kombinatorische und sequentielle Grundlagenübungen.
 mod mux;
 mod adders;
+mod alu_ripple;
 mod test_tops;
 mod registers;
 mod counters;
