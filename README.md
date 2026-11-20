@@ -100,6 +100,7 @@ make test_alu4_ripple   # Ripple-Carry-Vergleichsvariante prüfen
 make test_accumulator4  # 4-Bit-Akkumulator testen
 make test_decoder6      # 6-Bit-Decoder testen
 make test_instruction_exec6 # Befehle in Hardware und Emulator vergleichen
+make test_pc4          # 4-Bit-Programmzähler testen
 make synth_alu4         # ALU mit Yosys analysieren (optionaler Einstieg)
 make compare_alu4       # Beide ALUs mit Yosys vergleichen
 ```
@@ -108,7 +109,7 @@ Jede Testbench schreibt eine VCD-Datei nach `logic_basics/build/<testname>.vcd`
 (z. B. `decoder6.vcd`). Das Verzeichnis `build/` wird nicht eingecheckt.
 `make help` listet alle verfügbaren Targets.
 
-**Stand:** Akkumulator und Decoder sind fertig getestet. Die Befehlsausführungsstufe ist die aktuelle TDD-Übung und gibt bis zu deiner Implementierung fest 0 aus. `make test_instruction_exec6` und der Gesamt-Test `make test` schlagen deshalb erwartungsgemäß fehl. `make test_completed` prüft die abgeschlossenen Übungen.
+**Stand:** Akkumulator, Decoder und Befehlsausführungsstufe sind erfolgreich getestet. Der 4-Bit-Programmzähler ist die aktuelle TDD-Übung. Bis zu deiner Implementierung hält `pc4_top` den PC fest auf 0; `make test_pc4` und `make test` schlagen daher erwartungsgemäß fehl. `make test_completed` prüft die abgeschlossenen Übungen.
 
 **Synthese-Einstieg:** `make synth_alu4` startet Yosys nach dem Swim-Build und schreibt einen Bericht nach `logic_basics/build/alu4_synth.log`. Die Zahlen beschreiben eine generische, optimierte Gatternetzliste, noch keine konkrete FPGA-Ressourcenbelegung. Mit `make compare_alu4` werden beide ALU-Varianten unter identischen Syntheseschritten einschließlich `synth -flatten` verglichen. Neben den Zellzahlen zeigt `ltp -noff` die längsten Logikpfade als Stufenzahl an. Das sind keine physikalischen Laufzeiten. Näheres steht in den [ALU-Lernnotizen](logic_basics/docs/alu4.md).
 
@@ -127,7 +128,8 @@ logic_basics/
 │       ├── alu.spade
 │       ├── accumulator.spade
 │       ├── decoder6.spade
-│       └── instruction_exec6.spade
+│       ├── instruction_exec6.spade
+│       └── pc4.spade
 ├── test/                          # Verilator-C++-Tests und Software-Referenzmodell
 ├── docs/                          # Lernnotizen und Spezifikationen
 └── scripts/                       # Auswertung der Yosys-Logs
@@ -140,8 +142,8 @@ Die internen Spade-Importe nutzen `lib::foundations::...` bzw.
 
 Im Repository-Root als VS-Code-Workspace: `Cmd+Shift+P` (macOS) bzw.
 `Ctrl+Shift+P` (Linux), dann **Tasks: Run Test Task** ausführen.
-Der Standard-Testtask heißt derzeit **HDL: Aktuelle Übung (Befehlsausführung)**
-und führt `nix develop --command make test_instruction_exec6` aus.
+Der Standard-Testtask heißt derzeit **HDL: Aktuelle Übung (4-Bit-Programmzähler)**
+und führt `nix develop --command make test_pc4` aus.
 
 Unter **Tasks: Run Task** gibt es außerdem **HDL: Einzeltest auswählen**
 (mit Auswahl aller vorhandenen Make-Testtargets) und **HDL: Alle Tests (Nix)**
@@ -153,6 +155,7 @@ Die ALU-Spezifikation steht unter [`logic_basics/docs/alu4.md`](logic_basics/doc
 Die Akkumulator-Notizen stehen unter [`logic_basics/docs/akkumulator4.md`](logic_basics/docs/akkumulator4.md).
 Der Einstieg in Maschinenbefehle und Decoder steht unter [`logic_basics/docs/decoder6.md`](logic_basics/docs/decoder6.md).
 Die Befehlsausführungsstufe und das erste Emulator-Referenzmodell stehen unter [`logic_basics/docs/instruction_exec6.md`](logic_basics/docs/instruction_exec6.md).
+Der Einstieg in den Programmzähler steht unter [`logic_basics/docs/pc4.md`](logic_basics/docs/pc4.md).
 
 ## Neues Projekt
 

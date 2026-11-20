@@ -1,17 +1,18 @@
 use lib::cpu::decoder6;
 use lib::cpu::accumulator;
 
-// Ausführungsstufe: Ein sechs Bit breiter Maschinenbefehl steuert den
-// bereits vorhandenen Decoder und den Akkumulator.
-// TODO (TDD): Die beiden Entities instanziieren, ohne ihre Logik zu kopieren.
+// Ausführungsstufe: Der Decoder trennt den Maschinenbefehl in Opcode
+// und Immediate, die der bereits vorhandene Akkumulator verarbeitet.
+// Nur der Akkumulator besitzt Zustand; diese Entity fügt kein Register hinzu.
 #[no_mangle(all)]
-entity instruction_exec6_top(
+pub entity instruction_exec6_top(
     clk: clock,
     rst: bool,
     enable: bool,
     instruction: uint<6>,
     q: inv uint<4>
 ) {
+    // Jeder inv-Ausgang der Unterbausteine erhält eine eigene Verbindung.
     let (decoded_op, op_wire) = port();
     let (decoded_operand, operand_wire) = port();
     let (acc_value, acc_wire) = port();
@@ -22,6 +23,7 @@ entity instruction_exec6_top(
         operand_wire
     );
 
+    // Beide Steuerleitungen kommen direkt aus dem kombinatorischen Decoder.
     let _ = inst accumulator::accumulator4_top(
         clk,
         rst,

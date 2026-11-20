@@ -137,10 +137,10 @@ die Ausführungsstufe unabhängig von der Schaltungsstruktur.
 Das ergibt **16.902 Ausgabevergleiche**. Der Test schreibt
 `logic_basics/build/instruction_exec6.vcd`.
 
-Der Platzhalter in `src/cpu/instruction_exec6.spade` setzt den
-Ausgang noch auf 0. Nach dem Implementieren zuerst
-`make test_instruction_exec6` ausführen, dann `make test`
-für die Regression.
+Die Befehlsausführungsstufe wurde implementiert und mit
+**16.902/16.902 Vergleichen** lokal getestet. Die Entity ist nun
+öffentlich und kann beim späteren CPU-Zusammenbau wiederverwendet
+werden. Der nächste Meilenstein ist der Program Counter (PC).
 
 ## Beobachtung für die spätere CPU
 

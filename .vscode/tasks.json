@@ -2,14 +2,14 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "HDL: Aktuelle Übung (Befehlsausführung)",
+      "label": "HDL: Aktuelle Übung (4-Bit-Programmzähler)",
       "type": "shell",
       "command": "nix",
       "args": [
         "develop",
         "--command",
         "make",
-        "test_instruction_exec6"
+        "test_pc4"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -138,6 +138,10 @@
       "description": "Welchen HDL-Test möchtest du ausführen?",
       "options": [
         {
+          "label": "Programmzähler (4 Bit)",
+          "value": "test_pc4"
+        },
+        {
           "label": "Befehlsausführung (6 Bit)",
           "value": "test_instruction_exec6"
         },
@@ -198,7 +202,7 @@
           "value": "test_mux"
         }
       ],
-      "default": "test_instruction_exec6"
+      "default": "test_pc4"
     }
   ]
 }
