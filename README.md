@@ -83,7 +83,7 @@ Im Repository-Root innerhalb der Nix-Dev-Shell:
 
 ```sh
 make logic_basics      # Spade-Code übersetzen
-make test              # Alle Tests, auch die offene TDD-Übung
+make test              # Alle derzeitigen Tests
 make test_completed    # Nur bereits abgeschlossene Übungen prüfen
 make test_mux          # Nur den Multiplexer testen
 make test_half_adder   # Nur den Halbaddierer testen
@@ -109,7 +109,7 @@ Jede Testbench schreibt eine VCD-Datei nach `logic_basics/build/<testname>.vcd`
 (z. B. `decoder6.vcd`). Das Verzeichnis `build/` wird nicht eingecheckt.
 `make help` listet alle verfügbaren Targets.
 
-**Stand:** Akkumulator, Decoder und Befehlsausführungsstufe sind erfolgreich getestet. Der 4-Bit-Programmzähler ist die aktuelle TDD-Übung. Bis zu deiner Implementierung hält `pc4_top` den PC fest auf 0; `make test_pc4` und `make test` schlagen daher erwartungsgemäß fehl. `make test_completed` prüft die abgeschlossenen Übungen.
+**Stand:** Akkumulator, Decoder, Befehlsausführungsstufe und 4-Bit-Programmzähler sind implementiert. Der PC hat **12.166/12.166 Zustandsprüfungen** bestanden. Bis zur nächsten Übung sind alle angelegten Hardwaretests abgeschlossen; `make test_completed` schließt den PC-Test nun mit ein.
 
 **Synthese-Einstieg:** `make synth_alu4` startet Yosys nach dem Swim-Build und schreibt einen Bericht nach `logic_basics/build/alu4_synth.log`. Die Zahlen beschreiben eine generische, optimierte Gatternetzliste, noch keine konkrete FPGA-Ressourcenbelegung. Mit `make compare_alu4` werden beide ALU-Varianten unter identischen Syntheseschritten einschließlich `synth -flatten` verglichen. Neben den Zellzahlen zeigt `ltp -noff` die längsten Logikpfade als Stufenzahl an. Das sind keine physikalischen Laufzeiten. Näheres steht in den [ALU-Lernnotizen](logic_basics/docs/alu4.md).
 
@@ -142,8 +142,8 @@ Die internen Spade-Importe nutzen `lib::foundations::...` bzw.
 
 Im Repository-Root als VS-Code-Workspace: `Cmd+Shift+P` (macOS) bzw.
 `Ctrl+Shift+P` (Linux), dann **Tasks: Run Test Task** ausführen.
-Der Standard-Testtask heißt derzeit **HDL: Aktuelle Übung (4-Bit-Programmzähler)**
-und führt `nix develop --command make test_pc4` aus.
+Der bisherige Standard-Testtask heißt noch **HDL: Aktuelle Übung (4-Bit-Programmzähler)**
+und führt `nix develop --command make test_pc4` aus. Er bleibt bis zur nächsten Übung so eingestellt.
 
 Unter **Tasks: Run Task** gibt es außerdem **HDL: Einzeltest auswählen**
 (mit Auswahl aller vorhandenen Make-Testtargets) und **HDL: Alle Tests (Nix)**
