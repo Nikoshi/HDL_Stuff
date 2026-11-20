@@ -83,7 +83,7 @@ Im Repository-Root innerhalb der Nix-Dev-Shell:
 
 ```sh
 make logic_basics      # Spade-Code übersetzen
-make test              # Alle Tests inkl. aktueller CPU-TDD-Übung
+make test              # Alle Tests
 make clean             # Build-Artefakte und VCD-Traces löschen
 make test_completed    # Nur bereits abgeschlossene Übungen prüfen
 make test_mux          # Nur den Multiplexer testen
@@ -123,7 +123,7 @@ wie `flake.lock` oder `swim.lock` werden weiterhin automatisch berücksichtigt.
 VCD-Dateien; der nächste Testlauf baut anschließend alles frisch.
 `make help` listet alle verfügbaren Targets.
 
-**Stand:** Die bestehenden CPU-Bausteine einschließlich PC und ROM sind abgeschlossen. Die aktuelle TDD-Übung ist die **Integration von PC, ROM und Ausführungsstufe** in `cpu4_top`. Der Top-Level enthält noch einen Platzhalter: `make test_cpu4` und `make test` sollen bis zur Implementierung fehlschlagen. `make test_completed` prüft weiterhin nur die fertiggestellten Module.
+**Stand:** Die erste integrierte **4-Bit-CPU** aus PC, ROM und Befehlsausführung ist abgeschlossen. Die CPU4-Testbench hat lokal **6.278/6.278 Zustandsvergleiche** bestanden, ebenso die vollständige Regression aller 18 Testprogramme. `make test_completed` enthält nun auch `test_cpu4`; die nächste ISA-Erweiterung ist noch nicht festgelegt.
 
 **Synthese-Einstieg:** `make synth_alu4` startet Yosys nach dem Swim-Build und schreibt einen Bericht nach `logic_basics/build/alu4_synth.log`. Die Zahlen beschreiben eine generische, optimierte Gatternetzliste, noch keine konkrete FPGA-Ressourcenbelegung. Mit `make compare_alu4` werden beide ALU-Varianten unter identischen Syntheseschritten einschließlich `synth -flatten` verglichen. Neben den Zellzahlen zeigt `ltp -noff` die längsten Logikpfade als Stufenzahl an. Das sind keine physikalischen Laufzeiten. Näheres steht in den [ALU-Lernnotizen](logic_basics/docs/alu4.md).
 
@@ -158,8 +158,9 @@ Die internen Spade-Importe nutzen `lib::foundations::...` bzw.
 
 Im Repository-Root als VS-Code-Workspace: `Cmd+Shift+P` (macOS) bzw.
 `Ctrl+Shift+P` (Linux), dann **Tasks: Run Test Task** ausführen.
-Der Standard-Testtask heißt **HDL: Aktuelle Übung (4-Bit-CPU)**
-und führt `nix develop --command make test_cpu4` aus.
+Der Standard-Testtask heißt vorläufig **HDL: CPU4 (abgeschlossen)**
+und führt `nix develop --command make test_cpu4` aus. Beim Start der nächsten
+Übung wird er auf das neue Testziel umgestellt.
 
 Unter **Tasks: Run Task** gibt es außerdem **HDL: Einzeltest auswählen**
 (mit Auswahl aller vorhandenen Make-Testtargets) und **HDL: Alle Tests (Nix)**
@@ -173,7 +174,7 @@ Der Einstieg in Maschinenbefehle und Decoder steht unter [`logic_basics/docs/dec
 Die Befehlsausführungsstufe und das erste Emulator-Referenzmodell stehen unter [`logic_basics/docs/instruction_exec6.md`](logic_basics/docs/instruction_exec6.md).
 Der Einstieg in den Programmzähler steht unter [`logic_basics/docs/pc4.md`](logic_basics/docs/pc4.md).
 Die ROM-Theorie und abgeschlossene Spade-Übung stehen unter [`logic_basics/docs/rom16x6.md`](logic_basics/docs/rom16x6.md).
-Die neue CPU-Integrationsübung mit Timing und Softwaremodell steht unter [`logic_basics/docs/cpu4.md`](logic_basics/docs/cpu4.md).
+Die abgeschlossene CPU-Integrationsübung mit Timing und Softwaremodell steht unter [`logic_basics/docs/cpu4.md`](logic_basics/docs/cpu4.md).
 
 ## Neues Projekt
 
