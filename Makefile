@@ -8,7 +8,11 @@ SPADE_DIR := logic_basics
 SPADE_BUILD := $(SPADE_DIR)/build
 SPADE_SRC := $(SPADE_DIR)/src
 SPADE_SOURCES := $(shell find $(SPADE_SRC) -type f -name '*.spade' | sort)
-TOOLCHAIN_INPUTS := Makefile flake.nix flake.lock $(SPADE_DIR)/swim.toml $(SPADE_DIR)/swim.lock
+# Nur tatsaechliche Build-Eingaben als Abhaengigkeiten auffuehren.
+# Aenderungen an diesem Makefile (z. B. neue Test-Targets) loesen damit
+# keinen kompletten Neubau aus. Nach Aenderungen an Compiler-Flags oder
+# Verilator-/Swim-Aufrufen explizit "make clean" verwenden.
+TOOLCHAIN_INPUTS := flake.nix flake.lock $(SPADE_DIR)/swim.toml $(SPADE_DIR)/swim.lock
 FOUNDATIONS_COMMON := $(SPADE_SRC)/main.spade $(SPADE_SRC)/foundations/main.spade
 CPU_COMMON := $(SPADE_SRC)/main.spade $(SPADE_SRC)/cpu/main.spade
 
