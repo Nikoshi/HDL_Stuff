@@ -7,5 +7,22 @@ pub entity rom16x6_top(
     instruction: inv uint<6>
 ) {
     // Platzhalter: Für die Übung die gesamte ROM-Wahrheitstabelle ergänzen.
-    set instruction = 0u6;
+    set instruction = match address {
+        0 => 0b10_0101u6,
+        1 => 0b00_1011u6,
+        2 => 0b11_0111u6,
+        3 => 0b01_0011u6,
+        4 => 0b00_0001u6,
+        5 => 0b11_1111u6,
+        6 => 0b10_1000u6,
+        7 => 0b01_0110u6,
+        8 => 0b00_1110u6,
+        9 => 0b11_0010u6,
+       10 => 0b10_0100u6,
+       11 => 0b00_0011u6,
+       12 => 0b01_1001u6,
+       13 => 0b11_1011u6,
+       14 => 0b10_0010u6,
+       15 => 0b00_0101u6
+    };
 }
