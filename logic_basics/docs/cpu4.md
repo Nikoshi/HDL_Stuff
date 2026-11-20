@@ -120,26 +120,42 @@ use lib::cpu::rom16x6;
 use lib::cpu::instruction_exec6;
 ```
 
-Die **Argumentreihenfolge** der vorhandenen Entities:
+Die **Portnamen** der drei vorhandenen Entities sind:
 
-```text
-pc4_top(clk, rst, advance, jump, target, pc)
-rom16x6_top(address, instruction)
-instruction_exec6_top(clk, rst, enable, instruction, q)
-```
+| Entity | Eingänge | `inv`-Ausgang |
+|---|---|---|
+| `pc4_top` | `clk`, `rst`, `advance`, `jump`, `target` | `pc` |
+| `rom16x6_top` | `address` | `instruction` |
+| `instruction_exec6_top` | `clk`, `rst`, `enable`, `instruction` | `q` |
 
-Mit der im Projekt gepinnten Spade-Version verwenden wir für
-`inst` Positionsargumente. Zur Verbindung eines `inv`-Ausgangs
-mit einem lesbaren Signal dient wieder `port()`, zum Beispiel:
+Der in `swim.lock` gepinnte Spade-Parser unterstützt für `inst`
+**benannte Portverbindungen mit geschweiften Klammern**. Diese
+Schreibweise verwenden wir für den neuen CPU-Top-Level:
 
 ```spade
-// Unabhängiges Muster für eine Verbindung:
-let (received_value, output_wire) = port();
+// Einzelbeispiel für die Syntax, noch keine vollständige CPU:
+// 'some_address' steht hier für ein lesbares 4-Bit-Signal.
+let (rom_word, rom_wire) = port();
+let _ = inst rom16x6::rom16x6_top {
+    address: some_address,
+    instruction: rom_wire
+};
 ```
 
-`received_value` ist die **lesbare** Seite;
-`output_wire` wird als Argument an den `inv`-Port
-einer Unter-Entity übergeben.
+Links vom Doppelpunkt steht der **Portname der Unter-Entity**,
+rechts das **anzuschließende Signal**. Bei identischem Namen
+kann Spade auch die Kurzschreibweise `clk` statt `clk: clk`
+verwenden. Benannte Ports sind von der Reihenfolge unabhängig.
+
+Zur Verbindung eines `inv`-Ausgangs mit einem lesbaren Signal
+dient `port()`: `rom_word` ist die lesbare Seite;
+`rom_wire` wird an den `inv`-Port `instruction` übergeben.
+
+Positionsargumente in `(...)` und benannte Argumente mit
+`$(...)` sind im gepinnten Parser ebenfalls vorgesehen.
+Die vermeintlich modernere Schreibweise
+`inst ... (port: signal)` ist dagegen für diesen Compilerstand
+nicht geeignet.
 
 Eine mögliche gedankliche Zerlegung deiner Aufgabe:
 
