@@ -1,0 +1,6 @@
+{
+  "recommendations": [
+    "spade-lang.spade-syntax",
+    "Mechazawa.vscode-spade-lsp"
+  ]
+}
