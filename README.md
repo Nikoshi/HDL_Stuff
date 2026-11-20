@@ -83,7 +83,7 @@ Im Repository-Root innerhalb der Nix-Dev-Shell:
 
 ```sh
 make logic_basics      # Spade-Code übersetzen
-make test              # Alle derzeitigen Tests
+make test              # Alle Tests inkl. aktueller CPU-TDD-Übung
 make clean             # Build-Artefakte und VCD-Traces löschen
 make test_completed    # Nur bereits abgeschlossene Übungen prüfen
 make test_mux          # Nur den Multiplexer testen
@@ -103,6 +103,7 @@ make test_decoder6      # 6-Bit-Decoder testen
 make test_instruction_exec6 # Befehle in Hardware und Emulator vergleichen
 make test_pc4          # 4-Bit-Programmzähler testen
 make test_rom16x6       # 16x6-Bit-Programmspeicher testen
+make test_cpu4          # CPU-Verbindung von PC, ROM und Execute testen
 make synth_alu4         # ALU mit Yosys analysieren (optionaler Einstieg)
 make compare_alu4       # Beide ALUs mit Yosys vergleichen
 ```
@@ -122,7 +123,7 @@ wie `flake.lock` oder `swim.lock` werden weiterhin automatisch berücksichtigt.
 VCD-Dateien; der nächste Testlauf baut anschließend alles frisch.
 `make help` listet alle verfügbaren Targets.
 
-**Stand:** Akkumulator, Decoder, Befehlsausführungsstufe, 4-Bit-Programmzähler und kombinatorischer **16x6-Bit-ROM** sind implementiert. Für den ROM wurden **608/608 Prüfungen** als bestanden gemeldet. Der Test ist nun auch in `make test_completed` enthalten. Die nächste Übung wird die Verbindung von PC, ROM und Ausführungsstufe behandeln.
+**Stand:** Die bestehenden CPU-Bausteine einschließlich PC und ROM sind abgeschlossen. Die aktuelle TDD-Übung ist die **Integration von PC, ROM und Ausführungsstufe** in `cpu4_top`. Der Top-Level enthält noch einen Platzhalter: `make test_cpu4` und `make test` sollen bis zur Implementierung fehlschlagen. `make test_completed` prüft weiterhin nur die fertiggestellten Module.
 
 **Synthese-Einstieg:** `make synth_alu4` startet Yosys nach dem Swim-Build und schreibt einen Bericht nach `logic_basics/build/alu4_synth.log`. Die Zahlen beschreiben eine generische, optimierte Gatternetzliste, noch keine konkrete FPGA-Ressourcenbelegung. Mit `make compare_alu4` werden beide ALU-Varianten unter identischen Syntheseschritten einschließlich `synth -flatten` verglichen. Neben den Zellzahlen zeigt `ltp -noff` die längsten Logikpfade als Stufenzahl an. Das sind keine physikalischen Laufzeiten. Näheres steht in den [ALU-Lernnotizen](logic_basics/docs/alu4.md).
 
@@ -143,7 +144,8 @@ logic_basics/
 │       ├── decoder6.spade
 │       ├── instruction_exec6.spade
 │       ├── pc4.spade
-│       └── rom16x6.spade
+│       ├── rom16x6.spade
+│       └── cpu4.spade
 ├── test/                          # Verilator-C++-Tests und Software-Referenzmodell
 ├── docs/                          # Lernnotizen und Spezifikationen
 └── scripts/                       # Auswertung der Yosys-Logs
@@ -156,8 +158,8 @@ Die internen Spade-Importe nutzen `lib::foundations::...` bzw.
 
 Im Repository-Root als VS-Code-Workspace: `Cmd+Shift+P` (macOS) bzw.
 `Ctrl+Shift+P` (Linux), dann **Tasks: Run Test Task** ausführen.
-Der Standard-Testtask heißt **HDL: Aktuelle Übung (16x6-Bit-ROM)**
-und führt `nix develop --command make test_rom16x6` aus.
+Der Standard-Testtask heißt **HDL: Aktuelle Übung (4-Bit-CPU)**
+und führt `nix develop --command make test_cpu4` aus.
 
 Unter **Tasks: Run Task** gibt es außerdem **HDL: Einzeltest auswählen**
 (mit Auswahl aller vorhandenen Make-Testtargets) und **HDL: Alle Tests (Nix)**
@@ -171,6 +173,7 @@ Der Einstieg in Maschinenbefehle und Decoder steht unter [`logic_basics/docs/dec
 Die Befehlsausführungsstufe und das erste Emulator-Referenzmodell stehen unter [`logic_basics/docs/instruction_exec6.md`](logic_basics/docs/instruction_exec6.md).
 Der Einstieg in den Programmzähler steht unter [`logic_basics/docs/pc4.md`](logic_basics/docs/pc4.md).
 Die ROM-Theorie und abgeschlossene Spade-Übung stehen unter [`logic_basics/docs/rom16x6.md`](logic_basics/docs/rom16x6.md).
+Die neue CPU-Integrationsübung mit Timing und Softwaremodell steht unter [`logic_basics/docs/cpu4.md`](logic_basics/docs/cpu4.md).
 
 ## Neues Projekt
 
