@@ -1,3 +1,7 @@
+use lib::cpu::pc4;
+use lib::cpu::rom16x6;
+use lib::cpu::instruction_exec6;
+
 // Top-Level der ersten programmierbaren 4-Bit-CPU.
 // TODO (TDD): Bestehende Entities PC, ROM und Execute hier verbinden.
 // Der Top-Level soll selbst keine zusaetzlichen Register enthalten.
@@ -12,8 +16,36 @@ pub entity cpu4_top(
     instruction: inv uint<6>,
     acc: inv uint<4>
 ) {
+
+    let (curr_pc, pc_wire) = port();
+    let (curr_instr, instr_wire) = port();
+    let (curr_acc, acc_wire) = port();
+
+    let _ = inst pc4::pc4_top {
+        clk,
+        rst,
+        advance,
+        jump,
+        target,
+        pc: pc_wire
+    };
+
+    let _ = inst rom16x6::rom16x6_top {
+        address: curr_pc,
+        instruction: instr_wire
+    };
+
+    let _ = inst instruction_exec6::instruction_exec6_top {
+        clk,
+        rst,
+        enable: advance,
+        instruction: curr_instr,
+        q: acc_wire
+    };
+
+
     // Platzhalter: Die drei Bausteine sind noch nicht miteinander verbunden.
-    set pc = 0u4;
-    set instruction = 0u6;
-    set acc = 0u4;
+    set pc = curr_pc;
+    set instruction = curr_instr;
+    set acc = curr_acc;
 }
