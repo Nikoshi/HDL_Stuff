@@ -1,0 +1,19 @@
+// Top-Level der ersten programmierbaren 4-Bit-CPU.
+// TODO (TDD): Bestehende Entities PC, ROM und Execute hier verbinden.
+// Der Top-Level soll selbst keine zusaetzlichen Register enthalten.
+#[no_mangle(all)]
+pub entity cpu4_top(
+    clk: clock,
+    rst: bool,
+    advance: bool,
+    jump: bool,
+    target: uint<4>,
+    pc: inv uint<4>,
+    instruction: inv uint<6>,
+    acc: inv uint<4>
+) {
+    // Platzhalter: Die drei Bausteine sind noch nicht miteinander verbunden.
+    set pc = 0u4;
+    set instruction = 0u6;
+    set acc = 0u4;
+}
