@@ -163,9 +163,9 @@ bleiben.
 
 Im Repository-Root als VS-Code-Workspace: `Cmd+Shift+P` (macOS) bzw.
 `Ctrl+Shift+P` (Linux), dann **Tasks: Run Test Task** ausführen.
-Der Standard-Testtask heißt vorläufig **HDL: CPU4 (abgeschlossen)**
-und führt `nix develop --command make test_cpu4` aus. Beim Start der nächsten
-Übung wird er auf das neue Testziel umgestellt.
+Der Standard-Testtask heißt **HDL: Aktuelle Übung (CPU-v2-ISA-Demo)**
+und führt `nix develop --command make demo_cpu_v2` aus. Er prüft ausschließlich
+den C++-Emulator; ein CPU-v2-Spade-Modul existiert noch nicht.
 
 Unter **Tasks: Run Task** gibt es außerdem **HDL: Einzeltest auswählen**
 (mit Auswahl aller vorhandenen Make-Testtargets) und **HDL: Alle Tests (Nix)**
