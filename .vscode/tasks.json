@@ -2,14 +2,14 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "HDL: Aktuelle Übung (16x6-Bit-ROM)",
+      "label": "HDL: Aktuelle Übung (4-Bit-CPU)",
       "type": "shell",
       "command": "nix",
       "args": [
         "develop",
         "--command",
         "make",
-        "test_rom16x6"
+        "test_cpu4"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -138,6 +138,10 @@
       "description": "Welchen HDL-Test möchtest du ausführen?",
       "options": [
         {
+          "label": "4-Bit-CPU (PC, ROM, Execute)",
+          "value": "test_cpu4"
+        },
+        {
           "label": "Programmspeicher (ROM 16x6 Bit)",
           "value": "test_rom16x6"
         },
@@ -206,7 +210,7 @@
           "value": "test_mux"
         }
       ],
-      "default": "test_rom16x6"
+      "default": "test_cpu4"
     }
   ]
 }
