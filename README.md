@@ -104,7 +104,8 @@ make test_instruction_exec6 # Befehle in Hardware und Emulator vergleichen
 make test_pc4          # 4-Bit-Programmzähler testen
 make test_rom16x6       # 16x6-Bit-Programmspeicher testen
 make test_cpu4          # CPU-Verbindung von PC, ROM und Execute testen
-make test_decoder8      # Aktuelle Übung: 8-Bit-Befehl in zwei Nibbles zerlegen
+make test_decoder8      # Abgeschlossener 8-Bit-Felddecoder
+make test_control8      # Aktuelle Übung: Opcode in Steuersignale übersetzen
 make demo_cpu_v2       # CPU-v2-ISA mit Countdown/LED-Alarm im C++-Modell testen
 make synth_alu4         # ALU mit Yosys analysieren (optionaler Einstieg)
 make compare_alu4       # Beide ALUs mit Yosys vergleichen
@@ -125,7 +126,7 @@ wie `flake.lock` oder `swim.lock` werden weiterhin automatisch berücksichtigt.
 VCD-Dateien; der nächste Testlauf baut anschließend alles frisch.
 `make help` listet alle verfügbaren Targets.
 
-**Stand:** Die erste integrierte **4-Bit-CPU** aus PC, ROM und Befehlsausführung ist abgeschlossen. Die CPU4-Testbench hat lokal **6.278/6.278 Zustandsvergleiche** bestanden, ebenso die vollständige Regression aller 18 Testprogramme. `make test_completed` enthält nun auch `test_cpu4`. Für **CPU v2** liegen ein ISA-Entwurf und der getestete Software-Praxistest mit Countdown/LED-Alarm vor (`make demo_cpu_v2`). **Aktuelle offene TDD-Übung:** der kombinatorische 8-Bit-Felddecoder in `src/cpu_v2/decoder8.spade`. Sein Null-Platzhalter soll `make test_decoder8` zunächst **nicht** bestehen; `make test_completed` prüft weiterhin ausschließlich die 18 fertigen Testprogramme.
+**Stand:** Die erste integrierte **4-Bit-CPU** aus PC, ROM und Befehlsausführung ist abgeschlossen. Die CPU4-Testbench hat lokal **6.278/6.278 Zustandsvergleiche** bestanden, ebenso die vollständige Regression aller 18 Testprogramme. `make test_completed` enthält nun auch `test_cpu4`. Für **CPU v2** liegen ein ISA-Entwurf und der getestete Software-Praxistest mit Countdown/LED-Alarm vor (`make demo_cpu_v2`). **CPU-v2-Decoder abgeschlossen:** Der lokale Lauf mit `make test_decoder8` ergab **384/384** bestandene Vergleiche; zusammen mit CPU v1 sind damit **19 Hardware-Testprogramme** fertig. **Aktuelle offene TDD-Übung:** `control8_top` unter `src/cpu_v2/control8.spade`. Sein NOP-Platzhalter soll `make test_control8` zunächst **nicht** bestehen; `make test_completed` enthält nur abgeschlossene Hardware-Tests.
 
 **Synthese-Einstieg:** `make synth_alu4` startet Yosys nach dem Swim-Build und schreibt einen Bericht nach `logic_basics/build/alu4_synth.log`. Die Zahlen beschreiben eine generische, optimierte Gatternetzliste, noch keine konkrete FPGA-Ressourcenbelegung. Mit `make compare_alu4` werden beide ALU-Varianten unter identischen Syntheseschritten einschließlich `synth -flatten` verglichen. Neben den Zellzahlen zeigt `ltp -noff` die längsten Logikpfade als Stufenzahl an. Das sind keine physikalischen Laufzeiten. Näheres steht in den [ALU-Lernnotizen](logic_basics/docs/alu4.md).
 
@@ -150,7 +151,8 @@ logic_basics/
 │       └── cpu4.spade
 │   └── cpu_v2/
 │       ├── main.spade              # CPU-v2-Modulregistrierung
-│       ├── decoder8.spade          # Aktueller TDD-Platzhalter
+│       ├── decoder8.spade          # Abgeschlossener Felddecoder
+│       ├── control8.spade          # Aktueller TDD-Platzhalter
 │       └── README.md              # CPU-v2-Struktur und Regeln
 ├── test/                          # Verilator-C++-Tests und Software-Referenzmodell
 ├── docs/                          # Lernnotizen und Spezifikationen
@@ -158,7 +160,7 @@ logic_basics/
 ```
 
 Die drei Modulgruppen heißen `lib::foundations::...`, `lib::cpu::...`
-und `lib::cpu_v2::...`. Letztere enthält zunächst nur `decoder8_top`.
+und `lib::cpu_v2::...`. Dort gibt es nun den abgeschlossenen `decoder8_top` und den noch offenen `control8_top`.
 Durch die einmalige Ergänzung in `src/main.spade` kann ein initialer
 Neubau bereits vorhandener Verilator-Test-Binaries nötig sein; spätere
 Änderungen ausschließlich an `decoder8.spade` invalidieren diese Binaries
@@ -168,9 +170,9 @@ nicht erneut.
 
 Im Repository-Root als VS-Code-Workspace: `Cmd+Shift+P` (macOS) bzw.
 `Ctrl+Shift+P` (Linux), dann **Tasks: Run Test Task** ausführen.
-Der Standard-Testtask heißt **HDL: Aktuelle Übung (8-Bit-Decoder)**
-und führt `nix develop --command make test_decoder8` aus. Die ISA-Demo
-bleibt über die Einzelauswahl und `make demo_cpu_v2` verfügbar.
+Der Standard-Testtask heißt **HDL: Aktuelle Übung (CPU-v2-Steuerdecoder)**
+und führt `nix develop --command make test_control8` aus. Die ISA-Demo
+und der fertige Felddecoder bleiben über die Einzelauswahl verfügbar.
 
 Unter **Tasks: Run Task** gibt es außerdem **HDL: Einzeltest auswählen**
 (mit Auswahl aller vorhandenen Make-Testtargets) und **HDL: Alle Tests (Nix)**
@@ -185,7 +187,7 @@ Die Befehlsausführungsstufe und das erste Emulator-Referenzmodell stehen unter 
 Der Einstieg in den Programmzähler steht unter [`logic_basics/docs/pc4.md`](logic_basics/docs/pc4.md).
 Die ROM-Theorie und abgeschlossene Spade-Übung stehen unter [`logic_basics/docs/rom16x6.md`](logic_basics/docs/rom16x6.md).
 Die abgeschlossene CPU-Integrationsübung mit Timing und Softwaremodell steht unter [`logic_basics/docs/cpu4.md`](logic_basics/docs/cpu4.md).
-Der **CPU-v2-Entwurf** für 4-Bit-Daten und 8-Bit-Befehle steht unter [`logic_basics/docs/cpu_v2/isa.md`](logic_basics/docs/cpu_v2/isa.md). Das aktuelle Kapitel zum [8-Bit-Felddecoder und zur späteren Steuerlogik](logic_basics/docs/cpu_v2/decoder8.md) sowie die [neue Quellcode-Struktur](logic_basics/src/cpu_v2/) sind getrennt dokumentiert.
+Der **CPU-v2-Entwurf** für 4-Bit-Daten und 8-Bit-Befehle steht unter [`logic_basics/docs/cpu_v2/isa.md`](logic_basics/docs/cpu_v2/isa.md). Der abgeschlossene [8-Bit-Felddecoder](logic_basics/docs/cpu_v2/decoder8.md), das neue Kapitel zur [CPU-v2-Steuerlogik](logic_basics/docs/cpu_v2/control8.md) und die [neue Quellcode-Struktur](logic_basics/src/cpu_v2/) sind getrennt dokumentiert.
 
 ## Neues Projekt
 
