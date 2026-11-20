@@ -2,14 +2,14 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "HDL: Aktuelle Übung (4-Bit-Programmzähler)",
+      "label": "HDL: Aktuelle Übung (16x6-Bit-ROM)",
       "type": "shell",
       "command": "nix",
       "args": [
         "develop",
         "--command",
         "make",
-        "test_pc4"
+        "test_rom16x6"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -138,6 +138,10 @@
       "description": "Welchen HDL-Test möchtest du ausführen?",
       "options": [
         {
+          "label": "Programmspeicher (ROM 16x6 Bit)",
+          "value": "test_rom16x6"
+        },
+        {
           "label": "Programmzähler (4 Bit)",
           "value": "test_pc4"
         },
@@ -202,7 +206,7 @@
           "value": "test_mux"
         }
       ],
-      "default": "test_pc4"
+      "default": "test_rom16x6"
     }
   ]
 }
