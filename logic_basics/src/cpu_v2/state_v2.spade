@@ -1,0 +1,33 @@
+// CPU v2: PC und ACC als zwei Register mit gemeinsamem Takt.
+// Vorhandene Steuerlogik und ALU-Ergebnis werden als Eingänge bereitgestellt.
+// TODO: ACC-Datenquelle, bedingte Sprünge und PC-Modus implementieren.
+#[no_mangle(all)]
+pub entity cpu_v2_state_top(
+    clk: clock,
+    rst: bool,
+    advance: bool,
+    immediate: uint<4>,
+    alu_result: uint<4>,
+    acc_write: bool,
+    acc_from_imm: bool,
+    pc_mode: uint<2>,
+    pc: inv uint<4>,
+    acc: inv uint<4>
+) {
+    // Absichtlich unvollständig: nur sequentieller PC und ALU-Schreiben.
+    // Reset und Pause sind bereits umgesetzt, damit der Stub kompiliert.
+    reg(clk) pc_reg: uint<4> reset(rst: 0) = if advance {
+        pc_reg +. 1
+    } else {
+        pc_reg
+    };
+
+    reg(clk) acc_reg: uint<4> reset(rst: 0) = if advance && acc_write {
+        alu_result
+    } else {
+        acc_reg
+    };
+
+    set pc = pc_reg;
+    set acc = acc_reg;
+}
