@@ -68,6 +68,27 @@
       "problemMatcher": []
     },
     {
+      "label": "HDL: Abgeschlossene Tests (Nix)",
+      "type": "shell",
+      "command": "nix",
+      "args": [
+        "develop",
+        "--command",
+        "make",
+        "test_completed"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "HDL: ALU-Synthese (Yosys)",
       "type": "shell",
       "command": "nix",
