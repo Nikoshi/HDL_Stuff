@@ -1,0 +1,18 @@
+// Kombinatorische Steuersignale fuer die 8-Bit-ISA der CPU v2.
+// TODO: Den Opcode gemaess der Tabelle in docs/cpu_v2/control8.md decodieren.
+// Dieser Baustein speichert keine Zustaende und fuehrt keine ALU-Operation aus.
+#[no_mangle(all)]
+pub entity control8_top(
+    opcode: uint<4>,
+    acc_write: inv bool,
+    acc_from_imm: inv bool,
+    alu_op: inv uint<2>,
+    pc_mode: inv uint<2>
+) {
+    // Noch keine Opcodedecodierung: sichere NOP-Standardwerte.
+    // Der TDD-Test muss fuer andere Befehle zunaechst fehlschlagen.
+    set acc_write = false;
+    set acc_from_imm = false;
+    set alu_op = 0u2;
+    set pc_mode = 0u2;
+}
