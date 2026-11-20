@@ -1,6 +1,6 @@
-# CPU v2, Kapitel V: Felddecoder und Steuerbefehle
+# CPU v2, Kapitel V: Felddecoder und Steuerbefehle (abgeschlossen)
 
-**Status:** Offene Spade-TDD-Übung. Die erste CPU-Generation bleibt unverändert.
+**Status:** Abgeschlossen. Der lokale Testlauf wurde mit **384/384 Vergleichen bestanden** gemeldet. Die erste CPU-Generation bleibt unverändert.
 
 ## 1. Lernziel: Zwei Aufgaben nicht vermischen
 
@@ -108,10 +108,7 @@ oder der ACC beschrieben wird. Entscheidend ist `acc_write`.
 `acc_from_imm` wird nur bei LDI benötigt. Bei JMP/JZ
 verwendet dagegen die **PC-Steuerung** das Immediate als Adresse.
 
-Die reservierten acht Opcodes bekommen in diesem Kapitel
-**noch keine** Steuersignalwerte. Bevor wir `control8` testen,
-müssen wir entscheiden, ob sie etwa als NOP behandelt oder
-ausdrücklich als ungültig erkannt werden sollen.
+Für die nächste Stufe haben wir uns auf einen **sicheren Standard** geeinigt: Die acht reservierten Opcodes erzeugen dieselben Steuersignale wie NOP (`acc_write=0`, `acc_from_imm=0`, `alu_op=00`, `pc_mode=00`). Sie bleiben für spätere ISA-Erweiterungen reserviert, führen in der jetzigen Hardware aber keine Zustandsänderung am ACC aus; der PC zählt normal weiter. Siehe [Kapitel VI](control8.md).
 
 ### Was gehört nicht in `control8`?
 
@@ -128,13 +125,9 @@ nicht in den reinen Felddecoder.
 
 ## 4. Eigene Spade-Aufgabe
 
-Der Platzhalter in `decoder8.spade` gibt absichtlich nur
-Nullen aus. Er ist die einzige Spade-Datei, die du in diesem
-Kapitel fertigstellen musst. Nutze bei Bedarf die Sprachmittel
-aus `decoder6.spade`, aber kopiere nicht dessen 6-Bit-Breiten.
-
-Noch **nicht** implementieren: ROM, `control8`, Sprunglogik,
-neuen ACC oder vollständigen `cpu_v2_top`.
+Die fertig implementierte `decoder8_top` verwendet `as_bits()` und
+`as_uint()`, um die beiden Nibbles ohne weitere Logik auszugeben.
+Als nächste Übung folgt die getrennte Steuerlogik `control8`.
 
 ## 5. TDD und Simulation
 
@@ -151,24 +144,22 @@ Der unabhängige C++-Test `logic_basics/test/decoder8.cc` prüft:
 - **128** weitere nicht-monotone Eingabewechsel ohne Takt,
   um unerwünschte gespeicherte Zustände aufzudecken.
 
-Insgesamt: **384 Vergleiche**. Der aktuelle Null-Platzhalter
-soll diesen Test **nicht** bestehen.
+Insgesamt: **384 Vergleiche**. Der frühere Null-Platzhalter wurde
+ersetzt; der Nutzer hat **384/384 bestandene Tests** gemeldet.
 
 VCD-Trace: `logic_basics/build/decoder8.vcd`.
 
-`make test_completed` prüft weiterhin nur die abgeschlossenen
-18 bestehenden Tests, während `make test` bewusst auch die
-offene Aufgabe einbezieht.
+`make test_completed` enthält jetzt auch den abgeschlossenen `decoder8`-Test.
+Die nächste offene Aufgabe (`control8`) läuft über `make test_control8`.
 
 Für unser Countdown-/LED-Alarm-Programm bleibt zusätzlich
 `make demo_cpu_v2` als getrenntes Softwaremodell verfügbar.
 
 ## 6. Ausblick
 
-Wenn der Felddecoder funktioniert, können wir mit der
-Tabelle aus Abschnitt 3 eine `control8`-Entity entwerfen
-und unabhängig testen. Erst dann verbinden wir deren
-Signale mit ACC und PC.
+Als nächstes implementieren und testen wir die
+[Steuerlogik `control8`](control8.md). Erst danach
+verbinden wir ihre Signale mit ACC und PC.
 
 Das vollständige Demo-Programm steht im
 [ISA-Entwurf](isa.md#5-isa-praxistest-countdown-mit-led-alarm).
