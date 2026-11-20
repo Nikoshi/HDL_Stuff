@@ -1,0 +1,11 @@
+// Kombinatorischer 16x6-Bit-Programmspeicher unserer Lern-CPU.
+// TODO (TDD): Die feste Zuordnung aus docs/rom16x6.md umsetzen.
+// Keine Register und kein Takt: Die Ausgabe folgt der Adresse.
+#[no_mangle(all)]
+pub entity rom16x6_top(
+    address: uint<4>,
+    instruction: inv uint<6>
+) {
+    // Platzhalter: Für die Übung die gesamte ROM-Wahrheitstabelle ergänzen.
+    set instruction = 0u6;
+}
