@@ -50,10 +50,11 @@ als eigene Hardwarehierarchie nachzubauen.
 Damit sind zunächst **acht Befehle** definiert; acht weitere
 Codierungen bleiben für spätere Aufgaben frei.
 
-**Wichtig:** Reservierte Werte haben noch keine festgelegte
-Ausführungssemantik. Die ersten CPU-v2-Programme und Tests verwenden
-nur definierte Opcodes. Vor einer vollständigen Decoder-Testbench
-legen wir das Verhalten ungültiger Opcodes ausdrücklich fest.
+**Wichtig:** Die acht reservierten Opcodes sind weiterhin nicht als
+Maschinenbefehle definiert. Bis sie eine eigene Bedeutung bekommen,
+erzeugt `control8` für sie die sicheren **NOP-Steuersignale**:
+ACC halten, PC normal weiterzählen. Die aktuelle Demo verwendet
+nur die acht benannten Befehle.
 
 ## 3. Was an einer Taktflanke geschehen soll
 
@@ -166,15 +167,16 @@ und als LED-Ausgabe. Ein späteres `OUT`-Kommando oder ein
 separates Ausgaberegister könnte beide Aufgaben trennen.
 Für dieses erste Demo ist die direkte ACC-Beobachtung beabsichtigt.
 
-Die Ausführung reservierter Opcodes bleibt absichtlich
-unspezifiziert. Der Demo-Emulator meldet sie als Fehler, damit
-sich nicht versehentlich neue Befehlssemantik einschleicht.
+Der Demo-Emulator meldet reservierte Opcodes weiterhin als
+Programmierfehler; `control8` verwendet für sie dagegen
+sichere NOP-Steuersignale. Das trennt die Software-Regel
+(keine ungültigen Programme) vom Hardware-Fallback.
 
 ## 6. Mögliche nächste Übungen
 
-1. **Aktuelle Aufgabe:** [`decoder8` als rein kombinatorischen Felddecoder implementieren](decoder8.md), mit 384 unabhängigen Vergleichen.
-2. Vor dem `control8`-Test die Behandlung reservierter Opcode-Werte festlegen.
-3. ACC-/PC-Steuerlogik aus der neuen Steuersignaltabelle ableiten.
+1. **Abgeschlossen:** [`decoder8` als kombinatorischer Felddecoder](decoder8.md), 384/384 gemeldete Vergleiche.
+2. **Aktuelle Aufgabe:** [`control8` mit der Steuersignal-Wahrheitstabelle](control8.md), inklusive sicherem NOP-Fallback.
+3. ACC-/PC-Zustandsübergänge aus den Steuersignalen ableiten.
 4. ROM 16×8 mit dem Countdown- und LED-Alarm-Programm bauen.
 5. Eigenständigen `cpu_v2_top` verbinden und gegen einen neuen Emulator testen.
 
