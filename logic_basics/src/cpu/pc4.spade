@@ -10,8 +10,15 @@ pub entity pc4_top(
     target: uint<4>,
     pc: inv uint<4>
 ) {
+
     // Platzhalter: Der PC wird zunächst nur auf 0 gehalten.
-    reg(clk) current: uint<4> reset(rst: 0) = 0u4;
+    reg(clk) current: uint<4> reset(rst: 0) = if advance && jump {
+        target
+    } else if advance && !jump {
+        current +. 1
+    } else {
+        current
+    };
 
     set pc = current;
 }
