@@ -2,14 +2,14 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "HDL: Aktuelle Übung (CPU-v2-ISA-Demo)",
+      "label": "HDL: Aktuelle Übung (8-Bit-Decoder)",
       "type": "shell",
       "command": "nix",
       "args": [
         "develop",
         "--command",
         "make",
-        "demo_cpu_v2"
+        "test_decoder8"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -138,6 +138,10 @@
       "description": "Welchen HDL-Test möchtest du ausführen?",
       "options": [
         {
+          "label": "CPU v2: 8-Bit-Decoder (aktuelle Übung)",
+          "value": "test_decoder8"
+        },
+        {
           "label": "CPU v2: ISA-Demo (Softwaremodell)",
           "value": "demo_cpu_v2"
         },
@@ -214,7 +218,7 @@
           "value": "test_mux"
         }
       ],
-      "default": "demo_cpu_v2"
+      "default": "test_decoder8"
     }
   ]
 }
