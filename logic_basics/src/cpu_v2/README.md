@@ -15,7 +15,7 @@ src/cpu_v2/
 ├── README.md        # Architektur und Abgrenzung (bereits vorhanden)
 ├── main.spade       # Modulregistrierung (vorhanden)
 ├── decoder8.spade   # 8-Bit-Felddecoder (abgeschlossen)
-├── control8.spade   # Kombinatorische Steuersignale (offene TDD-Übung)
+├── control8.spade   # Fertige fn fuer die Steuerlogik + Testhülle
 ├── rom16x8.spade    # 16 feste 8-Bit-Befehle (geplant)
 └── cpu_v2.spade     # Neuer CPU-Top-Level (geplant)
 ```
@@ -28,7 +28,10 @@ für die neue Version umgeschrieben.
 Die Spezifikation einschließlich eines konkreten Countdown-/LED-Alarm-Programms
 liegt unter [`docs/cpu_v2/isa.md`](../../docs/cpu_v2/isa.md).
 Der Felddecoder ist abgeschlossen: [`docs/cpu_v2/decoder8.md`](../../docs/cpu_v2/decoder8.md).
-Die aktuelle Übung behandelt die Steuerlogik: [`docs/cpu_v2/control8.md`](../../docs/cpu_v2/control8.md).
+Die ebenfalls abgeschlossene Steuerlogik ist dokumentiert unter
+[`docs/cpu_v2/control8.md`](../../docs/cpu_v2/control8.md). Die wiederverwendbare
+`pub fn decode_control_signals` ist rein kombinatorisch; nur die
+`test_control8_top`-Entity stellt vier Ausgänge für Verilator bereit.
 
 Den geplanten Befehlssatz können wir **vor der Spade-Implementierung**
 mit `make demo_cpu_v2` im Repository-Root ausprobieren. Das eigenständige
@@ -45,7 +48,7 @@ Der Softwaretest ist kein Test einer bereits vorhandenen CPU-v2-Hardware.
 - Neue Aufgaben zunächst anhand von Theorie, unabhängigem Softwaremodell
   und fehlschlagenden Tests beschreiben; die eigentliche Spade-Lösung
   entsteht in der jeweiligen Übung.
-- `src/main.spade` bindet `cpu_v2/main.spade` ein. Der Felddecoder ist
-  abgeschlossen; die offene `control8_top`-Übung soll bei
-  `make test_control8` zunächst fehlschlagen. `make test_completed`
-  enthält ausschließlich abgeschlossene Übungen. CPU v1 bleibt unverändert.
+- `src/main.spade` bindet `cpu_v2/main.spade` ein. Felddecoder und
+  Steuerfunktion sind abgeschlossen; `make test_completed` enthält beide
+  Tests. Die Version mit `fn` und umbenannter Testhülle sollte noch
+  mit `make test_control8` überprüft werden. CPU v1 bleibt unverändert.
