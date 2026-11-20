@@ -1,0 +1,10 @@
+{
+  "spade-lsp.serverCommand": "nix",
+  "spade-lsp.serverArgs": [
+    "develop",
+    "-c",
+    "sh",
+    "-c",
+    "cd logic_basics && exec swim lsp"
+  ]
+}
