@@ -9,7 +9,7 @@ HDL_Stuff ist eine Sammlung kleiner Experimente zu digitalen Schaltungen, HDLs u
 - Verständnis vor Implementierung: zuerst Schaltungsverhalten, Wahrheitstabellen und Hardwarestruktur klären, dann HDL-Code.
 - Lernaufteilung: Der Nutzer implementiert die Spade-Hardware selbst; der Agent pflegt möglichst testgetrieben Wahrheitstabellen, C++-Testbenches, Makefile-Targets, VCD-Tracing und Editor-Konfiguration.
 - Spade-Lösungen nicht vorwegnehmen. Gezielt erklären und Rückfragen zur Hardware stellen; vollständigen Spade-Code nur auf Wunsch oder zur Fehlerbehebung geben.
-- Spade-Beispiele an der gepinnten Compiler-Version ausrichten. Für `inst` funktionieren hier Positionsargumente; die Syntax neuerer Releases nicht ungeprüft übernehmen.
+- Spade-Beispiele an der gepinnten Compiler-Version ausrichten. Für neue `inst`-Aufrufe benannte Ports mit geschweiften Klammern bevorzugen: `inst modul::entity { portname: signal, ... }`. Der gepinnte Parser unterstützt auch Positionsargumente `(...)` und benannte Argumente `$(...)`, aber keine benannten Argumente als `inst modul::entity(portname: signal)`. Bestehende ältere Module nicht allein für den Stilwechsel umbauen.
 - Quellcode übersichtlich halten und Kommentare auf Deutsch schreiben. Kommentare sollen Entscheidungen und nicht offensichtliche Zusammenhänge erklären, keine trivialen Zeilen wiederholen.
 - Simulation, Verifikation, Synthese und Implementierung klar unterscheiden.
 - Kleine, nachvollziehbare Änderungen bevorzugen. Keine unnötigen Abstraktionen oder Frameworks.
