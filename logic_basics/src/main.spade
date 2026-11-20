@@ -1,13 +1,3 @@
-// Swim bindet die Dateien über diese Moduldeklarationen ein.
-mod mux;
-mod adders;
-mod test_tops;
-mod registers;
-mod counters;
-mod shift_registers;
-mod fsm;
-mod alu;
-mod alu_ripple;
-mod accumulator;
-mod decoder6;
-mod instruction_exec6;
+// Grundlagen und CPU-Entwurf werden in getrennten Modulen gepflegt.
+mod foundations;
+mod cpu;

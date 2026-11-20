@@ -1,4 +1,4 @@
-use lib::alu;
+use lib::cpu::alu;
 
 // Erster CPU-Datenpfad: Der gespeicherte ACC-Wert wird als ALU-Eingang
 // verwendet. Ein neues Ergebnis gelangt nur an der Taktflanke ins Register.

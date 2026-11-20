@@ -1,0 +1,8 @@
+// Kombinatorische und sequentielle Grundlagenübungen.
+mod mux;
+mod adders;
+mod test_tops;
+mod registers;
+mod counters;
+mod shift_registers;
+mod fsm;

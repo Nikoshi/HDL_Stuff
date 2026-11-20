@@ -1,4 +1,4 @@
-use lib::adders;
+use lib::foundations::adders;
 
 // Vergleichs-ALU mit selbst aufgebautem Ripple-Carry-Addierer.
 // Diese Variante bleibt als Lernbeispiel und Synthese-Referenz erhalten.

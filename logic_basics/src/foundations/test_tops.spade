@@ -1,5 +1,5 @@
 // Test-Entities: Die #[no_mangle(all)]-Namen sind die Top-Module der C++-Tests.
-use lib::adders;
+use lib::foundations::adders;
 
 // Test-Entity: macht die beiden Rückgabewerte der Funktion als Ports zugänglich.
 #[no_mangle(all)]
