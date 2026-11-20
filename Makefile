@@ -7,7 +7,7 @@ VERILATOR_FLAGS := --quiet-build --quiet-stats --trace-vcd --cc --exe --build
 .PHONY: help logic_basics test test_logic_basics synth_alu4 compare_alu4 test_mux test_half_adder test_full_adder test_add2 test_add4 test_register1 test_register4 test_counter4 test_shift4 test_traffic_light test_alu4 test_alu4_native test_alu4_ripple test_accumulator4 test_decoder6 test_instruction_exec6 test_pc4 test_completed
 
 help:
-	@printf 'Targets:\n  logic_basics       Spade-Code übersetzen\n  test_mux           Multiplexer testen\n  test_half_adder    Halbaddierer testen\n  test_full_adder    Volladdierer testen\n  test_add2          2-Bit-Addierer testen\n  test_add4          4-Bit-Addierer testen\n  test_register1     1-Bit-Register testen\n  test_register4     4-Bit-Register mit Enable testen\n  test_counter4      4-Bit-Zähler mit Enable testen\n  test_shift4        4-Bit-Schieberegister testen\n  test_traffic_light Ampel-Zustandsautomat testen\n  test_alu4         4-Bit-ALU testen\n  test_alu4_ripple  Ripple-Carry-Vergleichsvariante testen\n  test_alu4_native  Alias für test_alu4\n  test_accumulator4 4-Bit-Akkumulator testen\n  test_decoder6     6-Bit-Befehlsdecoder testen\n  test_instruction_exec6 6-Bit-Befehle ausführen (Emulatorvergleich)\n  test_pc4          4-Bit-Programmzähler testen\n  synth_alu4        ALU-Synthesebericht mit Yosys erzeugen\n  compare_alu4      Zellzahlen, Zelltypen und Logiktiefe vergleichen\n  test              Alle Tests inkl. aktueller TDD-Übung\n  test_completed    Nur abgeschlossene Tests\n  test_logic_basics  Alias für test\n'
+	@printf 'Targets:\n  logic_basics       Spade-Code übersetzen\n  test_mux           Multiplexer testen\n  test_half_adder    Halbaddierer testen\n  test_full_adder    Volladdierer testen\n  test_add2          2-Bit-Addierer testen\n  test_add4          4-Bit-Addierer testen\n  test_register1     1-Bit-Register testen\n  test_register4     4-Bit-Register mit Enable testen\n  test_counter4      4-Bit-Zähler mit Enable testen\n  test_shift4        4-Bit-Schieberegister testen\n  test_traffic_light Ampel-Zustandsautomat testen\n  test_alu4         4-Bit-ALU testen\n  test_alu4_ripple  Ripple-Carry-Vergleichsvariante testen\n  test_alu4_native  Alias für test_alu4\n  test_accumulator4 4-Bit-Akkumulator testen\n  test_decoder6     6-Bit-Befehlsdecoder testen\n  test_instruction_exec6 6-Bit-Befehle ausführen (Emulatorvergleich)\n  test_pc4          4-Bit-Programmzähler testen\n  synth_alu4        ALU-Synthesebericht mit Yosys erzeugen\n  compare_alu4      Zellzahlen, Zelltypen und Logiktiefe vergleichen\n  test              Alle Tests\n  test_completed    Alle abgeschlossenen Tests\n  test_logic_basics  Alias für test\n'
 
 logic_basics:
 	@cd logic_basics && swim build
@@ -98,9 +98,9 @@ test_mux test_half_adder test_full_adder test_add2 test_add4 test_register1 test
 		build/spade.sv "$(abspath logic_basics/test/$(TEST).cc)" && \
 		./build/obj_$(TEST)/V$(TOP)
 
-test_completed: test_mux test_half_adder test_full_adder test_add2 test_add4 test_register1 test_register4 test_counter4 test_shift4 test_traffic_light test_alu4 test_alu4_ripple test_accumulator4 test_decoder6 test_instruction_exec6
+test_completed: test_mux test_half_adder test_full_adder test_add2 test_add4 test_register1 test_register4 test_counter4 test_shift4 test_traffic_light test_alu4 test_alu4_ripple test_accumulator4 test_decoder6 test_instruction_exec6 test_pc4
 
-# Die TDD-Übung ist vorerst nur im Gesamtlauf enthalten.
-test: test_completed test_pc4
+# Der vollständige Testlauf umfasst alle derzeit abgeschlossenen Übungen.
+test: test_completed
 
 test_logic_basics: test
