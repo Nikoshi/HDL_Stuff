@@ -42,7 +42,11 @@ nicht verwendet.
 ## 3. Verbindlicher Programminhalt
 
 Unser ISA-Format bleibt unverändert: `instruction[5:4] = op`
-(zwei Bits), `instruction[3:0] = operand` (vier Bits).
+(zwei Bits), `instruction[3:0] = operand` (vier Bits). Der **Opcode** gibt
+an, welche ALU-Operation ausgeführt werden soll; der **Operand** ist
+der direkte 4-Bit-Zahlenwert (Immediate), auf den sie angewendet wird.
+Das Format `0bOO_NNNN` trennt die beiden Felder lediglich optisch.
+Der Unterstrich gehört nicht zum gespeicherten Bitmuster.
 
 | Adresse (dez.) | Befehl (binär) | Hex | Bedeutung |
 |---:|---|---:|---|
@@ -123,9 +127,9 @@ Bei unserer Entity muss das ausgewählte Wort wie beim Decoder
 
 Spade-Referenz: [Match-Ausdrücke](https://docs.spade-lang.org/reference/expressions/match.html).
 
-## 6. Deine Aufgabe
+## 6. Implementierungsaufgabe (abgeschlossen)
 
-Der vorbereitete Platzhalter lautet:
+Der ursprüngliche Platzhalter lautete:
 
 ```spade
 #[no_mangle(all)]
@@ -138,7 +142,8 @@ pub entity rom16x6_top(
 }
 ```
 
-Implementiere die Tabelle selbst in `src/cpu/rom16x6.spade`.
+Die Tabelle ist inzwischen in `src/cpu/rom16x6.spade` als vollständiger
+`match address`-Ausdruck implementiert. Die Zuordnung bleibt kombinatorisch.
 
 Dabei soll gelten:
 
@@ -167,13 +172,13 @@ Die unabhängige C++-Testbench in `test/rom16x6.cc` prüft:
 - Eine weitere deterministische Folge von 64 Adresswechseln.
 
 Das sind **608 Ausgabevergleiche**, da jeder direkte Übergang sowohl
-seine Ausgangs- als auch seine Zieladresse überprüft. Der Platzhalter ist absichtlich
-falsch; der Test schlägt bis zu deiner Implementierung fehl.
+seine Ausgangs- als auch seine Zieladresse überprüft. Die ROM-Implementierung
+hat **608/608 Prüfungen** im lokalen Testlauf bestanden.
 Die Signale werden in `logic_basics/build/rom16x6.vcd` aufgezeichnet.
 
-`make test_completed` prüft weiterhin nur die bereits fertigen
-Übungen. Nach erfolgreichem ROM-Test anschließend `make test`
-für die vollständige Regression aufrufen.
+`make test_completed` schließt den abgeschlossenen ROM-Test inzwischen
+mit ein. Nach weiteren Änderungen `make test_rom16x6` und anschließend
+`make test` für die vollständige Regression ausführen.
 
 ## 8. Danach: PC, ROM und Execute verbinden
 
