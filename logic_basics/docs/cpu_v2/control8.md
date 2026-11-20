@@ -1,6 +1,6 @@
-# CPU v2, Kapitel VI: Steuerlogik fuer Maschinenbefehle
+# CPU v2, Kapitel VI: Steuerlogik fuer Maschinenbefehle (abgeschlossen)
 
-**Status:** Offene TDD-Uebung. Der 8-Bit-Felddecoder ist abgeschlossen.
+**Status:** Abgeschlossen. Der Nutzer meldet **144/144 bestandene Vergleiche**. Nach dem anschliessenden `fn`-/Wrapper-Refactoring ist ein erneuter Testlauf empfohlen.
 
 ## 1. Warum brauchen wir Steuerlogik?
 
@@ -23,14 +23,26 @@ instruction[7:0] -> decoder8 -> opcode[3:0]
                   ACC-Freigabe  ALU-Wahl   PC-Modus
 ```
 
-`control8_top` bleibt **kombinatorisch**: keine Register,
-kein `clk`, kein `rst`, keine 8-Bit-Instruktion als Eingang.
-Die Daten `immediate` und `ACC` selbst werden hier noch nicht
-veraendert oder ausgewertet.
+Die eigentliche Steuerentscheidung ist jetzt eine **reine Funktion**
+`decode_control_signals`. Sie erzeugt kombinatorische Signale, keine
+Register und keine Taktverzoegerung. Die Test-Entity
+`test_control8_top` dient ausschliesslich der Verilator-Schnittstelle.
+Die Daten `immediate` und `ACC` werden hier nicht ausgewertet.
 
 ## 2. Schnittstelle
 
 Datei: `logic_basics/src/cpu_v2/control8.spade`
+
+Die spaeter wiederverwendbare Funktion hat die Signatur:
+
+```spade
+pub fn decode_control_signals(opcode: uint<4>) -> (bool, bool, uint<2>, uint<2>)
+```
+
+Sie liefert in dieser Reihenfolge `acc_write`, `acc_from_imm`,
+`alu_op`, `pc_mode`. Die separat exportierte **Testhülle**
+`test_control8_top` stellt diese vier Rueckgabewerte als benannte
+`inv`-Ports bereit. Darauf bezieht sich folgende Porttabelle:
 
 | Port | Typ | Bedeutung |
 |---|---|---|
@@ -79,16 +91,16 @@ entweder `acc_write=0` gilt oder `acc_from_imm=1` die
 ALU-Ergebnisse als Datenquelle uebergeht. Die ALU darf
 kombinatorisch trotzdem einen Wert berechnen.
 
-## 4. Uebung: Opcode in Steuersignale uebersetzen
+## 4. Implementierung: Reine Funktion und Testhülle
 
-In `control8.spade` findest du einen bereits kompilierbaren
-Platzhalter. Er gibt NOP-Werte fuer alle Eingaben aus.
-Deine Aufgabe ist, die Wahrheitstabelle in kombinatorischer
-Spade-Logik umzusetzen, **ohne Register**.
+Die Opcode-Wahrheitstabelle ist in `decode_control_signals` als
+`match opcode` umgesetzt. Die Funktion liefert ein Tupel mit vier
+Steuersignalen. Die `test_control8_top`-Entity entpackt diese Werte
+in sprechend benannte Zwischenvariablen und leitet sie an ihre Ports
+weiter. Sie fuegt keine weitere Logik und keinen Zustand hinzu.
 
-Du kannst dich an `match` aus der bisherigen ALU orientieren.
-Du musst aber weder die ALU instanziieren noch eine neue
-Registersteuerung schreiben.
+Die exportierte `pub fn` kann spaeter von der CPU-v2-Steuerverdrahtung
+verwendet werden; dazu muss nicht die Test-Entity instanziiert werden.
 
 Die Signale `rst` und `advance` gehoeren **nicht** in
 diese Entity: Der Top-Level kombiniert spaeter
@@ -122,20 +134,21 @@ prueft alle **16** Opcodes und danach **128** direkte,
 nicht-monotone Signalwechsel, insgesamt **144 Vergleiche**.
 Dabei sind auch alle acht reservierten Werte abgedeckt.
 
-Der NOP-Platzhalter soll zunaechst **fehlschlagen**.
-Die VCD-Datei liegt nach dem Simulationslauf unter
-`logic_basics/build/control8.vcd`.
+Der Null-/NOP-Platzhalter ist durch die fertige Funktion ersetzt.
+Der gemeldete Lauf der urspruenglichen Entity hatte **144/144 Tests**
+bestanden. Da die Refaktorierung nun ein neues Test-Top und eine
+`fn` verwendet, sollte `make test_control8` nochmals laufen.
+Die VCD-Datei liegt unter `logic_basics/build/control8.vcd`.
 
-`make test_completed` enthaelt die abgeschlossenen
-19 Hardware-Tests; `make test` fuehrt auch die offene
-Steuerdecoder-Uebung aus.
+`make test_completed` umfasst jetzt alle **20** abgeschlossenen
+Hardware-Testprogramme; `make test` fuehrt dieselbe Suite aus,
+bis die naechste offene Uebung hinzukommt.
 
 ## 6. Danach
 
-Erst wenn die Steuersignale korrekt sind, entwerfen wir
-die eigentlichen Zustandsuebergaenge von PC und ACC
-fuer `LDI`, `JMP` und `JZ`. Die bereits bewiesene
-CPU-v1-Logik bleibt dabei unveraendert.
+Der naechste Architekturbaustein sind die eigentlichen
+Zustandsuebergaenge von PC und ACC fuer `LDI`, `JMP` und `JZ`.
+Die CPU-v1-Logik bleibt dabei unveraendert.
 
 Weiterfuehrend: [ISA-Entwurf](isa.md),
 [Kapitel V: Felddecoder](decoder8.md).
