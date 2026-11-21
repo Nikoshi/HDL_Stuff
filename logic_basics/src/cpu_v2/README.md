@@ -53,6 +53,10 @@ C++-Referenzmodell steht unter [`test/cpu_v2/cpu_v2_isa_demo.cc`](../../test/cpu
 Es druckt einen Maschinenbefehl-/Zustands-Trace und prüft den Programmablauf.
 Der Softwaretest bleibt ein unabhängiger Vergleichspunkt für die integrierte Hardware.
 
+Das separate [Assembler-Lernprojekt](../../assembler/README.md) erzeugt
+später aus lesbaren Befehlen einen Spade-ROM-`match`-Block.
+Das bestehende 16×8-ROM bleibt dabei zunächst unverändert.
+
 ## Entwicklungsregeln
 
 - Eigenständige neue Spade-Module und eindeutige Namen wie `cpu_v2_top`.

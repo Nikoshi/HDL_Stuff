@@ -26,6 +26,12 @@ stehen Links zum vorherigen und zum nächsten.
 13. [ROM16x8](cpu_v2/rom16x8.md)
 14. [CPU v2 integrieren](cpu_v2/cpu_v2.md)
 
+## Mini-Assembler (C++17)
+
+15. [Kapitel I: Maschinenwort-Encoder (offen)](assembler/01_encoder.md)
+
+Zum Nachschlagen: [C++17-Kurzeinführung](assembler/cpp17_einstieg.md).
+
 ## Nachschlagen
 
 - [Architektur-Spickblatt](architektur.md)

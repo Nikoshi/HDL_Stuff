@@ -17,3 +17,8 @@ make demo_cpu_v2
 
 Das Makefile ordnet jedem Target den passenden C++-Quellpfad zu.
 Die VCD-Dateien liegen unter `logic_basics/build/`.
+
+Die **separaten C++17-Assembler-Tests** liegen in
+`logic_basics/assembler/test/`. Sie verwenden kein Verilator und
+laufen über `make test_assembler_encoder`. Offene Assembler-Übungen
+sind nicht Bestandteil der abgeschlossenen Hardware-Regression.

@@ -129,6 +129,48 @@
         "clear": true
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Assembler: Encoder testen (aktuelle Übung)",
+      "type": "shell",
+      "command": "nix",
+      "args": [
+        "develop",
+        "--command",
+        "make",
+        "test_assembler_encoder"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Assembler: CLI bauen (Platzhalter)",
+      "type": "shell",
+      "command": "nix",
+      "args": [
+        "develop",
+        "--command",
+        "make",
+        "assembler"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
     }
   ],
   "inputs": [
@@ -137,6 +179,10 @@
       "type": "pickString",
       "description": "Welchen HDL-Test möchtest du ausführen?",
       "options": [
+        {
+          "label": "Assembler: Encoder (aktuelle C++17-Übung)",
+          "value": "test_assembler_encoder"
+        },
         {
           "label": "CPU v2: Integration (abgeschlossen)",
           "value": "test_cpu_v2"
@@ -234,7 +280,7 @@
           "value": "test_mux"
         }
       ],
-      "default": "test_cpu_v2"
+      "default": "test_assembler_encoder"
     }
   ]
 }

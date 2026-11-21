@@ -256,12 +256,12 @@ Der erfolgreiche CPU-v2-Integrationstest schließt die Hardware
 dieser CPU-Generation ab. Danach eignet sich ein
 kleines **Assembler-Projekt** als Softwareübung: symbolische
 Maschinenbefehle einlesen und daraus den `match address`-Block
-für ein Spade-ROM erzeugen. Sprache und Umfang werden erst
-für diese eigene Übung festgelegt.
+für ein Spade-ROM erzeugen. Die erste Übung behandelt den [C++17-Encoder](../assembler/01_encoder.md).
+Die späteren Schritte ergänzen Textparser, Labels und ROM-Ausgabe.
 
 Eine CPU v3 mit 8-Bit-Datenpfad und RAM ist ein späteres
 Architekturprojekt, nicht Teil der CPU-v2-Integration.
 
 ---
 
-[← Zurück: ROM16x8](rom16x8.md) · [Zur Übersicht](../../../README.md)
+[← Zurück: ROM16x8](rom16x8.md) · [Weiter: Mini-Assembler →](../assembler/01_encoder.md)
