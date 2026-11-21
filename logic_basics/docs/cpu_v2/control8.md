@@ -151,3 +151,7 @@ Die CPU-v1-Logik bleibt unverändert.
 
 Weiterfuehrend: [ISA-Entwurf](isa.md),
 [Kapitel V: Felddecoder](decoder8.md).
+
+---
+
+[← Zurück: 8-Bit-Decoder](decoder8.md) · [Weiter: PC-/ACC-Zustand →](state_v2.md)
