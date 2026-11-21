@@ -11,7 +11,6 @@ pub entity decoder8_top(
     // wird das erste Arrayelement wieder zum niederwertigsten Bit.
     let bits = instruction.as_bits();
 
-    // Nur Leitungen neu gruppieren: kein Register, kein Takt und keine ALU.
     set opcode = [bits[4], bits[5], bits[6], bits[7]].as_uint();
     set immediate = [bits[0], bits[1], bits[2], bits[3]].as_uint();
 }
