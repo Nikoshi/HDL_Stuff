@@ -19,38 +19,58 @@ LSP-Client.
 - [Spade Syntax im VS-Code-Marketplace](https://marketplace.visualstudio.com/items?itemName=spade-lang.spade-syntax)
 - [Spade-LSP-Client und dessen Einstellungen](https://github.com/Mechazawa/vscode-spade-lsp)
 
-## 2. Repository als Workspace öffnen
+## 2. Gemeinsamen Projekt-Workspace öffnen
 
-Wichtig: **`HDL_Stuff/` als VS-Code-Workspace öffnen**, nicht nur
-`logic_basics/`. Nix sucht im Repository-Root die `flake.nix`;
-`logic_basics/swim.toml` ist dagegen die Spade-Projektkonfiguration.
+Für LSP **und** Make-Tests ist im Repository-Root die Datei
+[`HDL_Stuff.code-workspace`](../../../HDL_Stuff.code-workspace) hinterlegt.
 
-## 3. Hinterlegte Workspace-Einstellungen
+In VS Code: **Datei → Arbeitsbereich aus Datei öffnen…**
+(`File → Open Workspace from File…`) und diese Datei auswählen.
+Alternativ im Repository-Root:
 
-Die eingecheckte `.vscode/settings.json` enthält:
+```sh
+code HDL_Stuff.code-workspace
+```
+
+Dieser Workspace enthält `logic_basics/` als einzigen Projektordner.
+Damit erkennt der Sprachserver die `swim.toml` und die Spade-Module
+korrekt. Die Tasks laufen trotzdem im Repository-Root, wo das
+`Makefile` und die `flake.nix` liegen.
+
+Über **Terminal → Aufgabe ausführen…** kannst du wieder die bisherigen
+Tests auswählen; **Testaufgabe ausführen** startet die Regression.
+Der normale Terminalbefehl `make test` bleibt im Repository-Root
+unverändert verfügbar.
+
+## 3. Workspace-Einstellungen und Verzeichnisse
+
+In `HDL_Stuff.code-workspace` stehen für den Spade-LSP:
 
 ```json
 {
   "spade-lsp.serverCommand": "nix",
   "spade-lsp.serverArgs": [
-    "develop",
-    "-c",
-    "sh",
-    "-c",
-    "cd logic_basics && exec swim lsp"
+    "develop", "..", "-c", "swim", "lsp"
   ]
 }
 ```
 
-Das entspricht im Repository-Root:
+Der Server wird aus `logic_basics/` gestartet und nutzt die Nix-Flake
+im Elternverzeichnis. Die in derselben Workspace-Datei enthaltenen
+Make-Tasks verwenden dagegen `"${workspaceFolder}/.."` als
+Arbeitsverzeichnis. So haben beide Werkzeuge ihre richtige Projektwurzel,
+ohne dass man zwischen VS-Code-Fenstern wechseln muss.
 
-```sh
-nix develop -c sh -c 'cd logic_basics && exec swim lsp'
-```
+Die bisherige `.vscode/` im Repository-Root bleibt für das Öffnen
+des gesamten Repositories bestehen. **Sie ist nicht die empfohlene
+Variante für den Spade-LSP**, weil der Sprachserver dabei
+möglicherweise den falschen Workspace-Root erhält.
 
-`swim lsp` startet den Sprachserver und baut ihn bei Bedarf automatisch.
-Es ist **kein fester Pfad** zu einem bereits gebauten Binary erforderlich.
-Auch VS Code selbst wird nicht in `flake.nix` aufgenommen.
+Eine lokal angelegte `logic_basics/.vscode/settings.json` kann
+Workspace-Einstellungen überschreiben. Falls der LSP im neuen
+Workspace noch falsche Argumente verwendet, diese lokale Datei
+vorübergehend umbenennen oder ihre LSP-Einträge entfernen;
+nicht blind löschen. Der neue Workspace benötigt sie nicht.
 
 ## 4. Erststart und Fehlersuche
 
@@ -82,8 +102,11 @@ Der alte Spade-Pin zeigt zwar einen Migrationshinweis, aber
 Für die hier beobachtete Erststart-Störung ist eine
 Compiler-Migration nicht erforderlich.
 
-**Status:** Der Start über `swim lsp` mit anschließendem LSP-Neustart
-wurde lokal vom Nutzer als funktionierend bestätigt.
+**Status:** Der Compiler-Build funktioniert und das separate Öffnen
+von `logic_basics/` hat die falschen LSP-Modulfehler lokal behoben.
+Der gemeinsame `.code-workspace`-Ansatz verbindet diese Projektwurzel
+mit Make-Tasks; seine Funktion ist bis zum lokalen VS-Code-Test
+noch nicht bestätigt.
 
 ---
 
