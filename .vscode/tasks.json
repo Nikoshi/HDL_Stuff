@@ -2,14 +2,14 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "HDL: Aktuelle Übung (CPU-v2-Zustandssteuerung)",
+      "label": "HDL: Aktuelle Übung (CPU-v2-ROM16x8)",
       "type": "shell",
       "command": "nix",
       "args": [
         "develop",
         "--command",
         "make",
-        "test_state_v2"
+        "test_rom16x8"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -138,7 +138,11 @@
       "description": "Welchen HDL-Test möchtest du ausführen?",
       "options": [
         {
-          "label": "CPU v2: Zustandssteuerung (aktuelle Übung)",
+          "label": "CPU v2: ROM16x8 (aktuelle Übung)",
+          "value": "test_rom16x8"
+        },
+        {
+          "label": "CPU v2: PC-/ACC-Zustandssteuerung (abgeschlossen)",
           "value": "test_state_v2"
         },
         {
@@ -226,7 +230,7 @@
           "value": "test_mux"
         }
       ],
-      "default": "test_state_v2"
+      "default": "test_rom16x8"
     }
   ]
 }
