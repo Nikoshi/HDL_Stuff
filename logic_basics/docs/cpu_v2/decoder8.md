@@ -163,3 +163,7 @@ verbinden wir ihre Signale mit ACC und PC.
 
 Das vollständige Demo-Programm steht im
 [ISA-Entwurf](isa.md#5-isa-praxistest-countdown-mit-led-alarm).
+
+---
+
+[← Zurück: CPU-v2-ISA](isa.md) · [Weiter: Steuerdecoder →](control8.md)
