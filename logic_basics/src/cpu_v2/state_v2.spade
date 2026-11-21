@@ -1,6 +1,6 @@
-// CPU v2: PC und ACC als zwei Register mit gemeinsamem Takt.
-// Vorhandene Steuerlogik und ALU-Ergebnis werden als Eingänge bereitgestellt.
-// TODO: ACC-Datenquelle, bedingte Sprünge und PC-Modus implementieren.
+// CPU v2: PC und ACC als zwei 4-Bit-Register mit gemeinsamem Takt.
+// Steuersignale und ALU-Ergebnis werden von der späteren CPU-Integration geliefert.
+// Beide Register übernehmen ihren Folgezustand an derselben steigenden Flanke.
 #[no_mangle(all)]
 pub entity cpu_v2_state_top(
     clk: clock,
@@ -14,11 +14,13 @@ pub entity cpu_v2_state_top(
     pc: inv uint<4>,
     acc: inv uint<4>
 ) {
-
+    // JZ benötigt den gespeicherten ACC bereits in der PC-Berechnung.
+    // Die Vorwärtsdeklaration erzeugt kein zusätzliches Register.
     decl acc_reg;
 
-    // Absichtlich unvollständig: nur sequentieller PC und ALU-Schreiben.
-    // Reset und Pause sind bereits umgesetzt, damit der Stub kompiliert.
+    // 00: weiterzählen, 01: springen, 10: nur bei ACC == 0 springen.
+    // 11 bleibt reserviert und zählt als sicherer Standardfall weiter.
+    // Die JZ-Bedingung liest acc_reg vor der aktuellen Taktflanke.
     reg(clk) pc_reg: uint<4> reset(rst: 0) = if advance {
         match pc_mode {
             0b00 => pc_reg +. 1,
@@ -32,11 +34,12 @@ pub entity cpu_v2_state_top(
             },
             0b11 => pc_reg +. 1
         }
-    }
-    else {
+    } else {
         pc_reg
     };
 
+    // ACC-Schreibfreigabe und Datenquellenwahl sind getrennte Entscheidungen.
+    // Ohne advance oder acc_write hält das Register seinen bisherigen Wert.
     reg(clk) acc_reg: uint<4> reset(rst: 0) = if advance && acc_write {
         if acc_from_imm {
             immediate
