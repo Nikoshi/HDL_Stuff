@@ -2,3 +2,4 @@
 mod decoder8;
 mod control8;
 mod state_v2;
+mod rom16x8;
