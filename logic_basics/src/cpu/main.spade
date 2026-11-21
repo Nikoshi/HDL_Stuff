@@ -1,5 +1,5 @@
 // Wiederverwendbare Bausteine unserer 4-Bit-CPU.
-mod alu;
+pub mod alu;
 mod accumulator;
 mod decoder6;
 mod instruction_exec6;

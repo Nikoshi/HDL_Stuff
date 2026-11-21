@@ -1,3 +1,9 @@
+use lib::cpu_v2::rom16x8;
+use lib::cpu_v2::decoder8;
+use lib::cpu_v2::control8;
+use lib::cpu::alu;
+use lib::cpu_v2::state_v2;
+
 // CPU v2: Integrations-Top-Level für ROM, Decoder, ALU und Zustandsregister.
 // Die vorhandenen Bausteine bleiben unverändert.
 // TODO: Daten- und Steuersignale verbinden; keine neuen Register anlegen.
@@ -10,8 +16,54 @@ pub entity cpu_v2_top(
     instruction: inv uint<8>,
     acc: inv uint<4>
 ) {
+    let (current_pc, pc_wire) = port();
+    let (current_instruction, instruction_wire) = port();
+    let (current_opcode, opcode_wire) = port();
+    let (current_immediate, immediate_wire) = port();
+    let (current_acc, acc_wire) = port();
+    let (current_result, result_wire) = port();
+    let (_, carry_wire) = port();
+    let (_, zero_wire) = port();
+
+    let _ = inst rom16x8::rom16x8_top {
+        address: current_pc,
+        instruction: instruction_wire
+    };
+
+    let _ = inst decoder8::decoder8_top {
+        instruction: current_instruction,
+        opcode: opcode_wire,
+        immediate: immediate_wire,
+    };
+
+    let (acc_write, 
+         acc_from_imm,
+         alu_op, pc_mode) = control8::decode_control_signals(current_opcode);    
+
+    let _ = inst alu::alu4_top {
+        a: current_acc,
+        b: current_immediate,
+        op: alu_op,
+        result: result_wire,
+        carry_out: carry_wire,
+        zero: zero_wire
+    };
+
+    let _ = inst state_v2::cpu_v2_state_top {
+        clk,
+        rst,
+        advance,
+        immediate: current_immediate,
+        alu_result: current_result,
+        acc_write,
+        acc_from_imm,
+        pc_mode,
+        pc: pc_wire,
+        acc: acc_wire
+    };
+
     // Kompilierbarer TDD-Platzhalter. Hier noch keine CPU-Funktion.
-    set pc = 0u4;
-    set instruction = 0b1100_0000u8;
-    set acc = 0u4;
+    set pc = current_pc;
+    set instruction = current_instruction;
+    set acc = current_acc;
 }
