@@ -26,7 +26,7 @@ Takt in PC und ACC gespeichert wird**.
                                                              v
  pc_mode, immediate ─────────────┐                     Nullprüfung (JZ)
                                  v                           │
- aktueller PC ───────────> PC-Folgewertwahl <──────────────────┘
+ aktueller PC ───────────> PC-Folgewertwahl <────────────────┘
                                  │
                                  v
                             PC-Register
