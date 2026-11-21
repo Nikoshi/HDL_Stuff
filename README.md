@@ -78,7 +78,7 @@ VS-Code-Workspace zu öffnen, da dort die Flake liegt.
 
 **Einrichtung, Konfiguration und Fehlersuche:**
 [Spade-LSP mit Nix](logic_basics/docs/vscode_lsp.md).
-Der tatsächliche Start im lokalen VS Code ist noch nicht überprüft.
+Nach dem ersten lokalen Cargo-Build wurde der LSP-Start durch „Restart Language Server“ erfolgreich bestätigt; `swim lsp` erstellt die Server-Binary bei Bedarf erneut.
 
 ### Waveform-Viewer
 
