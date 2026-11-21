@@ -14,16 +14,35 @@ pub entity cpu_v2_state_top(
     pc: inv uint<4>,
     acc: inv uint<4>
 ) {
+
+    decl acc_reg;
+
     // Absichtlich unvollständig: nur sequentieller PC und ALU-Schreiben.
     // Reset und Pause sind bereits umgesetzt, damit der Stub kompiliert.
     reg(clk) pc_reg: uint<4> reset(rst: 0) = if advance {
-        pc_reg +. 1
-    } else {
+        match pc_mode {
+            0b00 => pc_reg +. 1,
+            0b01 => immediate,
+            0b10 => {
+                if acc_reg == 0 {
+                    immediate
+                } else {
+                    pc_reg +. 1
+                }
+            },
+            0b11 => pc_reg +. 1
+        }
+    }
+    else {
         pc_reg
     };
 
     reg(clk) acc_reg: uint<4> reset(rst: 0) = if advance && acc_write {
-        alu_result
+        if acc_from_imm {
+            immediate
+        } else {
+            alu_result
+        }
     } else {
         acc_reg
     };
