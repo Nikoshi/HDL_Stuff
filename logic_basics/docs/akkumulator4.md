@@ -110,3 +110,7 @@ aufeinanderfolgenden Rechenkette.
 
 VCD: `logic_basics/build/accumulator4.vcd`.
 Der Test bleibt als `make test_accumulator4` und im VS-Code-Einzeltest verfügbar.
+
+---
+
+[← Zurück: 4-Bit-ALU](alu4.md) · [Weiter: 6-Bit-Decoder →](decoder6.md)
