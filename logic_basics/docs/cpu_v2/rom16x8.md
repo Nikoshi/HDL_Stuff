@@ -134,4 +134,4 @@ Siehe auch [Kapitel VII: Registerzustände](state_v2.md).
 
 ---
 
-[← Zurück: PC-/ACC-Zustand](state_v2.md) · [Zur Übersicht](../../../README.md)
+[← Zurück: PC-/ACC-Zustand](state_v2.md) · [Weiter: CPU-v2-Integration →](cpu_v2.md)
