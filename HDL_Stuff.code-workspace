@@ -1,0 +1,258 @@
+{
+  "folders": [
+    {
+      "path": "logic_basics",
+      "name": "logic_basics (Spade)"
+    }
+  ],
+  "settings": {
+    "spade-lsp.serverCommand": "nix",
+    "spade-lsp.serverArgs": [
+      "develop",
+      "..",
+      "-c",
+      "swim",
+      "lsp"
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "HDL: Regression (alle abgeschlossenen Tests)",
+        "type": "shell",
+        "command": "nix",
+        "args": [
+          "develop",
+          "--command",
+          "make",
+          "test_completed"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}/.."
+        },
+        "group": {
+          "kind": "test",
+          "isDefault": true
+        },
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared",
+          "clear": true
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "HDL: Einzeltest auswählen",
+        "type": "shell",
+        "command": "nix",
+        "args": [
+          "develop",
+          "--command",
+          "make",
+          "${input:hdlTestTarget}"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}/.."
+        },
+        "group": "test",
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared",
+          "clear": true
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "HDL: Alle Tests (Nix)",
+        "type": "shell",
+        "command": "nix",
+        "args": [
+          "develop",
+          "--command",
+          "make",
+          "test"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}/.."
+        },
+        "group": "test",
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared",
+          "clear": true
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "HDL: Abgeschlossene Tests (Nix)",
+        "type": "shell",
+        "command": "nix",
+        "args": [
+          "develop",
+          "--command",
+          "make",
+          "test_completed"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}/.."
+        },
+        "group": "test",
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared",
+          "clear": true
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "HDL: ALU-Synthese (Yosys)",
+        "type": "shell",
+        "command": "nix",
+        "args": [
+          "develop",
+          "--command",
+          "make",
+          "synth_alu4"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}/.."
+        },
+        "group": "build",
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared",
+          "clear": true
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "HDL: ALU-Variantenvergleich (Yosys)",
+        "type": "shell",
+        "command": "nix",
+        "args": [
+          "develop",
+          "--command",
+          "make",
+          "compare_alu4"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}/.."
+        },
+        "group": "build",
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared",
+          "clear": true
+        },
+        "problemMatcher": []
+      }
+    ],
+    "inputs": [
+      {
+        "id": "hdlTestTarget",
+        "type": "pickString",
+        "description": "Welchen HDL-Test möchtest du ausführen?",
+        "options": [
+          {
+            "label": "CPU v2: Integration (abgeschlossen)",
+            "value": "test_cpu_v2"
+          },
+          {
+            "label": "CPU v2: ROM16x8 (abgeschlossen)",
+            "value": "test_rom16x8"
+          },
+          {
+            "label": "CPU v2: PC-/ACC-Zustandssteuerung (abgeschlossen)",
+            "value": "test_state_v2"
+          },
+          {
+            "label": "CPU v2: Steuerdecoder (abgeschlossen)",
+            "value": "test_control8"
+          },
+          {
+            "label": "CPU v2: 8-Bit-Decoder (abgeschlossen)",
+            "value": "test_decoder8"
+          },
+          {
+            "label": "CPU v2: ISA-Demo (Softwaremodell)",
+            "value": "demo_cpu_v2"
+          },
+          {
+            "label": "4-Bit-CPU (PC, ROM, Execute)",
+            "value": "test_cpu4"
+          },
+          {
+            "label": "Programmspeicher (ROM 16x6 Bit)",
+            "value": "test_rom16x6"
+          },
+          {
+            "label": "Programmzähler (4 Bit)",
+            "value": "test_pc4"
+          },
+          {
+            "label": "Befehlsausführung (6 Bit)",
+            "value": "test_instruction_exec6"
+          },
+          {
+            "label": "Befehlsdecoder (6 Bit)",
+            "value": "test_decoder6"
+          },
+          {
+            "label": "Akkumulator (4 Bit)",
+            "value": "test_accumulator4"
+          },
+          {
+            "label": "4-Bit-ALU",
+            "value": "test_alu4"
+          },
+          {
+            "label": "4-Bit-ALU (Ripple-Carry-Vergleich)",
+            "value": "test_alu4_ripple"
+          },
+          {
+            "label": "Ampel-FSM (vier Zustände)",
+            "value": "test_traffic_light"
+          },
+          {
+            "label": "Schieberegister (4 Bit)",
+            "value": "test_shift4"
+          },
+          {
+            "label": "Zähler (4 Bit)",
+            "value": "test_counter4"
+          },
+          {
+            "label": "Register (4 Bit)",
+            "value": "test_register4"
+          },
+          {
+            "label": "Register (1 Bit)",
+            "value": "test_register1"
+          },
+          {
+            "label": "Addierer (4 Bit)",
+            "value": "test_add4"
+          },
+          {
+            "label": "Addierer (2 Bit)",
+            "value": "test_add2"
+          },
+          {
+            "label": "Volladdierer",
+            "value": "test_full_adder"
+          },
+          {
+            "label": "Halbaddierer",
+            "value": "test_half_adder"
+          },
+          {
+            "label": "Multiplexer",
+            "value": "test_mux"
+          }
+        ],
+        "default": "test_cpu_v2"
+      }
+    ]
+  }
+}
