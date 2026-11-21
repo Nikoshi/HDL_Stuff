@@ -18,7 +18,7 @@ src/cpu_v2/
 ├── control8.spade   # Fertige fn für die Steuerlogik + Testhülle
 ├── state_v2.spade   # PC-/ACC-Zustandssteuerung (abgeschlossen)
 ├── rom16x8.spade    # 16 feste 8-Bit-Befehle (abgeschlossen)
-└── cpu_v2.spade     # Neuer CPU-Top-Level (geplant)
+└── cpu_v2.spade     # Integrations-Top-Level (offene TDD-Übung)
 ```
 
 Die genaue Aufteilung kann sich mit dem ISA-Entwurf noch ändern.
@@ -41,10 +41,14 @@ Der gemeldete Verilator-Lauf bestand 69.635/69.635 Vergleiche.
 Der 16×8-Bit-Programmspeicher ist ebenfalls fertig:
 [`docs/cpu_v2/rom16x8.md`](../../docs/cpu_v2/rom16x8.md).
 Die unabhängige Testbench `test/rom16x8.cc` bestand gemeldete
-608/608 Vergleiche (`make test_rom16x8`). Die nächste Etappe
-ist die Integration der vorhandenen CPU-v2-Bausteine.
+608/608 Vergleiche (`make test_rom16x8`).
 
-Den geplanten Befehlssatz können wir **vor der Spade-Implementierung**
+Die aktuelle Integrationsübung verbindet die fertigen Bausteine:
+[`docs/cpu_v2/cpu_v2.md`](../../docs/cpu_v2/cpu_v2.md).
+Der Platzhalter `cpu_v2.spade` und die unabhängige Testbench
+`test/cpu_v2.cc` gehören zum Target `make test_cpu_v2`.
+
+Das vollständige Demo-Programm lässt sich unabhängig von der Hardware
 mit `make demo_cpu_v2` im Repository-Root ausprobieren. Das eigenständige
 C++-Referenzmodell steht unter [`test/cpu_v2_isa_demo.cc`](../../test/cpu_v2_isa_demo.cc).
 Es druckt einen Maschinenbefehl-/Zustands-Trace und prüft den Programmablauf.
@@ -62,6 +66,6 @@ Der Softwaretest ist kein Test einer bereits vorhandenen CPU-v2-Hardware.
 - `src/main.spade` bindet `cpu_v2/main.spade` ein. Felddecoder und
   Steuerfunktion sind abgeschlossen. Der gemeldete Testlauf nach dem
   `fn`-Refactoring ergab 144/144 Vergleiche.
-- `make test_completed` enthält alle 22 abgeschlossenen Hardwaretests;
-  `make test` verwendet derzeit dieselbe Regression.
+- `make test_completed` enthält die 22 abgeschlossenen Hardwaretests;
+  `make test` prüft zusätzlich die offene Integrationsübung.
   CPU v1 bleibt unverändert.
