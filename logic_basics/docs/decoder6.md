@@ -152,3 +152,7 @@ Der Decoder ist nun eine öffentliche Entity, die in
 `instruction_exec6.spade` wiederverwendet werden kann.
 Im nächsten Schritt verbinden wir ihn mit dem Akkumulator,
 ohne die Bitlogik erneut zu schreiben.
+
+---
+
+[← Zurück: Akkumulator](akkumulator4.md) · [Weiter: Befehlsausführung →](instruction_exec6.md)
