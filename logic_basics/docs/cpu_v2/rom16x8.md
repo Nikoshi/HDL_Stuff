@@ -135,3 +135,7 @@ darin, deren Verbindungen zu planen und eine gesamte
 Ausführung gegen ein unabhängiges Softwaremodell zu testen.
 
 Siehe auch [Kapitel VII: Registerzustände](state_v2.md).
+
+---
+
+[← Zurück: PC-/ACC-Zustand](state_v2.md) · [Zur Übersicht](../../../README.md)
