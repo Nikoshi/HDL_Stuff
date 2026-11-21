@@ -52,6 +52,8 @@ und führt über die [ALU](logic_basics/docs/alu4.md) und
 [ISA-Entwurf von CPU v2](logic_basics/docs/cpu_v2/isa.md).
 Die Kapitel sind untereinander verlinkt.
 
+[Architektur-Spickblatt: Bausteine und Signalfluss](logic_basics/docs/architektur.md).
+
 ## Editor und Tools
 
 - [Spade-LSP in VS Code](logic_basics/docs/vscode_lsp.md)
