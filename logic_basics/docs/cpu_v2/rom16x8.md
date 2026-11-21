@@ -1,6 +1,6 @@
 # CPU v2, Kapitel VIII: 16×8-Bit-Programmspeicher
 
-**Status:** Offene TDD-Übung. Die CPU-v2-Zustandssteuerung ist abgeschlossen.
+**Status:** Abgeschlossen. Der lokale Verilator-Test wurde mit **608/608 Vergleichen** bestanden gemeldet.
 
 ## 1. Aufgabe des ROM
 
@@ -75,7 +75,7 @@ Das ist noch **kein neuer ISA-Entwurf**. Die Wortwerte
 sind der Vertrag zwischen Softwaremodell, ROM-Test und
 der späteren CPU-Integration.
 
-## 4. Schnittstelle und Spade-Aufgabe
+## 4. Schnittstelle und Implementierung
 
 Datei: `logic_basics/src/cpu_v2/rom16x8.spade`
 
@@ -89,14 +89,16 @@ pub entity rom16x8_top(
 }
 ```
 
-Die Datei enthält bereits einen kompilierbaren Platzhalter,
-der immer `0xC0` zurückgibt. Die Aufgabe ist, für jede
-Adresse das in der Tabelle festgelegte Wort auszugeben.
+Die Entity bildet die Adressen über ein `match address` auf
+feste Hexadezimalwerte ab. Die zehn ausdrücklich definierten
+Adressen sind einzeln aufgeführt; `_ => 0xC0` deckt die
+übrigen Adressen 10–15 ab. Der Fallback steht hier bewusst
+für mehrere gleichartige NOP-Einträge.
 
-Geeignete Spade-Sprachmittel kennst du aus
-`rom16x6.spade`: beispielsweise ein `match` über
-`address`. Die 8-Bit-Literale sollten eine eindeutige
-Breite erhalten, etwa `0b1001_0101u8` für `0x95`.
+Die Literale werden anhand des Ausgangs `instruction: inv uint<8>`
+als acht Bit breit typisiert. Alternativ wäre eine explizite
+Breitenangabe wie `0b1001_0101u8` möglich; für diesen
+überschaubaren ROM ist sie nicht nötig.
 
 **Bewusst nicht Teil dieser Aufgabe:** Opcode-Auswertung,
 ACC/PC-Register, ALU-Berechnung und Programmdurchlauf.
@@ -118,13 +120,13 @@ ohne Takt:
 - alle 16×16 Adressübergänge mit jeweils zwei Beobachtungen,
 - 64 zusätzliche Adresswechsel.
 
-Das ergibt **608 Vergleiche**. Der aktuelle NOP-Platzhalter
-muss bei nicht-NOP-Adressen fehlschlagen.
+Das ergibt **608 Vergleiche**, die mit dem implementierten
+Programmspeicher im lokalen Testlauf bestanden wurden.
 Der VCD-Trace liegt unter `logic_basics/build/rom16x8.vcd`.
 
-`make test_completed` enthält weiterhin die **21 abgeschlossenen
-Hardwareübungen**; `make test` führt zusätzlich den offenen
-ROM-Test aus.
+`make test_completed` enthält nun alle **22 abgeschlossenen
+Hardware-Testprogramme**. Da keine neue Hardwareübung geöffnet ist,
+führt `make test` dieselbe Regression aus.
 
 ## 6. Danach
 
