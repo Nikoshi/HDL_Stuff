@@ -256,3 +256,7 @@ Befehlsarten erweitert wird. Der Emulator bekommt dann
 neben seinem Akkumulator eine PC-Zustandsvariable
 und kann tatsächliche Programme Schritt für Schritt
 durchlaufen.
+
+---
+
+[← Zurück: Befehlsausführung](instruction_exec6.md) · [Weiter: ROM16x6 →](rom16x6.md)
