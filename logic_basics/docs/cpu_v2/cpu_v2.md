@@ -105,6 +105,69 @@ werden in CPU v2 aber nicht für die Sprungbedingung benötigt.
 **JZ prüft den alten ACC im Zustandsblock**, nicht das
 `zero`-Signal des aktuellen ALU-Ergebnisses.
 
+### Das Muster für den PC und den ACC
+
+Die lesbare Seite eines `port()`-Paares kann vor dem `inst`
+verwendet werden, das den passenden `inv`-Ausgang anschließt:
+
+```spade
+let (current_pc, pc_wire) = port();
+```
+
+`pc_wire` gehört später an den Ausgang `pc` der
+`cpu_v2_state_top`-Entity. `current_pc` ist zugleich
+der Eingang `address` des ROM und der beobachtbare Top-Level-PC.
+Entsprechend benötigt der gespeicherte ACC eine Verbindung zum
+ALU-Eingang. Das ist eine **Rückkopplung über Register**:
+Die Register entkoppeln die alte von der neuen Taktperiode.
+
+Eine hilfreiche Verbindungsliste für die eigene Verdrahtung:
+
+| Lesbares Signal | Ursprung | Wird gebraucht von |
+|---|---|---|
+| `current_pc` | `cpu_v2_state_top.pc` | ROM, Top-Level-Ausgang |
+| `current_instruction` | `rom16x8_top.instruction` | Decoder, Top-Level-Ausgang |
+| `current_opcode` | `decoder8_top.opcode` | `decode_control_signals` |
+| `current_immediate` | `decoder8_top.immediate` | ALU und Zustandsblock |
+| `current_acc` | `cpu_v2_state_top.acc` | ALU, Top-Level-Ausgang |
+| `alu_result` | `alu4_top.result` | Zustandsblock |
+
+### Achtung: Die ALU ist nicht die Ausführungsstufe
+
+Die vorhandene `alu::alu4_top`-Entity hat die Eingänge
+`a: uint<4>`, `b: uint<4>`, `op: uint<2>` und
+die drei `inv`-Ausgänge `result: uint<4>`,
+`carry_out: bool`, `zero: bool`.
+Es gibt **keine Ports** namens `clk`, `rst`, `enable`,
+`decoded_operand` oder `decoded_op`.
+
+Der ALU-Operationseingang erhält **`alu_op`** aus der
+Steuerfunktion, nicht den vollständigen vier Bit breiten Opcode.
+Das Ergebnis braucht ein eigenes `port()`-Paar, damit es
+als lesbarer Wert an die Zustandsregister weitergegeben werden kann.
+Auch die beiden hier unbenutzten `inv`-Ausgänge `carry_out`
+und `zero` müssen beim Instanziieren passende Anschlüsse erhalten.
+Ihr Wert entscheidet nicht über `JZ`.
+
+### Importpfade und Projektprüfung
+
+Die Module sind in `src/main.spade` und
+`src/cpu_v2/main.spade` registriert.
+In einer anderen Datei werden sie deshalb z. B. mit
+`use lib::cpu_v2::rom16x8;` importiert;
+die gemeinsame ALU liegt unter `lib::cpu::alu`.
+`lib` verweist hier auf das aktuelle Swim-Projekt.
+
+Falls der Editor einen gültigen Modulpfad dennoch als unbekannt
+markiert, zunächst den Compiler als Vergleich heranziehen:
+
+```sh
+nix develop -c sh -c 'cd logic_basics && swim build'
+```
+
+Bei erfolgreichem Build den Spade-LSP neu starten.
+Ein LSP-Fehler allein beweist noch keinen ungültigen Import.
+
 ## 4. Verbindliche Top-Level-Schnittstelle
 
 Datei: `logic_basics/src/cpu_v2/cpu_v2.spade`
