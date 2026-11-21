@@ -81,3 +81,7 @@ Eingangswechsel zwischen Taktflanken und Reset aus jeder Phase.
 Die VCD-Datei heißt `logic_basics/build/traffic_light.vcd`.
 
 Der Ampel-Test ist weiterhin über `make test_traffic_light` und den VS-Code-Einzeltest verfügbar. Solange die CPU-Ausführungsübung offen ist, überprüft `make test_completed` die abgeschlossenen Bausteine.
+
+---
+
+[← Zurück zur Übersicht](../../README.md) · [Weiter: 4-Bit-ALU →](alu4.md)
