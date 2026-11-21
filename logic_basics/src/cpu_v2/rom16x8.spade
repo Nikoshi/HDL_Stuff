@@ -1,0 +1,11 @@
+// CPU v2: Kombinatorischer 16×8-Bit-Programmspeicher.
+// Die Adresse wählt ein vollständiges 8-Bit-Befehlswort.
+// TODO: Das Programm aus docs/cpu_v2/rom16x8.md eintragen.
+#[no_mangle(all)]
+pub entity rom16x8_top(
+    address: uint<4>,
+    instruction: inv uint<8>
+) {
+    // Absichtlicher Platzhalter: NOP an jeder Adresse.
+    set instruction = 0b1100_0000u8;
+}
