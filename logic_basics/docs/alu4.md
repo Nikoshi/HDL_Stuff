@@ -205,3 +205,7 @@ keine FPGA-LUT-Zahlen. Dafür brauchen wir später eine konkrete Technologie.
 Die `stat`-Abschnitte der Berichte zeigen auch Gatterklassen wie
 `$_AND_`, `$_OR_`, `$_XOR_` und `$_MUX_`. Ihre Anzahl
 allein berücksichtigt die unterschiedlichen Zellverzögerungen nicht.
+
+---
+
+[← Zurück: Ampel-FSM](fsm_ampel.md) · [Weiter: Akkumulator →](akkumulator4.md)
