@@ -184,3 +184,7 @@ Quellcode: [`src/cpu_v2/README.md`](../../src/cpu_v2/README.md).
 
 Abgeschlossene Hardwareübungen und die noch offenen Lernschritte sind
 in dieser Reihenfolge getrennt gekennzeichnet.
+
+---
+
+[← Zurück: CPU v1](../cpu4.md) · [Weiter: 8-Bit-Decoder →](decoder8.md)
