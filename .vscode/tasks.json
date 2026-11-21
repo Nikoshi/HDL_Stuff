@@ -2,14 +2,14 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "HDL: Regression (alle abgeschlossenen Tests)",
+      "label": "HDL: Aktuelle Übung (CPU-v2-Integration)",
       "type": "shell",
       "command": "nix",
       "args": [
         "develop",
         "--command",
         "make",
-        "test_completed"
+        "test_cpu_v2"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -138,6 +138,10 @@
       "description": "Welchen HDL-Test möchtest du ausführen?",
       "options": [
         {
+          "label": "CPU v2: Integration (aktuelle Übung)",
+          "value": "test_cpu_v2"
+        },
+        {
           "label": "CPU v2: ROM16x8 (abgeschlossen)",
           "value": "test_rom16x8"
         },
@@ -230,7 +234,7 @@
           "value": "test_mux"
         }
       ],
-      "default": "test_rom16x8"
+      "default": "test_cpu_v2"
     }
   ]
 }
