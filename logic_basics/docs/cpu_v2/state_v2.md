@@ -18,17 +18,17 @@ bauen. Ein neuer ROM und der endgültige CPU-v2-Top-Level sind noch nicht nötig
                                          │             │
   ALU-Ergebnis ───────┐                  │             │
                       v                  v             v
-  acc_from_imm ───> ACC-Mux ────────> ACC-Register      |
-  acc_write ────────────────────────>   (4 Bit)         |
+  acc_from_imm ───> ACC-Mux ────────> ACC-Register     |
+  acc_write ────────────────────────>   (4 Bit)        |
                                          |             |
                                          └─> ACC == 0  |
-                                               |      |
-                     pc_mode ───────────────────┼──────┤
-                                               v      v
-                                           PC-Auswahl
-                                               |
-                                         PC-Register
-                                           (4 Bit)
+                                               |       |
+                     pc_mode ──────────────────┼───────┤
+                                               v       v
+                                               PC-Auswahl
+                                                   |
+                                              PC-Register
+                                                (4 Bit)
 ```
 
 Für diese Übung erhält die neue Entity **bereits berechnete
