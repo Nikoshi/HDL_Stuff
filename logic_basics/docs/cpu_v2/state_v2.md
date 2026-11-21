@@ -196,3 +196,7 @@ zur CPU v2 verbunden werden.
 
 Vorherige Kapitel: [Felddecoder](decoder8.md) und
 [Steuerdecoder](control8.md).
+
+---
+
+[← Zurück: Steuerdecoder](control8.md) · [Weiter: ROM16x8 →](rom16x8.md)
