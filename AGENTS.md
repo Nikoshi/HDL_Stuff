@@ -18,6 +18,7 @@ HDL_Stuff ist eine Sammlung kleiner Experimente zu digitalen Schaltungen, HDLs u
 - Öffentliche Dokumentation kurz, technisch und ohne Chatprotokolle halten.
 - Die Haupt-README knapp als Einstieg pflegen: Setup, wichtigste Make-Targets, Projektstand und Links. Umfangreiche Installationshinweise, vollständige Testlisten und Historien in eigene Dokumente oder `make help` auslagern. Sachlich und ohne übertriebenes Statusmarketing formulieren.
 - Linux und macOS berücksichtigen. Nix-Dev-Shell verwenden; keine festen Nix-Store-Pfade einchecken.
+- VS-Code-Workspace `HDL_Stuff.code-workspace` kombiniert LSP mit Projektwurzel `logic_basics/` und Make-Tasks im Repository-Root. Bei Änderungen an `.vscode/tasks.json` die Aufgaben in dieser Workspace-Datei synchron halten. Die eventuell lokale `logic_basics/.vscode/` nicht ungefragt ändern.
 - Bestehende Make-Targets und Testabläufe nach Änderungen möglichst erhalten.
 - C++-Tests nach `logic_basics/test/foundations/`, `test/cpu/` und `test/cpu_v2/` sortieren. Neue Testgruppen im Makefile zuordnen. Die Theorie folgt derselben Gruppierung; LSP- und Compiler-Notizen liegen unter `logic_basics/docs/tooling/`.
 - Bei neuen Tests die Makefile-Zuordnung `TEST_NAMES`, `TEST_TOP_<name>`, `TEST_SRCS_<name>` und die C++-Quellgruppe ergänzen. Nur tatsächliche Spade-Abhängigkeiten aufnehmen, damit unabhängige Verilator-Tests nicht unnötig neu kompiliert werden. `make test` soll weiterhin alle Tests ausführen; `make clean` entfernt den generierten Build und die VCD-Dateien.
