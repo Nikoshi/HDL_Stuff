@@ -148,7 +148,7 @@
         "problemMatcher": []
       },
       {
-        "label": "Assembler: Encoder testen (aktuelle Übung)",
+        "label": "Assembler: Encoder testen (abgeschlossen)",
         "type": "shell",
         "command": "nix",
         "args": [
@@ -188,6 +188,27 @@
           "clear": true
         },
         "problemMatcher": []
+      },
+      {
+        "label": "Assembler: Parser testen (aktuelle Übung)",
+        "type": "shell",
+        "command": "nix",
+        "args": [
+          "develop",
+          "--command",
+          "make",
+          "test_assembler_parser"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}/.."
+        },
+        "group": "test",
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared",
+          "clear": true
+        },
+        "problemMatcher": []
       }
     ],
     "inputs": [
@@ -196,6 +217,10 @@
         "type": "pickString",
         "description": "Welchen HDL-Test möchtest du ausführen?",
         "options": [
+          {
+            "label": "Assembler: Parser (aktuelle C++17-Übung)",
+            "value": "test_assembler_parser"
+          },
           {
             "label": "Assembler: Encoder (aktuelle C++17-Übung)",
             "value": "test_assembler_encoder"
@@ -297,7 +322,7 @@
             "value": "test_mux"
           }
         ],
-        "default": "test_assembler_encoder"
+        "default": "test_assembler_parser"
       }
     ]
   }

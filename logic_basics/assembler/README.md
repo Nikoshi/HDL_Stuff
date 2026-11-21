@@ -5,20 +5,23 @@ Die Spade-Hardware und die bestehende Hardware-Regression bleiben unverändert.
 
 ## Einstieg
 
-1. [C++17-Kurzeinführung](../docs/assembler/cpp17_einstieg.md) lesen.
-2. [Kapitel 1: Maschinenwort-Encoder](../docs/assembler/01_encoder.md) durcharbeiten.
-3. `encoder.cpp` selbst implementieren, anschließend `make test_assembler_encoder` ausführen.
+1. **Abgeschlossen:** [Encoder](../docs/assembler/01_encoder.md), 131/131 gemeldete Tests.
+2. **Aktuell:** [Kapitel II: Zeilenparser](../docs/assembler/02_parser.md)
+   mit [C++17-Textverarbeitung](../docs/assembler/cpp17_text.md).
+3. Bearbeite `parser.cpp`, nicht die Testbench oder die fertige Encoder-Funktion.
 
 Im Repository-Root (Nix-Dev-Shell):
 
 ```sh
-make test_assembler_encoder    # Offene Encoder-Übung (zunächst rot)
+make test_assembler_encoder    # Abgeschlossener Encoder-Test
+make test_assembler_parser     # Offene Parser-Übung (zunächst rot)
 make assembler                 # Noch unvollständige CLI bauen
 make test_completed            # Bestehende Hardware-Regression
 ```
 
-`test/encoder_test.cpp` erwartet 131 Vergleiche. Das Executable
-`logic_basics/build/mini_assembler` ist derzeit nur ein CLI-Platzhalter.
+`test/encoder_test.cpp` prüft 131 Kodierfälle, `test/parser_test.cpp`
+prüft 38 Zeilenfälle. Das Executable `logic_basics/build/mini_assembler`
+ist weiterhin nur ein CLI-Platzhalter.
 
 ## Festes Ausgabeformat für später
 
@@ -28,8 +31,9 @@ make test_completed            # Bestehende Hardware-Regression
 - Mehr als 16 Anweisungen sind ein **Fehler**, niemals still kürzen.
 - Für fehlende Adressen soll der generierte `match address`-Block
   mit `_ => 0xC0` (NOP) enden.
-- Sprunglabels erhalten später absolute Adressen; ihre Umsetzung
-  ist noch **nicht** Teil der Encoder-Übung.
+- Der Parser erkennt bereits Labelzeilen; ihre Adressen werden
+  erst in einer späteren Übung aufgelöst.
 
-`examples/countdown.asm` ist das bekannte Testprogramm für den
-späteren Parser und ROM-Generator. Es wird noch nicht verarbeitet.
+`examples/countdown.asm` enthält passende Beispielzeilen. Der
+Parser wird zunächst pro Zeile isoliert getestet; eine vollständige
+Dateiverarbeitung und der ROM-Generator folgen später.

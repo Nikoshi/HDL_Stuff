@@ -153,4 +153,4 @@ Der Encoder benötigt diese Datenstrukturen noch nicht.
 ---
 
 [Zur ersten Übung: Maschinenwort-Encoder](01_encoder.md) ·
-[Zur Kapitelübersicht](../README.md)
+[Weiter: Textverarbeitung](cpp17_text.md)

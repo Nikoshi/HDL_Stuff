@@ -1,7 +1,6 @@
 # Mini-Assembler, Kapitel I: Maschinenwörter kodieren
 
-**Status:** Offene C++17-Übung. Die CPU-v2-Hardware ist abgeschlossen;
-der Assembler wird als eigenständiges Softwareprojekt entwickelt.
+**Status:** Abgeschlossen. Der lokale Encoder-Test wurde mit **131/131 Vergleichen** bestanden gemeldet.
 
 ## 1. Ziel der ersten Etappe
 
@@ -129,11 +128,11 @@ sowie drei ungültige Werte (16, 17 und 256). Das sind
 **131 Vergleiche**. Bei einem unerlaubten Wert muss
 `std::out_of_range` geworfen werden.
 
-Zu Beginn soll der Test absichtlich fehlschlagen, denn die Funktion
-liefert im Platzhalter noch `0` zurück. Die bisherigen Hardwaretests
-laufen unabhängig weiter mit `make test_completed`.
+Der Encoder-Test wurde lokal vollständig bestanden (131/131 gemeldete
+Vergleiche). Die Hardwaretests laufen unabhängig weiter mit
+`make test_completed`.
 
-`make assembler` kompiliert bereits das spätere Kommandozeilenprogramm.
+`make assembler` kompiliert weiterhin das spätere Kommandozeilenprogramm.
 Es verarbeitet noch keine Eingaben und meldet das entsprechend.
 **Die offene Encoder-Aufgabe wird nicht automatisch in
 `make test` aufgenommen**, damit die abgeschlossene Hardware-Regression
@@ -152,4 +151,4 @@ Befehlen kleiner als das ROM.
 
 ---
 
-[← Zurück: CPU-v2-Integration](../cpu_v2/cpu_v2.md) · [Zur Kapitelübersicht](../README.md)
+[← Zurück: CPU-v2-Integration](../cpu_v2/cpu_v2.md) · [Weiter: Zeilenparser →](02_parser.md)

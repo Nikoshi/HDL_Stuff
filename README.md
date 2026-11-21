@@ -25,7 +25,8 @@ make test             # Gesamte Hardware-Regression
 make test_rom16x8     # CPU-v2-Programmspeicher testen
 make test_cpu_v2      # Vollständige CPU v2 testen
 make demo_cpu_v2      # ISA-Demo im Softwaremodell
-make test_assembler_encoder  # Neue C++17-Encoder-Übung
+make test_assembler_encoder  # Encoder-Test (abgeschlossen)
+make test_assembler_parser   # Parser-Übung (offen)
 make help             # Alle verfügbaren Targets
 ```
 
@@ -38,7 +39,7 @@ Die erste 4-Bit-CPU ist abgeschlossen. CPU v2 verwendet weiterhin
 4-Bit-Register, aber 8-Bit-Befehle. Decoder, Steuerlogik, Zustandsregister und
 [16×8-Bit-Programmspeicher](logic_basics/docs/cpu_v2/rom16x8.md)
 sind im [CPU-v2-Top-Level](logic_basics/docs/cpu_v2/cpu_v2.md) verbunden und getestet.
-Aktuelle Softwareübung: [Mini-Assembler in C++17](logic_basics/docs/assembler/01_encoder.md).
+Aktuelle Softwareübung: [Mini-Assembler, Kapitel II](logic_basics/docs/assembler/02_parser.md).
 
 ## Code und Lernnotizen
 

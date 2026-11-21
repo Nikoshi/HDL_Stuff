@@ -20,5 +20,6 @@ Die VCD-Dateien liegen unter `logic_basics/build/`.
 
 Die **separaten C++17-Assembler-Tests** liegen in
 `logic_basics/assembler/test/`. Sie verwenden kein Verilator und
-laufen über `make test_assembler_encoder`. Offene Assembler-Übungen
+laufen über `make test_assembler_encoder` sowie
+`make test_assembler_parser`. Offene Assembler-Übungen
 sind nicht Bestandteil der abgeschlossenen Hardware-Regression.
