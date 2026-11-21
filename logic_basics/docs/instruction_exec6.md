@@ -150,3 +150,7 @@ müssen wir entscheiden, ob der Befehl direkt kombinatorisch
 aus dem Speicher kommt oder erst in einem Register landet.
 Damit lernen wir als Nächstes, warum eine CPU häufig
 einen geregelten Fetch-/Execute-Ablauf hat.
+
+---
+
+[← Zurück: 6-Bit-Decoder](decoder6.md) · [Weiter: Programmzähler →](pc4.md)
