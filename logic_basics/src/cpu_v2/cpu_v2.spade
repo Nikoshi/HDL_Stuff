@@ -1,0 +1,17 @@
+// CPU v2: Integrations-Top-Level für ROM, Decoder, ALU und Zustandsregister.
+// Die vorhandenen Bausteine bleiben unverändert.
+// TODO: Daten- und Steuersignale verbinden; keine neuen Register anlegen.
+#[no_mangle(all)]
+pub entity cpu_v2_top(
+    clk: clock,
+    rst: bool,
+    advance: bool,
+    pc: inv uint<4>,
+    instruction: inv uint<8>,
+    acc: inv uint<4>
+) {
+    // Kompilierbarer TDD-Platzhalter. Hier noch keine CPU-Funktion.
+    set pc = 0u4;
+    set instruction = 0b1100_0000u8;
+    set acc = 0u4;
+}
