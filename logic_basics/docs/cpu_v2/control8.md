@@ -139,9 +139,8 @@ Der Test wurde nach der Umstellung auf eine `fn` und
 `test_control8_top` erneut ausgeführt: **144/144 Vergleiche bestanden**.
 Die VCD-Datei liegt unter `logic_basics/build/control8.vcd`.
 
-`make test_completed` umfasst die **21** abgeschlossenen
-Hardware-Testprogramme; `make test` prüft zusätzlich das offene
-ROM16x8-Kapitel.
+`make test_completed` umfasst inzwischen **22 abgeschlossene
+Hardware-Testprogramme**. Der ROM16x8-Test gehört ebenfalls zur Regression.
 
 ## 6. Danach
 
