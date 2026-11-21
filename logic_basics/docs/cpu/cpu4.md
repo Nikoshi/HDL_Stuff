@@ -191,7 +191,7 @@ Im Repository-Root:
 make test_cpu4
 ```
 
-Die neue C++-Testbench in `test/cpu4.cc` enthält ein
+Die neue C++-Testbench in `test/cpu/cpu4.cc` enthält ein
 **unabhängiges Softwaremodell** für PC, ROM-Programm und ACC.
 Es vergleicht nach den Simulationsschritten alle drei
 Ausgänge `pc`, `instruction`, `acc`.
@@ -227,4 +227,4 @@ dieser Verdrahtungsübung.
 
 ---
 
-[← Zurück: ROM16x6](rom16x6.md) · [Weiter: CPU-v2-ISA →](cpu_v2/isa.md)
+[← Zurück: ROM16x6](rom16x6.md) · [Weiter: CPU-v2-ISA →](../cpu_v2/isa.md)

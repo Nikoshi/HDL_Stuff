@@ -137,7 +137,7 @@ Im Repository-Root:
 make test_decoder8
 ```
 
-Der unabhängige C++-Test `logic_basics/test/decoder8.cc` prüft:
+Der unabhängige C++-Test `logic_basics/test/cpu_v2/decoder8.cc` prüft:
 
 - Alle **256** möglichen 8-Bit-Eingaben gegen `(instruction >> 4) & 15`
   und `instruction & 15`.

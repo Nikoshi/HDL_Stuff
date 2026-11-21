@@ -133,7 +133,7 @@ Befehlscodes und 32 unmittelbare Eingangswechsel, also
 `logic_basics/build/decoder6.vcd` aufgezeichnet.
 
 Das unabhängige Software-Referenzmodell der Befehlsausführung liegt
-inzwischen in `test/instruction6_model.hpp`. Wenn wir spaeter auch den
+inzwischen in `test/cpu/instruction6_model.hpp`. Wenn wir spaeter auch den
 Programmzaehler und einen Programmspeicher haben, kann
 ein kleiner Emulator dieselben Befehle nacheinander
 ausfuehren und seinen Zustand (`PC`, `ACC`, gegebenenfalls

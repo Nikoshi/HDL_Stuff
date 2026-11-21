@@ -4,9 +4,9 @@ use lib::cpu_v2::control8;
 use lib::cpu::alu;
 use lib::cpu_v2::state_v2;
 
-// CPU v2: Integrations-Top-Level für ROM, Decoder, ALU und Zustandsregister.
-// Die vorhandenen Bausteine bleiben unverändert.
-// TODO: Daten- und Steuersignale verbinden; keine neuen Register anlegen.
+// CPU v2: ROM, Befehlsdecoder, Steuerfunktion, ALU und Register verbinden.
+// Der aktuelle PC adressiert das kombinatorische ROM; PC und ACC
+// übernehmen ihre neuen Werte gemeinsam an der steigenden Flanke.
 #[no_mangle(all)]
 pub entity cpu_v2_top(
     clk: clock,
@@ -36,9 +36,10 @@ pub entity cpu_v2_top(
         immediate: immediate_wire,
     };
 
-    let (acc_write, 
-         acc_from_imm,
-         alu_op, pc_mode) = control8::decode_control_signals(current_opcode);    
+    // Die Opcode-Steuerfunktion bestimmt Registerfreigabe, Datenquelle,
+    // ALU-Operation und PC-Verhalten unabhängig vom Takt.
+    let (acc_write, acc_from_imm, alu_op, pc_mode) =
+        control8::decode_control_signals(current_opcode);
 
     let _ = inst alu::alu4_top {
         a: current_acc,
@@ -62,7 +63,7 @@ pub entity cpu_v2_top(
         acc: acc_wire
     };
 
-    // Kompilierbarer TDD-Platzhalter. Hier noch keine CPU-Funktion.
+    // Top-Level-Ausgänge zeigen den gespeicherten Zustand und ROM[PC].
     set pc = current_pc;
     set instruction = current_instruction;
     set acc = current_acc;

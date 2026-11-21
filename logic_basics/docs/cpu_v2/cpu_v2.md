@@ -1,6 +1,6 @@
 # CPU v2, Kapitel IX: Die vollständige CPU verbinden
 
-**Status:** Offene TDD-Übung. Die 22 bisherigen Hardware-Testprogramme sind abgeschlossen.
+**Status:** Abgeschlossen. Die integrierte CPU v2 bestand im gemeldeten lokalen Lauf **3.691/3.691 Zustandsvergleiche**.
 
 ## 1. Was du in diesem Kapitel baust
 
@@ -195,9 +195,9 @@ Die sichtbaren Ausgänge bedeuten:
 `rst` und `advance` werden an den vorhandenen Zustandsblock
 weitergegeben. Eine neue Registerstufe ist nicht vorgesehen.
 
-Die Datei enthält zunächst nur drei konstante Ausgänge, damit
-der Platzhalter kompiliert. Er ist **absichtlich keine funktionierende
-CPU**. Ersetze die Platzhalter schrittweise durch die Verbindungen.
+Die Implementierung verbindet die vorhandenen Bausteine ohne zusätzliche
+Register. Die drei Top-Level-Ausgänge werden aus den aktuellen PC-,
+ACC- und ROM-Signalen gespeist.
 
 ## 5. Ein vollständiger Ablauf über vier Takte
 
@@ -227,7 +227,7 @@ Im Repository-Root:
 make test_cpu_v2
 ```
 
-Die C++-Testbench `logic_basics/test/cpu_v2.cc` verwendet ein
+Die C++-Testbench `logic_basics/test/cpu_v2/cpu_v2.cc` verwendet ein
 unabhängiges ISA-Softwaremodell und prüft **PC, ACC und das aktuelle
 ROM-Wort nach jeder Beobachtung**:
 
@@ -241,11 +241,10 @@ ROM-Wort nach jeder Beobachtung**:
 Eingangswechsel vor dem initialen Reset zählt nicht.
 Trace: `logic_basics/build/cpu_v2.vcd`.
 
-Der Test für diese offene Übung muss mit den konstanten
-Ausgängen des Platzhalters **zunächst fehlschlagen**.
-`make test_completed` prüft weiterhin separat die
-22 abgeschlossenen Hardware-Testprogramme. `make test`
-enthält auch den noch offenen CPU-v2-Integrationstest.
+Die Testbench wurde mit dem fertigen Top-Level lokal vollständig bestanden
+(3.691/3.691 gemeldete Vergleiche). `make test_completed` enthält jetzt
+**23 abgeschlossene Hardware-Testprogramme**, einschließlich CPU v2;
+`make test` führt dieselbe Regression aus.
 
 Die ROM-Adressen 4 und 10–15 werden durch das festgelegte Programm
 normalerweise nicht erreicht. Ihre Inhalte sind bereits unabhängig
@@ -253,8 +252,8 @@ im Test `test_rom16x8` geprüft worden.
 
 ## 7. Nach diesem Kapitel
 
-Mit einem erfolgreichen CPU-v2-Integrationstest ist die Hardware
-dieser CPU-Generation abgeschlossen. Danach eignet sich ein
+Der erfolgreiche CPU-v2-Integrationstest schließt die Hardware
+dieser CPU-Generation ab. Danach eignet sich ein
 kleines **Assembler-Projekt** als Softwareübung: symbolische
 Maschinenbefehle einlesen und daraus den `match address`-Block
 für ein Spade-ROM erzeugen. Sprache und Umfang werden erst

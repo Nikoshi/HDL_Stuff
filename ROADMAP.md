@@ -11,8 +11,8 @@ Grobe Lern- und Projektreihenfolge, ohne feste Termine:
 
 ## Weitere Etappen
 
-- **CPU v2 abschließen:** Die bereits getesteten Bausteine im gemeinsamen Top-Level verbinden und gegen das ISA-Softwaremodell prüfen.
-- **Kleiner Assembler (danach):** Als eigene angeleitete Programmierübung lesbare Befehle und optional Sprunglabels in einen Spade-`match address`-Block für ein ROM übersetzen. Rust oder C++ erst beim Entwurf entscheiden; keine fertige Implementierung vorwegnehmen.
+- **CPU v2 (abgeschlossen):** 4-Bit-Datenpfad, 8-Bit-Befehle, bedingte Sprünge und integrierter Test gegen das ISA-Softwaremodell.
+- **Kleiner Assembler (als Nächstes):** Als eigene angeleitete Programmierübung lesbare Befehle und optional Sprunglabels in einen Spade-`match address`-Block für ein ROM übersetzen. Rust oder C++ erst beim Entwurf entscheiden; keine fertige Implementierung vorwegnehmen.
 - **CPU v3 (später):** 8-Bit-Datenpfad und RAM ausprobieren. Befehlssatz, Befehlsbreite, Adressierung und Speicherarchitektur erst vor dem Bau gemeinsam festlegen.
 
 Querschnittsthemen: Waveforms, Syntheseergebnisse, Timing, Debugging und nachvollziehbare Tests.

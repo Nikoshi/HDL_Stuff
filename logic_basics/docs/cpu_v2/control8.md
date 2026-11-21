@@ -129,7 +129,7 @@ Im Repository-Root:
 make test_control8
 ```
 
-Die unabhängige Testbench in `logic_basics/test/control8.cc`
+Die unabhängige Testbench in `logic_basics/test/cpu_v2/control8.cc`
 prueft alle **16** Opcodes und danach **128** direkte,
 nicht-monotone Signalwechsel, insgesamt **144 Vergleiche**.
 Dabei sind auch alle acht reservierten Werte abgedeckt.
@@ -139,7 +139,7 @@ Der Test wurde nach der Umstellung auf eine `fn` und
 `test_control8_top` erneut ausgeführt: **144/144 Vergleiche bestanden**.
 Die VCD-Datei liegt unter `logic_basics/build/control8.vcd`.
 
-`make test_completed` umfasst inzwischen **22 abgeschlossene
+`make test_completed` umfasst inzwischen **23 abgeschlossene
 Hardware-Testprogramme**. Der ROM16x8-Test gehört ebenfalls zur Regression.
 
 ## 6. Danach

@@ -86,7 +86,7 @@ kombinatorische ROM schon das Wort der **neuen PC-Adresse**.
 ```sh
 make test_cpu4       # Integrierte CPU v1
 make test_cpu_v2     # Integrierte CPU v2
-make test_completed  # Abgeschlossene Einzelübungen
+make test_completed  # Alle 23 abgeschlossenen Hardwaretests
 make demo_cpu_v2     # CPU-v2-Softwaremodell ohne Hardware
 ```
 

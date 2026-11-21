@@ -21,9 +21,9 @@ Unter Linux ist auch Surfer dabei.
 ```sh
 make logic_basics     # Spade übersetzen
 make test_completed   # Abgeschlossene Übungen
-make test             # Alle Tests, inklusive der aktuellen Übung
+make test             # Gesamte Hardware-Regression
 make test_rom16x8     # CPU-v2-Programmspeicher testen
-make test_cpu_v2      # Offene CPU-v2-Integrationsübung
+make test_cpu_v2      # Vollständige CPU v2 testen
 make demo_cpu_v2      # ISA-Demo im Softwaremodell
 make help             # Alle verfügbaren Targets
 ```
@@ -36,7 +36,7 @@ Die Testbench-Traces liegen unter `logic_basics/build/`.
 Die erste 4-Bit-CPU ist abgeschlossen. CPU v2 verwendet weiterhin
 4-Bit-Register, aber 8-Bit-Befehle. Decoder, Steuerlogik, Zustandsregister und
 [16×8-Bit-Programmspeicher](logic_basics/docs/cpu_v2/rom16x8.md)
-sind fertig. Aktuelle Übung: [CPU-v2-Integration](logic_basics/docs/cpu_v2/cpu_v2.md).
+sind im [CPU-v2-Top-Level](logic_basics/docs/cpu_v2/cpu_v2.md) verbunden und getestet.
 
 ## Code und Lernnotizen
 
@@ -44,11 +44,11 @@ sind fertig. Aktuelle Übung: [CPU-v2-Integration](logic_basics/docs/cpu_v2/cpu_
 - `logic_basics/src/cpu/`: erste CPU
 - `logic_basics/src/cpu_v2/`: zweite CPU
 - `logic_basics/test/`: C++-Testbenches und Softwaremodelle
-- `logic_basics/docs/`: Lernkapitel
+- [Lernkapitel](logic_basics/docs/README.md): Grundlagen und CPU-Übungen
 
-Der Lernweg beginnt mit der [Ampel-FSM](logic_basics/docs/fsm_ampel.md)
-und führt über die [ALU](logic_basics/docs/alu4.md) und
-[CPU v1](logic_basics/docs/akkumulator4.md) zum
+Der Lernweg beginnt mit der [Ampel-FSM](logic_basics/docs/foundations/fsm_ampel.md)
+und führt über die [ALU](logic_basics/docs/foundations/alu4.md) und
+[CPU v1](logic_basics/docs/cpu/akkumulator4.md) zum
 [ISA-Entwurf von CPU v2](logic_basics/docs/cpu_v2/isa.md).
 Die Kapitel sind untereinander verlinkt.
 
@@ -56,8 +56,8 @@ Die Kapitel sind untereinander verlinkt.
 
 ## Editor und Tools
 
-- [Spade-LSP in VS Code](logic_basics/docs/vscode_lsp.md)
-- [Spade-/Swim-Migration nach Codeberg](logic_basics/docs/spade_migration.md)
+- [Spade-LSP in VS Code](logic_basics/docs/tooling/vscode_lsp.md)
+- [Spade-/Swim-Migration nach Codeberg](logic_basics/docs/tooling/spade_migration.md)
 - [Surfer](https://surfer-project.org/) für VCD-Signalverläufe
 
 Weitere Informationen: [Roadmap](ROADMAP.md) ·

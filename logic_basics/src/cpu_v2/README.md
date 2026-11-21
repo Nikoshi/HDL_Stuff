@@ -1,14 +1,14 @@
 # CPU v2: Eigenständige zweite CPU-Generation
 
-Hier entsteht die zweite Version unserer **4-Bit-CPU mit 8-Bit-Befehlen**.
+Hier liegt die zweite Version unserer **4-Bit-CPU mit 8-Bit-Befehlen**.
 
 Die abgeschlossene erste Generation bleibt unverändert unter
 `logic_basics/src/cpu/`. Insbesondere bleiben `cpu4_top`, ihr
 6-Bit-Befehlsformat und die vorhandenen Testbenches als Referenz erhalten.
 
-## Geplanter Aufbau
+## Aufbau
 
-Die Verzeichnisstruktur wird schrittweise mit den Übungen aufgebaut:
+Die Bausteine liegen getrennt von CPU v1:
 
 ```text
 src/cpu_v2/
@@ -18,13 +18,11 @@ src/cpu_v2/
 ├── control8.spade   # Fertige fn für die Steuerlogik + Testhülle
 ├── state_v2.spade   # PC-/ACC-Zustandssteuerung (abgeschlossen)
 ├── rom16x8.spade    # 16 feste 8-Bit-Befehle (abgeschlossen)
-└── cpu_v2.spade     # Integrations-Top-Level (offene TDD-Übung)
+└── cpu_v2.spade     # Fertiger Integrations-Top-Level
 ```
 
-Die genaue Aufteilung kann sich mit dem ISA-Entwurf noch ändern.
-Eine vorhandene ALU dürfen wir gegebenenfalls wiederverwenden; wir
-kopieren sie nicht unnötig. Alte Schnittstellen werden dabei nicht
-für die neue Version umgeschrieben.
+Die 4-Bit-ALU aus CPU v1 wird über das öffentliche Modul
+`lib::cpu::alu` wiederverwendet. Die CPU-v1-Schnittstellen bleiben unverändert.
 
 Die Spezifikation einschließlich eines konkreten Countdown-/LED-Alarm-Programms
 liegt unter [`docs/cpu_v2/isa.md`](../../docs/cpu_v2/isa.md).
@@ -40,19 +38,20 @@ Der gemeldete Verilator-Lauf bestand 69.635/69.635 Vergleiche.
 
 Der 16×8-Bit-Programmspeicher ist ebenfalls fertig:
 [`docs/cpu_v2/rom16x8.md`](../../docs/cpu_v2/rom16x8.md).
-Die unabhängige Testbench `test/rom16x8.cc` bestand gemeldete
+Die unabhängige Testbench `test/cpu_v2/rom16x8.cc` bestand gemeldete
 608/608 Vergleiche (`make test_rom16x8`).
 
-Die aktuelle Integrationsübung verbindet die fertigen Bausteine:
+Die abgeschlossene Integration verbindet die fertigen Bausteine:
 [`docs/cpu_v2/cpu_v2.md`](../../docs/cpu_v2/cpu_v2.md).
-Der Platzhalter `cpu_v2.spade` und die unabhängige Testbench
-`test/cpu_v2.cc` gehören zum Target `make test_cpu_v2`.
+Der Top-Level `cpu_v2.spade` und die unabhängige Testbench
+`test/cpu_v2/cpu_v2.cc` gehören zum Target `make test_cpu_v2`.
+Der gemeldete Lauf bestand **3.691/3.691 Zustandsvergleiche**.
 
 Das vollständige Demo-Programm lässt sich unabhängig von der Hardware
 mit `make demo_cpu_v2` im Repository-Root ausprobieren. Das eigenständige
-C++-Referenzmodell steht unter [`test/cpu_v2_isa_demo.cc`](../../test/cpu_v2_isa_demo.cc).
+C++-Referenzmodell steht unter [`test/cpu_v2/cpu_v2_isa_demo.cc`](../../test/cpu_v2/cpu_v2_isa_demo.cc).
 Es druckt einen Maschinenbefehl-/Zustands-Trace und prüft den Programmablauf.
-Der Softwaretest ist kein Test einer bereits vorhandenen CPU-v2-Hardware.
+Der Softwaretest bleibt ein unabhängiger Vergleichspunkt für die integrierte Hardware.
 
 ## Entwicklungsregeln
 
@@ -66,6 +65,6 @@ Der Softwaretest ist kein Test einer bereits vorhandenen CPU-v2-Hardware.
 - `src/main.spade` bindet `cpu_v2/main.spade` ein. Felddecoder und
   Steuerfunktion sind abgeschlossen. Der gemeldete Testlauf nach dem
   `fn`-Refactoring ergab 144/144 Vergleiche.
-- `make test_completed` enthält die 22 abgeschlossenen Hardwaretests;
-  `make test` prüft zusätzlich die offene Integrationsübung.
+- `make test_completed` enthält die 23 abgeschlossenen Hardwaretests;
+  `make test` führt dieselbe Regression aus.
   CPU v1 bleibt unverändert.

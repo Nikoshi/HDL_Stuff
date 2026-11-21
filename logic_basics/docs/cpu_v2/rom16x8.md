@@ -106,7 +106,7 @@ Im Repository-Root:
 make test_rom16x8
 ```
 
-Die unabhängige Testbench `logic_basics/test/rom16x8.cc`
+Die unabhängige Testbench `logic_basics/test/cpu_v2/rom16x8.cc`
 prüft die 16 Referenzwörter sowie unmittelbare Adresswechsel
 ohne Takt:
 
@@ -118,7 +118,7 @@ Das ergibt **608 Vergleiche**, die mit dem implementierten
 Programmspeicher im lokalen Testlauf bestanden wurden.
 Der VCD-Trace liegt unter `logic_basics/build/rom16x8.vcd`.
 
-`make test_completed` enthält nun alle **22 abgeschlossenen
+`make test_completed` enthält nun alle **23 abgeschlossenen
 Hardware-Testprogramme**. Da keine neue Hardwareübung geöffnet ist,
 führt `make test` dieselbe Regression aus.
 

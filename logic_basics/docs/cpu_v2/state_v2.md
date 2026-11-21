@@ -167,7 +167,7 @@ Im Repository-Root:
 make test_state_v2
 ```
 
-Die unabhängige Testbench `logic_basics/test/state_v2.cc`
+Die unabhängige Testbench `logic_basics/test/cpu_v2/state_v2.cc`
 berechnet `PC_neu` und `ACC_neu` aus dem alten Referenzzustand.
 Sie prüft:
 

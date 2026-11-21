@@ -208,4 +208,4 @@ allein berücksichtigt die unterschiedlichen Zellverzögerungen nicht.
 
 ---
 
-[← Zurück: Ampel-FSM](fsm_ampel.md) · [Weiter: Akkumulator →](akkumulator4.md)
+[← Zurück: Ampel-FSM](fsm_ampel.md) · [Weiter: Akkumulator →](../cpu/akkumulator4.md)

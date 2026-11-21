@@ -1,8 +1,8 @@
 # CPU v2: Entwurf der 8-Bit-Befehlssatzarchitektur
 
-**Status:** Die ISA ist festgelegt; Decoder, Steuerfunktion,
-Registersteuerung und ROM sind einzeln getestet. Der CPU-v2-Top-Level
-wird im [Integrationskapitel](cpu_v2.md) verbunden.
+**Status:** Die ISA ist festgelegt und alle CPU-v2-Bausteine sowie
+der vollständige Top-Level sind getestet. Die Integration ist im
+[Kapitel IX](cpu_v2.md) dokumentiert.
 Die erste 4-Bit-CPU in `src/cpu/` bleibt der unveränderte Referenzstand.
 
 ## 1. Warum eine zweite Version?
@@ -149,7 +149,7 @@ Im Repository-Root:
 make demo_cpu_v2
 ```
 
-Das Target kompiliert nur `logic_basics/test/cpu_v2_isa_demo.cc`
+Das Target kompiliert nur `logic_basics/test/cpu_v2/cpu_v2_isa_demo.cc`
 mit dem C++-Compiler. Es braucht weder `swim build` noch
 Verilator und erstellt **keine** VCD-Datei.
 
@@ -179,7 +179,7 @@ sichere NOP-Steuersignale. Das trennt die Software-Regel
 2. **Abgeschlossen:** [`control8` mit der Steuersignal-Wahrheitstabelle](control8.md), 144/144 auch nach dem `fn`-Refactoring.
 3. **Abgeschlossen:** [PC-/ACC-Zustandssteuerung](state_v2.md), 69.635/69.635 gemeldete Vergleiche.
 4. **Abgeschlossen:** [ROM 16×8](rom16x8.md) mit dem Countdown- und LED-Alarm-Programm, 608/608 gemeldete Vergleiche.
-5. **Aktuelle Übung:** [CPU-v2-Top-Level integrieren](cpu_v2.md) und gegen ein unabhängiges Softwaremodell testen.
+5. **Abgeschlossen:** [CPU-v2-Top-Level integriert](cpu_v2.md), 3.691/3.691 gemeldete Zustandsvergleiche.
 
 Quellcode: [`src/cpu_v2/README.md`](../../src/cpu_v2/README.md).
 
@@ -188,4 +188,4 @@ in dieser Reihenfolge getrennt gekennzeichnet.
 
 ---
 
-[← Zurück: CPU v1](../cpu4.md) · [Weiter: 8-Bit-Decoder →](decoder8.md)
+[← Zurück: CPU v1](../cpu/cpu4.md) · [Weiter: 8-Bit-Decoder →](decoder8.md)

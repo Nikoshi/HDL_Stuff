@@ -165,7 +165,7 @@ Im Repository-Root:
 make test_rom16x6
 ```
 
-Die unabhängige C++-Testbench in `test/rom16x6.cc` prüft:
+Die unabhängige C++-Testbench in `test/cpu/rom16x6.cc` prüft:
 
 - Alle 16 Adressen in aufsteigender und absteigender Reihenfolge.
 - Alle 256 Übergänge von jeder Adresse zu jeder anderen Adresse.

@@ -112,7 +112,7 @@ Steuerlogik wachsen, ohne dass der Akkumulator sie kennen muss.
 
 ## Das erste Stück CPU-Emulator
 
-Im neuen C++-Header `test/instruction6_model.hpp` liegt ein
+Im neuen C++-Header `test/cpu/instruction6_model.hpp` liegt ein
 softwarebasiertes Referenzmodell. Es hält `acc` als normale
 C++-Variable und interpretiert jede Instruktion direkt
 mit Schieben, Maskieren und einer `switch`-Anweisung.
