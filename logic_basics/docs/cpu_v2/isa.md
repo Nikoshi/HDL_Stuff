@@ -1,8 +1,9 @@
 # CPU v2: Entwurf der 8-Bit-Befehlssatzarchitektur
 
-**Status:** ISA-Entwurf vor der Hardware-Implementierung.
-Die erste 4-Bit-CPU in `src/cpu/` bleibt der unveränderte,
-vollständig getestete Referenzstand.
+**Status:** Die ISA ist festgelegt; Decoder, Steuerfunktion,
+Registersteuerung und ROM sind einzeln getestet. Der CPU-v2-Top-Level
+wird im [Integrationskapitel](cpu_v2.md) verbunden.
+Die erste 4-Bit-CPU in `src/cpu/` bleibt der unveränderte Referenzstand.
 
 ## 1. Warum eine zweite Version?
 
@@ -178,7 +179,7 @@ sichere NOP-Steuersignale. Das trennt die Software-Regel
 2. **Abgeschlossen:** [`control8` mit der Steuersignal-Wahrheitstabelle](control8.md), 144/144 auch nach dem `fn`-Refactoring.
 3. **Abgeschlossen:** [PC-/ACC-Zustandssteuerung](state_v2.md), 69.635/69.635 gemeldete Vergleiche.
 4. **Abgeschlossen:** [ROM 16×8](rom16x8.md) mit dem Countdown- und LED-Alarm-Programm, 608/608 gemeldete Vergleiche.
-5. **Geplant:** Eigenständigen `cpu_v2_top` verbinden und gegen einen neuen Emulator testen.
+5. **Aktuelle Übung:** [CPU-v2-Top-Level integrieren](cpu_v2.md) und gegen ein unabhängiges Softwaremodell testen.
 
 Quellcode: [`src/cpu_v2/README.md`](../../src/cpu_v2/README.md).
 
