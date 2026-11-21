@@ -16,6 +16,7 @@ HDL_Stuff ist eine Sammlung kleiner Experimente zu digitalen Schaltungen, HDLs u
 - Kleine, nachvollziehbare Änderungen bevorzugen. Keine unnötigen Abstraktionen oder Frameworks.
 - Vor Änderungen Repository und Dateistand prüfen; keine nicht gepushten lokalen Änderungen voraussetzen oder überschreiben.
 - Öffentliche Dokumentation kurz, technisch und ohne Chatprotokolle halten.
+- Die Haupt-README knapp als Einstieg pflegen: Setup, wichtigste Make-Targets, Projektstand und Links. Umfangreiche Installationshinweise, vollständige Testlisten und Historien in eigene Dokumente oder `make help` auslagern. Sachlich und ohne übertriebenes Statusmarketing formulieren.
 - Linux und macOS berücksichtigen. Nix-Dev-Shell verwenden; keine festen Nix-Store-Pfade einchecken.
 - Bestehende Make-Targets und Testabläufe nach Änderungen möglichst erhalten.
 - Bei neuen Tests die Makefile-Zuordnung `TEST_NAMES`, `TEST_TOP_<name>` und `TEST_SRCS_<name>` ergänzen. Nur tatsächliche Spade-Abhängigkeiten aufnehmen, damit unabhängige Verilator-Tests nicht unnötig neu kompiliert werden. `make test` soll weiterhin alle Tests ausführen; `make clean` entfernt den generierten Build und die VCD-Dateien.
@@ -25,6 +26,7 @@ HDL_Stuff ist eine Sammlung kleiner Experimente zu digitalen Schaltungen, HDLs u
 
 - Für jede neue Hardware-Übung standardmäßig ein zur Übung gehörendes Theorie- und Spade-Kapitel unter `logic_basics/docs/<thema>.md` vorbereiten. Zuvor den tatsächlichen Stand der Schaltung, angrenzender Module, Tests und bestehenden Notizen lesen. Neue Kapitel im `README.md` verlinken, wenn die Übung in das Projekt aufgenommen wird.
 - Die Kapitel sollen aufeinander aufbauen und die nächste Hardwareaufgabe verständlich machen, ohne die fertige Implementierung zu verraten.
+- Lernkapitel am Dateiende mit einer knappen Vor-/Zurück-Navigation verbinden (relative Markdown-Links zum tatsächlich vorherigen und folgenden Kapitel). Bei erstem und letztem Kapitel stattdessen zur README-Übersicht verlinken. Technische Nachschlageseiten wie LSP-Setup gehören nicht künstlich in diese Lernfolge.
 - Bewährter Kapitelaufbau: Lernziel und CPU-Einordnung; Verhalten und Signalprioritäten; Hardwarestruktur (bei Bedarf ASCII-Blockdiagramm); Zustandsübergänge mit Tabellen oder Formeln; notwendige Spade-Sprachmittel an kleinen unabhängigen Beispielen; klare Implementierungsaufgabe mit Datei/Ports; Testfälle, Make-Target und VCD-Pfad; kurzer Ausblick.
 - Insbesondere bei Registern, FSMs und CPU-Bausteinen den aktuellen und nächsten Zustand sauber unterscheiden. Bedingungen, Flanken, Reset-Priorität sowie synchrones versus kombinatorisches Verhalten ausdrücklich erklären.
 - Konkrete Wahrheitstabellen, Zustandsformeln und kleine Beispiele bevorzugen, statt nur APIs oder Syntax aufzuzählen. Mathematische Fallunterscheidungen dürfen auch in Markdown mit LaTeX dargestellt werden.
