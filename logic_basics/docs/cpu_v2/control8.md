@@ -139,15 +139,15 @@ Der Test wurde nach der Umstellung auf eine `fn` und
 `test_control8_top` erneut ausgeführt: **144/144 Vergleiche bestanden**.
 Die VCD-Datei liegt unter `logic_basics/build/control8.vcd`.
 
-`make test_completed` umfasst jetzt alle **20** abgeschlossenen
-Hardware-Testprogramme; `make test` fuehrt dieselbe Suite aus,
-bis die naechste offene Uebung hinzukommt.
+`make test_completed` umfasst die **21** abgeschlossenen
+Hardware-Testprogramme; `make test` prüft zusätzlich das offene
+ROM16x8-Kapitel.
 
 ## 6. Danach
 
-Der naechste Architekturbaustein sind die eigentlichen
-Zustandsuebergaenge von PC und ACC fuer `LDI`, `JMP` und `JZ`.
-Die CPU-v1-Logik bleibt dabei unveraendert.
+Die [PC-/ACC-Zustandssteuerung](state_v2.md) ist ebenfalls abgeschlossen.
+Als nächste eigenständige Übung folgt der [16×8-Bit-ROM](rom16x8.md).
+Die CPU-v1-Logik bleibt unverändert.
 
 Weiterfuehrend: [ISA-Entwurf](isa.md),
 [Kapitel V: Felddecoder](decoder8.md).
