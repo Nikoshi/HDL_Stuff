@@ -7,5 +7,18 @@ pub entity rom16x8_top(
     instruction: inv uint<8>
 ) {
     // Absichtlicher Platzhalter: NOP an jeder Adresse.
-    set instruction = 0b1100_0000u8;
+    set instruction = match address {
+        0x00 => 0x45,
+        0x01 => 0x0F,
+        0x02 => 0x95,
+        0x03 => 0x81,
+        0x04 => 0xC0,
+        0x05 => 0x2F,
+        0x06 => 0x1A,
+        0x07 => 0x3F,
+        0x08 => 0xC0,
+        0x09 => 0x80,
+        // Alle übrigen ROM-Adressen enthalten NOP.
+        _    => 0xC0,
+    };
 }
