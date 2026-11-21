@@ -2,14 +2,14 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "HDL: Aktuelle Übung (CPU-v2-ROM16x8)",
+      "label": "HDL: Regression (alle abgeschlossenen Tests)",
       "type": "shell",
       "command": "nix",
       "args": [
         "develop",
         "--command",
         "make",
-        "test_rom16x8"
+        "test_completed"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -138,7 +138,7 @@
       "description": "Welchen HDL-Test möchtest du ausführen?",
       "options": [
         {
-          "label": "CPU v2: ROM16x8 (aktuelle Übung)",
+          "label": "CPU v2: ROM16x8 (abgeschlossen)",
           "value": "test_rom16x8"
         },
         {
