@@ -1,24 +1,22 @@
-// CPU v2: Kombinatorischer 16×8-Bit-Programmspeicher.
-// Die Adresse wählt ein vollständiges 8-Bit-Befehlswort.
-// TODO: Das Programm aus docs/cpu_v2/rom16x8.md eintragen.
+// CPU v2: Festes, kombinatorisches ROM mit 16 Befehlen zu je 8 Bit.
+// Die 4-Bit-Adresse wählt direkt ein Maschinenwort (Opcode | Immediate).
 #[no_mangle(all)]
 pub entity rom16x8_top(
     address: uint<4>,
     instruction: inv uint<8>
 ) {
-    // Absichtlicher Platzhalter: NOP an jeder Adresse.
+    // Countdown mit anschließendem LED-Muster; kein Takt und kein Register.
     set instruction = match address {
-        0x00 => 0x45,
-        0x01 => 0x0F,
-        0x02 => 0x95,
-        0x03 => 0x81,
-        0x04 => 0xC0,
-        0x05 => 0x2F,
-        0x06 => 0x1A,
-        0x07 => 0x3F,
-        0x08 => 0xC0,
-        0x09 => 0x80,
-        // Alle übrigen ROM-Adressen enthalten NOP.
-        _    => 0xC0,
+        0x00 => 0x45, // LDI 5
+        0x01 => 0x0F, // ADD 15: eins abziehen (mod 16)
+        0x02 => 0x95, // JZ 5: zum Alarm springen, wenn ACC == 0
+        0x03 => 0x81, // JMP 1: Countdown fortsetzen
+        0x04 => 0xC0, // NOP: im normalen Ablauf nicht erreichbar
+        0x05 => 0x2F, // OR 15
+        0x06 => 0x1A, // AND 10
+        0x07 => 0x3F, // XOR 15
+        0x08 => 0xC0, // NOP: Muster einen Takt halten
+        0x09 => 0x80, // JMP 0: Countdown neu starten
+        _    => 0xC0, // Unbenutzte Adressen 10–15: NOP
     };
 }
