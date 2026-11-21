@@ -14,10 +14,10 @@ Wir wollen gezielt nur das Speichern und die Auswahl der nächsten Werte
 bauen. Ein neuer ROM und der endgültige CPU-v2-Top-Level sind noch nicht nötig.
 
 ```text
-                immediate ────────────────┬─────────────┐
-                                         │             │
-  ALU-Ergebnis ───────┐                  │             │
-                      v                  v             v
+                immediate ────────────────┬────────────┐
+                                          │            │
+  ALU-Ergebnis ───────┐                   │            │
+                      v                   v            v
   acc_from_imm ───> ACC-Mux ────────> ACC-Register     |
   acc_write ────────────────────────>   (4 Bit)        |
                                          |             |
