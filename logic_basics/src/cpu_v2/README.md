@@ -17,7 +17,7 @@ src/cpu_v2/
 ├── decoder8.spade   # 8-Bit-Felddecoder (abgeschlossen)
 ├── control8.spade   # Fertige fn für die Steuerlogik + Testhülle
 ├── state_v2.spade   # PC-/ACC-Zustandssteuerung (abgeschlossen)
-├── rom16x8.spade    # 16 feste 8-Bit-Befehle (offene TDD-Übung)
+├── rom16x8.spade    # 16 feste 8-Bit-Befehle (abgeschlossen)
 └── cpu_v2.spade     # Neuer CPU-Top-Level (geplant)
 ```
 
@@ -38,10 +38,11 @@ Die PC-/ACC-Zustandssteuerung ist abgeschlossen:
 [`docs/cpu_v2/state_v2.md`](../../docs/cpu_v2/state_v2.md).
 Der gemeldete Verilator-Lauf bestand 69.635/69.635 Vergleiche.
 
-Die nächste Übung behandelt den neuen 16×8-Bit-Programmspeicher:
+Der 16×8-Bit-Programmspeicher ist ebenfalls fertig:
 [`docs/cpu_v2/rom16x8.md`](../../docs/cpu_v2/rom16x8.md).
-Der ROM-Platzhalter steht in `rom16x8.spade`, der unabhängige Test in
-`test/rom16x8.cc` (`make test_rom16x8`).
+Die unabhängige Testbench `test/rom16x8.cc` bestand gemeldete
+608/608 Vergleiche (`make test_rom16x8`). Die nächste Etappe
+ist die Integration der vorhandenen CPU-v2-Bausteine.
 
 Den geplanten Befehlssatz können wir **vor der Spade-Implementierung**
 mit `make demo_cpu_v2` im Repository-Root ausprobieren. Das eigenständige
@@ -61,6 +62,6 @@ Der Softwaretest ist kein Test einer bereits vorhandenen CPU-v2-Hardware.
 - `src/main.spade` bindet `cpu_v2/main.spade` ein. Felddecoder und
   Steuerfunktion sind abgeschlossen. Der gemeldete Testlauf nach dem
   `fn`-Refactoring ergab 144/144 Vergleiche.
-- `make test_completed` enthält die 21 abgeschlossenen Hardwaretests;
-  `make test` umfasst zusätzlich die offene ROM16x8-Übung.
+- `make test_completed` enthält alle 22 abgeschlossenen Hardwaretests;
+  `make test` verwendet derzeit dieselbe Regression.
   CPU v1 bleibt unverändert.
