@@ -1,146 +1,165 @@
-# CPU v2, Kapitel VII: Zustandssteuerung für PC und ACC
+# CPU v2, Kapitel VII: PC- und ACC-Zustandssteuerung
 
-**Status:** Offene Spade-TDD-Übung. Felddecoder und Opcode-Steuerfunktion sind abgeschlossen.
+**Status:** Abgeschlossen. Für die implementierte Registersteuerung wurden
+**69.635/69.635 Zustandsvergleiche** im lokalen Verilator-Test gemeldet.
 
-## 1. Lernziel
+## 1. Was dieser Baustein macht
 
-Bisher haben wir zwei rein kombinatorische Bausteine:
+Die CPU v2 speichert zwei unabhängige 4-Bit-Werte:
 
-- `decoder8_top` trennt das 8-Bit-Wort in Opcode und Immediate.
-- `decode_control_signals` liefert daraus Schreibfreigabe, Datenquelle, ALU-Operation und PC-Modus.
+- **ACC:** Das Datenregister für Rechenergebnisse und geladene Konstanten.
+- **PC:** Die Adresse, von der der nächste Befehl gelesen wird.
 
-Nun kommt der Schritt, in dem **zwei Register tatsächlich ihren Zustand ändern**.
-Wir wollen gezielt nur das Speichern und die Auswahl der nächsten Werte
-bauen. Ein neuer ROM und der endgültige CPU-v2-Top-Level sind noch nicht nötig.
+`decoder8` zerlegt ein Befehlswort; `decode_control_signals` legt dessen
+Steuersignale fest. `cpu_v2_state_top` führt diese Befehle **nicht selbst
+aus**: Er bekommt die Steuersignale und ein bereits berechnetes
+`alu_result` als Eingänge und entscheidet nur, **was beim nächsten
+Takt in PC und ACC gespeichert wird**.
 
 ```text
-                immediate ────────────────┬────────────┐
-                                          │            │
-  ALU-Ergebnis ───────┐                   │            │
-                      v                   v            v
-  acc_from_imm ───> ACC-Mux ────────> ACC-Register     |
-  acc_write ────────────────────────>   (4 Bit)        |
-                                         |             |
-                                         └─> ACC == 0  |
-                                               |       |
-                     pc_mode ──────────────────┼───────┤
-                                               v       v
-                                               PC-Auswahl
-                                                   |
-                                              PC-Register
-                                                (4 Bit)
+                                 ┌─────────────────┐
+ immediate ──────────────────────┤                 │
+ alu_result ─────────────────────┤ ACC-Datenwahl   ├──> ACC-Register
+ acc_write, acc_from_imm ────────┤                 │         │
+                                 └─────────────────┘         │
+                                                             │ alter ACC
+                                                             v
+ pc_mode, immediate ─────────────┐                     Nullprüfung (JZ)
+                                 v                           │
+ aktueller PC ───────────> PC-Folgewertwahl <──────────────────┘
+                                 │
+                                 v
+                            PC-Register
 ```
 
-Für diese Übung erhält die neue Entity **bereits berechnete
-Steuersignale** und ein **extern bereitgestelltes ALU-Ergebnis**.
-Die bestehende ALU muss daher hier noch nicht instanziiert werden.
+**Gedankenmodell:** Vor einer Taktflanke stehen `PC_alt` und `ACC_alt`
+fest. Die kombinatorische Logik berechnet `PC_neu` und `ACC_neu`
+daraus. Erst mit der steigenden Flanke werden beide neuen Werte
+**gleichzeitig** gespeichert.
 
-## 2. Die verbindliche Schnittstelle
+## 2. Schnittstelle
 
 Datei: `logic_basics/src/cpu_v2/state_v2.spade`
 
-Top-Level für die unabhängige Verilator-Testbench:
-`cpu_v2_state_top`.
+Top-Level: `cpu_v2_state_top`
 
-| Signal | Typ | Bedeutung |
+| Port | Spade-Typ | Aufgabe |
 |---|---|---|
-| `clk` | `clock` | Gemeinsamer Takt |
-| `rst` | `bool` | Synchroner Reset beider Register |
-| `advance` | `bool` | Gemeinsames Schritt-/Pause-Signal |
-| `immediate` | `uint<4>` | Datenkonstante oder Sprungziel |
-| `alu_result` | `uint<4>` | Bereits kombinatorisch berechnetes ALU-Ergebnis |
-| `acc_write` | `bool` | Schreibfreigabe des ACC bei aktivem Schritt |
-| `acc_from_imm` | `bool` | Wähle Immediate statt ALU-Ergebnis |
-| `pc_mode` | `uint<2>` | `00` normal, `01` JMP, `10` JZ, `11` Fallback |
-| `pc` | `inv uint<4>` | Gespeicherter PC |
-| `acc` | `inv uint<4>` | Gespeicherter Akkumulator |
+| `clk` | `clock` | Steigende Flanke übernimmt Folgezustände |
+| `rst` | `bool` | Beide Register synchron auf null setzen |
+| `advance` | `bool` | Gesamte CPU für einen Schritt freigeben |
+| `immediate` | `uint<4>` | Konstante oder absolute Sprungadresse |
+| `alu_result` | `uint<4>` | Berechnetes Ergebnis der vorgelagerten ALU |
+| `acc_write` | `bool` | Schreiben des ACC erlauben |
+| `acc_from_imm` | `bool` | Immediate statt ALU-Ergebnis auswählen |
+| `pc_mode` | `uint<2>` | Normal, JMP, JZ oder Fallback |
+| `pc` | `inv uint<4>` | Ausgang: aktuell gespeicherter PC |
+| `acc` | `inv uint<4>` | Ausgang: aktuell gespeicherter ACC |
 
-Die beiden Ausgänge zeigen die **gespeicherten Werte nach der letzten
-steigenden Taktflanke**, nicht die aktuell berechneten D-Eingänge.
+Die vier Steuersignale (`acc_write`, `acc_from_imm`, `pc_mode`
+und die andernorts genutzte ALU-Operation) stammen später aus
+`decode_control_signals`. Im Einzeltest werden sie direkt eingespeist.
+So ist die Registersteuerung unabhängig vom Opcode-Decoder prüfbar.
 
-## 3. Zustandsregeln und Signalpriorität
+## 3. Zuerst die zwei Speicherentscheidungen
 
-Seien `PC_alt` und `ACC_alt` die vor einer steigenden Flanke
-gespeicherten Werte. Dann gelten folgende Regeln in genau dieser Priorität:
+### Entscheidung A: Was passiert mit dem ACC?
 
-1. **`rst=1`:** PC und ACC werden beide auf 0 gesetzt, auch bei `advance=0`.
-2. **`rst=0, advance=0`:** Beide Register halten ihren Zustand, unabhängig von allen anderen Eingängen.
-3. **`rst=0, advance=1`:** PC und ACC übernehmen gleichzeitig die aus ihren alten Zuständen berechneten neuen Werte.
+Der erste Schritt ist **Schreibfreigabe**, der zweite **Datenquelle**:
 
-### Der Akkumulator
+| `advance` | `acc_write` | `acc_from_imm` | Nächster ACC |
+|---:|---:|---:|---|
+| 0 | beliebig | beliebig | `ACC_alt` halten |
+| 1 | 0 | beliebig | `ACC_alt` halten |
+| 1 | 1 | 0 | `alu_result` |
+| 1 | 1 | 1 | `immediate` |
 
-```text
-ACC_neu =
-    0               bei rst
-    ACC_alt         bei Pause
-    ACC_alt         wenn acc_write = 0
-    immediate       wenn acc_write = 1 und acc_from_imm = 1
-    alu_result      wenn acc_write = 1 und acc_from_imm = 0
-```
+Ein `LDI` verwendet die letzte Zeile. Bei `JMP` und `JZ`
+bleibt der ACC erhalten, weil `acc_write=0` ist.
 
-Die eigentliche ALU-Operation gehört in die spätere
-Ausführungsstufe. Ein `JMP` oder `JZ` muss den ACC
-nicht verändern.
+### Entscheidung B: Was passiert mit dem PC?
 
-### Der Programmzähler
+Bei `advance=0` bleibt der PC unverändert. Andernfalls gilt:
 
-Wenn die CPU nicht gerade zurückgesetzt oder angehalten ist:
-
-| `pc_mode` | Bedingung | `PC_neu` |
+| `pc_mode` | Bedeutung | Nächster PC |
 |---|---|---|
-| `00` | immer | `(PC_alt + 1) mod 16` |
-| `01` | immer | `immediate` |
-| `10` | `ACC_alt == 0` | `immediate` |
-| `10` | `ACC_alt != 0` | `(PC_alt + 1) mod 16` |
-| `11` | immer | `(PC_alt + 1) mod 16` (sicherer Fallback) |
+| `00` | Normal | `(PC_alt + 1) mod 16` |
+| `01` | JMP | `immediate` |
+| `10` | JZ, wenn `ACC_alt = 0` | `immediate` |
+| `10` | JZ, wenn `ACC_alt != 0` | `(PC_alt + 1) mod 16` |
+| `11` | Reserviert | `(PC_alt + 1) mod 16` |
 
-**Die JZ-Falle:** Ist `acc_write=1` und `pc_mode=10` gleichzeitig
-aktiv, darf die Entscheidung über den Sprung nur **ACC_alt** lesen.
-Die Testbench prüft solche Kombinationen bewusst, auch wenn die aktuelle
-Opcode-Steuerfunktion sie im normalen Betrieb nicht erzeugt.
+Der vierte Modus ist **kein ISA-Befehl**, sondern ein definierter
+sicherer Fallback bei einer ansonsten unbenutzten Steuerkodierung.
+Das 4-Bit-Inkrement erfolgt in Spade über `pc_reg +. 1`
+und läuft von 15 auf 0 zurück.
 
-`pc_mode=11` ist keine neue ISA-Operation. Die sequentielle Fortsetzung
-ist lediglich das definierte, sichere Verhalten für diesen sonst
-unbenutzten Steuerwert.
+## 4. Reset, Pause und Taktflanke
 
-## 4. Warum hier eine Entity statt einer Funktion?
+Die Priorität ist für **beide Register gleich**:
 
-Eine reine `fn` ist passend für unseren `control8`-Decoder.
-Hier werden dagegen **zwei echte Register** über steigende
-Taktflanken hinweg gespeichert. Deshalb ist eine `entity` mit
-`clk` und `reg(clk)` sinnvoll.
+1. **Synchroner Reset:** An einer steigenden Taktflanke mit `rst=1` werden PC und ACC null, auch wenn `advance=0` ist.
+2. **Pause:** Bei `rst=0` und `advance=0` bleiben beide Register unverändert.
+3. **Freigegebener Schritt:** Bei `rst=0` und `advance=1` gelten die Auswahlentscheidungen aus Abschnitt 3.
 
-Spade-Muster, das du bereits kennst:
+Eine bloße Änderung der Eingänge, einschließlich `rst`, aktualisiert
+noch kein Register. Auch die fallende Taktflanke speichert nichts.
+`reg(clk)` mit `reset(rst: 0)` realisiert den synchronen Reset.
+
+## 5. Weshalb JZ den gespeicherten ACC liest
+
+Die JZ-Bedingung bezieht sich auf `ACC_alt`, **nicht** auf
+`alu_result`. Die ALU kann einen ganz anderen Wert berechnen.
+
+Ein Beispiel aus dem Vertrag des Zustandsblocks:
+
+| Vor der Flanke | Wert |
+|---|---:|
+| `PC_alt` | 6 |
+| `ACC_alt` | 0 |
+| `immediate` | 12 |
+| `alu_result` | 9 |
+| `pc_mode` | `10` |
+| `advance`, `acc_write` | je 1 |
+| `acc_from_imm` | 0 |
+
+An derselben steigenden Flanke wird **PC=12** (JZ sieht `ACC_alt=0`)
+und **ACC=9** (ALU-Ergebnis) gespeichert. Es gibt kein zeitliches
+„erst ACC, dann PC“: Beide lesen den bisherigen Zustand.
+
+Der aktuelle Opcode-Decoder erzeugt die Kombination
+„JZ und ACC schreiben“ nicht. Der Zustandsblock wird trotzdem
+auch mit solchen direkten Steuersignalen getestet, um seine
+allgemeinen Zustandsregeln unabhängig abzusichern.
+
+## 6. Spade-Umsetzung: Eine Entity und zwei Register
+
+Im Gegensatz zum kombinatorischen `control8` besitzt dieser
+Baustein Zustand und benötigt deshalb eine `entity` mit
+zwei `reg(clk)`-Registern.
+
+Wichtig ist die Unterscheidung zwischen
+**Quellcodereihenfolge und Hardwarezeit**:
+
+- Der PC-Ausdruck steht im Code vor dem ACC-Register.
+- Für `JZ` muss dieser Ausdruck trotzdem den gespeicherten `acc_reg` lesen.
+- `decl acc_reg;` macht den später definierten Registerwert bereits
+  vorher im Quellcode sichtbar. Es erzeugt **kein drittes Register**.
+
+Die Stelle in der Implementierung:
 
 ```spade
-reg(clk) stored: uint<4> reset(rst: 0) =
-    if enable { next_value } else { stored };
+decl acc_reg;
+
+// Die JZ-Bedingung innerhalb der PC-Berechnung liest acc_reg.
+// Weiter unten folgt die tatsächliche Registerdefinition.
 ```
 
-`next_value` ist hier **nur ein Platzhaltername**, keine
-vorgegebene Lösung für die PC- oder ACC-Auswahl.
+Die beiden Namen `pc_reg` und `acc_reg` bezeichnen die gespeicherten
+Werte. Zusätzliche `next_*`-Signale sind möglich, aber für diese
+kleine Schaltung nicht zwingend.
 
-Wenn der ACC einen neuen Wert übernimmt, muss er zwischen
-`immediate` und `alu_result` wählen. Wenn der PC springt,
-muss er zwischen dem hochgezählten PC und einer Adresse
-wählen. Diese Multiplexer sind der neue Lerninhalt.
-
-## 5. Deine Spade-Aufgabe
-
-Der vorhandene Stub in `state_v2.spade` implementiert Reset,
-Pause und einige Standardfälle, aber noch nicht die vollständige
-ACC-Datenquellenwahl und nicht die Sprungmodi.
-
-Ergänze **nur diese Datei**, ohne den funktionierenden
-`decoder8`, `control8` oder CPU v1 umzuschreiben.
-Für die spätere Integration bleiben die Steuersignale
-bewusst als Eingangsports sichtbar.
-
-Tipp: Beginne mit einer separaten Überlegung für
-`PC_neu` und `ACC_neu`. Erst danach wird festgelegt,
-wie ihre jeweiligen `reg(clk)`-Anweisungen aussehen.
-
-## 6. Testbench und erwarteter Umfang
+## 7. Verifikation
 
 Im Repository-Root:
 
@@ -148,35 +167,32 @@ Im Repository-Root:
 make test_state_v2
 ```
 
-Die unabhängige C++-Testbench
-`logic_basics/test/state_v2.cc` prüft:
+Die unabhängige Testbench `logic_basics/test/state_v2.cc`
+berechnet `PC_neu` und `ACC_neu` aus dem alten Referenzzustand.
+Sie prüft:
 
-- Synchronen Reset und Pause, auch bei widersprüchlichen Steuersignalen.
-- Alle **256** Kombinationen aus initialem PC und ACC (jeweils 0–15).
-- Für jeden Anfangszustand alle vier PC-Modi und beide ACC-Steuerbits.
-- Unterschiedliche ALU- und Immediate-Werte und die korrekte JZ-Bedingung.
-- Eingangsänderungen bei hohem Takt und fallende Flanken ohne Zustandsänderung.
-- Eine gemischte Folge mit längeren Abschnitten ohne Reset.
+- Alle 256 Kombinationen aus `PC_alt` und `ACC_alt`.
+- Alle vier PC-Modi, beide ACC-Steuerbits und wechselnde Datenwerte.
+- Reset und Pause, auch bei gegensätzlichen Steuersignalen.
+- JZ mit ACC gleich und ungleich null.
+- Eingangsänderungen bei hohem Takt und fallende Flanken.
+- Eine längere gemischte Zustandsfolge.
 
-**Erwartet: 69.635 Zustandsvergleiche.** Der erste Eingangswechsel vor
-der initialen Reset-Flanke wird nicht verglichen, weil die Register
-zu diesem Zeitpunkt noch keinen definierten Zustand besitzen.
+Insgesamt ergeben sich **69.635 Zustandsvergleiche**. Der erste
+Eingangswechsel vor der initialen Reset-Flanke wird nicht gewertet,
+da die Register bis dahin noch keinen definierten Zustand haben.
+Das Signalprotokoll wird unter
+`logic_basics/build/state_v2.vcd` gespeichert.
 
-Die erwarteten Zustände berechnet ein eigenständiges Softwaremodell.
-Bei einem Fehler gibt die Testbench die Eingänge sowie
-`(PC, ACC)` aus. Die VCD-Datei liegt unter
-`logic_basics/build/state_v2.vcd`.
+Die Registersteuerung ist damit als isolierter Baustein überprüft.
+Es ist **noch kein Test einer vollständig verschalteten CPU v2**.
 
-**Die Vorlage soll zunächst fehlschlagen.**
-`make test_completed` prüft separat die 20 bereits
-abgeschlossenen Hardware-Tests; `make test` umfasst
-zusätzlich diese neue Aufgabe.
+## 8. Weiter zum Programmspeicher
 
-## 7. Nächster Baustein
+Der nächste Baustein wird ein **16×8-Bit-ROM** mit dem
+[Countdown-/LED-Alarm-Programm](isa.md). Erst anschließend können
+Programmspeicher, Decoder, Steuerfunktion, ALU und Zustandsregister
+zur CPU v2 verbunden werden.
 
-Sobald dieser Zustandsblock korrekt ist, kombinieren wir
-`decoder8`, `decode_control_signals`, die bestehende ALU
-und die neuen Register. Anschließend erhält CPU v2 einen
-16×8-Bit-ROM mit unserem Countdown-/LED-Alarm-Programm.
-
-Weiterführend: [ISA](isa.md), [Kapitel VI](control8.md).
+Vorherige Kapitel: [Felddecoder](decoder8.md) und
+[Steuerdecoder](control8.md).
