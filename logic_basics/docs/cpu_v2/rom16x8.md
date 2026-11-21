@@ -79,15 +79,9 @@ der späteren CPU-Integration.
 
 Datei: `logic_basics/src/cpu_v2/rom16x8.spade`
 
-```spade
-#[no_mangle(all)]
-pub entity rom16x8_top(
-    address: uint<4>,
-    instruction: inv uint<8>
-) {
-    // Die 16 festen Befehlswörter werden hier decodiert.
-}
-```
+Die öffentliche Entity `rom16x8_top` besitzt einen Eingang
+`address: uint<4>` und einen Ausgang `instruction: inv uint<8>`.
+Die Implementierung steht in der oben genannten Spade-Datei.
 
 Die Entity bildet die Adressen über ein `match address` auf
 feste Hexadezimalwerte ab. Die zehn ausdrücklich definierten
