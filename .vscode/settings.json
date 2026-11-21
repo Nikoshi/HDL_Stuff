@@ -5,6 +5,6 @@
     "-c",
     "sh",
     "-c",
-    "cd logic_basics && exec swim lsp"
+    "cd logic_basics && exec ./build/spade/target/release/spade-language-server"
   ]
 }
