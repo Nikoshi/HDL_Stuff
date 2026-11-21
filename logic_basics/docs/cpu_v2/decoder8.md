@@ -149,8 +149,8 @@ ersetzt; der Nutzer hat **384/384 bestandene Tests** gemeldet.
 
 VCD-Trace: `logic_basics/build/decoder8.vcd`.
 
-`make test_completed` enthält jetzt auch den abgeschlossenen `decoder8`-Test.
-Die nächste offene Aufgabe (`control8`) läuft über `make test_control8`.
+Der Decoder-Test ist Teil von `make test_completed`.
+Die weiteren CPU-v2-Bausteine sind in den folgenden Kapiteln dokumentiert.
 
 Für unser Countdown-/LED-Alarm-Programm bleibt zusätzlich
 `make demo_cpu_v2` als getrenntes Softwaremodell verfügbar.
