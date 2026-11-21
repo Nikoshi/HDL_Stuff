@@ -224,3 +224,7 @@ kein Befehlsregister, keine automatische Halt-Bedingung,
 kein Sprungopcode und keine veränderbaren Programme.
 Das sind mögliche **spätere** Architekturthemen, nicht Teil
 dieser Verdrahtungsübung.
+
+---
+
+[← Zurück: ROM16x6](rom16x6.md) · [Weiter: CPU-v2-ISA →](cpu_v2/isa.md)
