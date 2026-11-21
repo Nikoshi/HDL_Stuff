@@ -23,6 +23,7 @@ make logic_basics     # Spade übersetzen
 make test_completed   # Abgeschlossene Übungen
 make test             # Alle Tests, inklusive der aktuellen Übung
 make test_rom16x8     # CPU-v2-Programmspeicher testen
+make test_cpu_v2      # Offene CPU-v2-Integrationsübung
 make demo_cpu_v2      # ISA-Demo im Softwaremodell
 make help             # Alle verfügbaren Targets
 ```
@@ -35,7 +36,7 @@ Die Testbench-Traces liegen unter `logic_basics/build/`.
 Die erste 4-Bit-CPU ist abgeschlossen. CPU v2 verwendet weiterhin
 4-Bit-Register, aber 8-Bit-Befehle. Decoder, Steuerlogik, Zustandsregister und
 [16×8-Bit-Programmspeicher](logic_basics/docs/cpu_v2/rom16x8.md)
-sind fertig. Als Nächstes folgt die Integration zur CPU v2.
+sind fertig. Aktuelle Übung: [CPU-v2-Integration](logic_basics/docs/cpu_v2/cpu_v2.md).
 
 ## Code und Lernnotizen
 
