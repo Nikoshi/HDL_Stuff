@@ -56,6 +56,7 @@ Die Kapitel sind untereinander verlinkt.
 
 ## Editor und Tools
 
+- [VS-Code-Workspace für LSP und Make-Tests](HDL_Stuff.code-workspace)
 - [Spade-LSP in VS Code](logic_basics/docs/tooling/vscode_lsp.md)
 - [Spade-/Swim-Migration nach Codeberg](logic_basics/docs/tooling/spade_migration.md)
 - [Surfer](https://surfer-project.org/) für VCD-Signalverläufe
