@@ -196,3 +196,7 @@ dem Beispiel aus `instruction_exec6.md` vergleichen.
 
 Sprünge bleiben vorerst externe Steuersignale; ein JUMP-Opcode ist in
 unserer bisherigen 6-Bit-ISA noch nicht vorgesehen.
+
+---
+
+[← Zurück: Programmzähler](pc4.md) · [Weiter: CPU v1 →](cpu4.md)
