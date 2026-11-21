@@ -26,7 +26,9 @@ nur `logic_basics/`. Nix sucht dort unsere `flake.nix`.
 
 Die Spade-Projektkonfiguration befindet sich dagegen unter
 `logic_basics/swim.toml`. Daher startet der LSP-Prozess erst
-nach dem Wechsel in dieses Unterverzeichnis.
+nach dem Wechsel in dieses Unterverzeichnis. Der erste Aufruf von
+`swim lsp` kann den Sprachserver lokal mit Cargo bauen; das erfolgt
+bewusst einmalig im Terminal und **nicht** über den LSP-Datenkanal.
 
 ## 3. Hinterlegte Workspace-Einstellungen
 
@@ -40,7 +42,7 @@ Die bereits eingecheckte `.vscode/settings.json` enthält:
     "-c",
     "sh",
     "-c",
-    "cd logic_basics && exec swim lsp"
+    "cd logic_basics && exec ./build/spade/target/release/spade-language-server"
   ]
 }
 ```
@@ -48,13 +50,30 @@ Die bereits eingecheckte `.vscode/settings.json` enthält:
 Das entspricht in einer Shell, aus dem Repository-Root:
 
 ```sh
-nix develop -c sh -c 'cd logic_basics && exec swim lsp'
+nix develop -c sh -c 'cd logic_basics && exec ./build/spade/target/release/spade-language-server'
 ```
 
+**Einmalige Voraussetzung:** Der Sprachserver muss bereits gebaut sein.
+Dafür im Terminal (nicht im VS-Code-LSP-Prozess) ausführen:
+
+```sh
+nix develop -c sh -c 'cd logic_basics && swim lsp < /dev/null'
+```
+
+Der Befehl kann nach der Erstellung der ausführbaren Datei wieder enden;
+es müssen dabei keine LSP-Anfragen gesendet werden. Anschließend prüfen:
+
+```sh
+nix develop -c sh -c 'test -x logic_basics/build/spade/target/release/spade-language-server && echo "Spade-LSP-Binary vorhanden"'
+```
+
+Der direkte Start umgeht die Status- und Cargo-Ausgaben von `swim lsp`,
+die andernfalls auf `stdout` den LSP-Nachrichtenstrom beschädigen
+können (`Header must provide a Content-Length property`).
+Mit `exec` wird die bereits gebaute Server-Binary zum laufenden
+Prozess, dessen Standardein- und -ausgabe VS Code verwendet.
 Die `spade-lsp.serverCommand`-/`serverArgs`-Felder sind die
-dokumentierte Schnittstelle der Erweiterung. Mit `exec` bleibt
-der LSP-Server der laufende Prozess, dessen Standard-Ein- und -Ausgabe
-vom VS-Code-LSP-Client verwendet werden können.
+dokumentierte Konfigurationsschnittstelle der Erweiterung.
 
 Es ist kein globales `swim` und **keine VS-Code-Paketaufnahme
 in `flake.nix`** erforderlich.
@@ -62,8 +81,10 @@ in `flake.nix`** erforderlich.
 ## 4. Inbetriebnahme und Fehlersuche
 
 - Nach dem Pull die beiden Erweiterungen installieren und eine
-  `.spade`-Datei öffnen. Die Erweiterung kann über die
-  Befehlspalette mit **Spade: Restart Language Server** neu gestartet werden.
+  `.spade`-Datei öffnen. **Developer: Reload Window** lädt die
+  geänderte Workspace-Konfiguration neu. Anschließend lässt sich
+  der Server über die Befehlspalette mit **Spade: Restart Language Server**
+  bei Bedarf neu starten.
 - Funktioniert ein Start nicht, im VS-Code-Ausgabefenster
   (**Output**, Kanal **Spade LSP**) nachsehen; bei Bedarf in
   `.vscode/settings.json` `"spade-lsp.trace.server": "verbose"`
@@ -73,9 +94,16 @@ in `flake.nix`** erforderlich.
   zum Beispiel aus dem Repository-Root über `code .`.
   Bei GUI-Starts kann sich die geerbte Umgebung unterscheiden.
 - Die Projektversionen bleiben durch `flake.lock` und
-  `logic_basics/swim.lock` festgelegt. Wenn `swim lsp` an
-  einem alten Compiler-Pin oder an der Swim-Migration scheitert,
-  die Ursache im Output prüfen; die Lockdatei nicht auf Verdacht ändern.
+  `logic_basics/swim.lock` festgelegt. `make clean` entfernt
+  `logic_basics/build/` und damit auch das lokal gebaute LSP-Binary:
+  danach den einmaligen `swim lsp`-Build wiederholen.
+- Der Compiler-Pin meldet derzeit den Spade-Codeberg-Umzug, aber
+  `swim build` und das lokale Erstellen des LSP wurden bereits erfolgreich
+  beobachtet. Daher ist eine sofortige Compiler-Migration zur Behebung
+  dieses speziellen Protokollfehlers nicht erforderlich.
 
-**Status:** Repository-Konfiguration vorbereitet, aber der Start
-in deinem lokalen VS Code wurde noch nicht verifiziert.
+**Status:** Fehlerursache anhand des VS-Code-Logs eingegrenzt:
+`swim lsp` hat auf macOS einen lokalen Cargo-Build gestartet, dessen
+Statusausgaben den LSP-Stream gestört haben. Die Workspace-Konfiguration
+verwendet deshalb das bereits kompilierte Server-Binary direkt.
+Der erfolgreiche Start in VS Code mit dieser Änderung ist noch zu prüfen.
