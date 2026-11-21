@@ -46,3 +46,7 @@ und erst danach die geänderte `logic_basics/swim.lock` committen.
 `swim build` und den lokalen LSP-Build nicht verhindert.
 Der Migrationshinweis allein ist daher kein Beleg für einen
 fehlgeschlagenen Build.
+
+---
+
+[← Zurück zur Projektübersicht](../../README.md)
