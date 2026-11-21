@@ -84,3 +84,7 @@ Compiler-Migration nicht erforderlich.
 
 **Status:** Der Start über `swim lsp` mit anschließendem LSP-Neustart
 wurde lokal vom Nutzer als funktionierend bestätigt.
+
+---
+
+[← Zurück zur Projektübersicht](../../README.md)
