@@ -1,8 +1,7 @@
 # Mini-Assembler, Kapitel II: Zeilen und Befehle parsen
 
-**Status:** Offene C++17-Übung. Der Maschinenwort-Encoder aus
-[Kapitel I](01_encoder.md) wurde mit **131/131 Tests** bestanden gemeldet.
-In diesem Kapitel entsteht der Parser für genau **eine** Textzeile.
+**Status:** Abgeschlossen. Der Zeilenparser wurde mit **38/38 Tests** bestanden gemeldet und anschließend ohne Änderung seines Verhaltens in Hilfsfunktionen gegliedert.
+Der Maschinenwort-Encoder aus [Kapitel I](01_encoder.md) bestand **131/131 Tests**.
 
 ## 1. Was wir jetzt bauen
 
@@ -147,8 +146,9 @@ der nicht in das Zielfeld passt.
 ## 5. Deine Implementierungsaufgabe
 
 Ändere **nur** [`parser.cpp`](../../assembler/parser.cpp).
-Die Funktion enthält einen bewusst unvollständigen,
-kompilierbaren Platzhalter. Arbeite schrittweise:
+Die Funktion wurde ursprünglich als unvollständiger Platzhalter bereitgestellt.
+Die Implementierung ist abgeschlossen und bleibt als Lernreferenz erhalten.
+Der ursprüngliche Übungsplan:
 
 1. Entferne den Kommentarbereich ab `;`.
 2. Erkenne leere Zeilen ohne Syntaxfehler.
@@ -177,9 +177,11 @@ und **14 gezielt fehlerhafte Zeilen**, insgesamt **38 Tests**.
 Dazu gehören Kommentare, Leerraum, alle Mnemonics,
 symbolische Operanden, Labels und falsche Tokenanzahlen.
 
-Die Platzhalter-Implementierung besteht erwartungsgemäß
-nur die Fälle leerer Zeilen. Das ist der TDD-Start,
-kein Grund, etwas am Compiler oder an der CPU zu ändern.
+Der vollständig implementierte Parser wurde lokal mit **38/38 Tests**
+bestanden gemeldet. Der Refactoring-Schritt teilt die Logik in
+`find_opcode()`, `validate_label_name()`, `parse_label()` und
+`parse_instruction()` auf; `parse_line()` übernimmt die Zeilenvorbereitung
+und verzweigt an die passende Hilfsfunktion.
 
 `make test_assembler_encoder` bleibt als abgeschlossener
 Software-Einzeltest verfügbar. Die Hardware-Regression

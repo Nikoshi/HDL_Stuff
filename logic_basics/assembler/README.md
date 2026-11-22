@@ -6,15 +6,15 @@ Die Spade-Hardware und die bestehende Hardware-Regression bleiben unverändert.
 ## Einstieg
 
 1. **Abgeschlossen:** [Encoder](../docs/assembler/01_encoder.md), 131/131 gemeldete Tests.
-2. **Aktuell:** [Kapitel II: Zeilenparser](../docs/assembler/02_parser.md)
-   mit [C++17-Textverarbeitung](../docs/assembler/cpp17_text.md).
-3. Bearbeite `parser.cpp`, nicht die Testbench oder die fertige Encoder-Funktion.
+2. **Abgeschlossen:** [Kapitel II: Zeilenparser](../docs/assembler/02_parser.md),
+   38/38 gemeldete Tests; [C++17-Textverarbeitung](../docs/assembler/cpp17_text.md).
+3. Als nächstes: Programme zeilenweise lesen, Adressen vergeben und Labels auflösen.
 
 Im Repository-Root (Nix-Dev-Shell):
 
 ```sh
 make test_assembler_encoder    # Abgeschlossener Encoder-Test
-make test_assembler_parser     # Offene Parser-Übung (zunächst rot)
+make test_assembler_parser     # Abgeschlossener Parser-Test
 make assembler                 # Noch unvollständige CLI bauen
 make test_completed            # Bestehende Hardware-Regression
 ```

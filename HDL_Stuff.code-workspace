@@ -190,7 +190,7 @@
         "problemMatcher": []
       },
       {
-        "label": "Assembler: Parser testen (aktuelle Übung)",
+        "label": "Assembler: Parser testen (abgeschlossen)",
         "type": "shell",
         "command": "nix",
         "args": [
@@ -218,7 +218,7 @@
         "description": "Welchen HDL-Test möchtest du ausführen?",
         "options": [
           {
-            "label": "Assembler: Parser (aktuelle C++17-Übung)",
+            "label": "Assembler: Parser (abgeschlossen)",
             "value": "test_assembler_parser"
           },
           {

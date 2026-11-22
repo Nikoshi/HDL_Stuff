@@ -29,7 +29,7 @@ stehen Links zum vorherigen und zum nächsten.
 ## Mini-Assembler (C++17)
 
 15. [Kapitel I: Maschinenwort-Encoder (abgeschlossen)](assembler/01_encoder.md)
-16. [Kapitel II: Zeilenparser (offen)](assembler/02_parser.md)
+16. [Kapitel II: Zeilenparser (abgeschlossen)](assembler/02_parser.md)
 
 C++17-Begleitmaterial: [Grundlagen](assembler/cpp17_einstieg.md) ·
 [Textverarbeitung](assembler/cpp17_text.md).

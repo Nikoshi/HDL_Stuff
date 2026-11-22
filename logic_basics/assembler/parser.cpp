@@ -1,5 +1,4 @@
 #include "parser.hpp"
-#include "encoder.hpp"
 
 #include <cctype>
 #include <sstream>
@@ -8,72 +7,54 @@
 #include <unordered_map>
 
 namespace assembler {
+namespace {
 
-Opcode find_opcode(const std::string &op) {
+Opcode find_opcode(const std::string& name) {
   static const std::unordered_map<std::string, Opcode> opcodes = {
       {"ADD", Opcode::ADD}, {"AND", Opcode::AND}, {"OR", Opcode::OR},
       {"XOR", Opcode::XOR}, {"LDI", Opcode::LDI}, {"JMP", Opcode::JMP},
       {"JZ", Opcode::JZ},   {"NOP", Opcode::NOP}};
 
-  const auto it = opcodes.find(op);
-
+  const auto it = opcodes.find(name);
   if (it == opcodes.end()) {
-    throw std::invalid_argument("Unbekannter Opcode: " + op);
+    throw std::invalid_argument("Unbekannter Opcode: " + name);
   }
-
   return it->second;
 }
 
-ParsedLine parse_line(const std::string &source) {
-  // TODO: Kommentar ab ';' ignorieren.
-  auto comment_position = source.find(';');
-
-  std::string line = source;
-  if (comment_position != std::string::npos) {
-    line = source.substr(0, comment_position);
+void validate_label_name(const std::string& label) {
+  if (label.empty() ||
+      (!std::isalpha(static_cast<unsigned char>(label.front())) &&
+       label.front() != '_')) {
+    throw std::invalid_argument("Ungültiger Labelanfang");
   }
 
-  // TODO: Leerzeile, Label oder Instruktion erkennen.
+  for (char c : label) {
+    if (!std::isalnum(static_cast<unsigned char>(c)) && c != '_') {
+      throw std::invalid_argument("Ungültiges Label");
+    }
+  }
+}
 
-  std::istringstream input(line);
-  std::string op;
-  std::string operand;
+ParsedLine parse_label(const std::string& token, std::istringstream& input) {
+  const std::string label = token.substr(0, token.size() - 1);
+  validate_label_name(label);
+
   std::string extra;
-
-  // Leerzeilen erkennen
-  if (!(input >> op)) {
-    return {};
+  if (input >> extra) {
+    throw std::invalid_argument("Unerwartetes weiteres Wort");
   }
 
-  // Label erkennen
-  if (!op.empty() && op.back() == ':') {
-    std::string label = op.substr(0, op.size() - 1);
+  ParsedLine result;
+  result.kind = LineKind::Label;
+  result.label = label;
+  return result;
+}
 
-    if (label.empty() ||
-        (!std::isalpha(static_cast<unsigned char>(label.front())) &&
-         label.front() != '_')) {
-      throw std::invalid_argument("Ungültiger Labelanfang");
-    }
-
-    for (char c : label) {
-      if (!std::isalnum(static_cast<unsigned char>(c)) && c != '_') {
-        throw std::invalid_argument("Ungültiges Label");
-      }
-    }
-
-    if (input >> operand) {
-      throw std::invalid_argument("Unerwartetes weiteres Wort");
-    }
-
-    auto parsedLine = ParsedLine();
-    parsedLine.kind = LineKind::Label;
-    parsedLine.label = label;
-
-    return parsedLine;
-  }
-
-  auto opcode = find_opcode(op);
-  auto parsedLine = ParsedLine();
+ParsedLine parse_instruction(const std::string& name,
+                             std::istringstream& input) {
+  const Opcode opcode = find_opcode(name);
+  std::string operand;
 
   if (opcode == Opcode::NOP) {
     if (input >> operand) {
@@ -83,21 +64,38 @@ ParsedLine parse_line(const std::string &source) {
     if (!(input >> operand)) {
       throw std::invalid_argument("Operand fehlt");
     }
-
     if (operand.find(':') != std::string::npos) {
       throw std::invalid_argument("Unerwarteter Doppelpunkt im Operanden");
     }
 
+    std::string extra;
     if (input >> extra) {
       throw std::invalid_argument("Zu viele Operanden");
     }
   }
 
-  parsedLine.kind = LineKind::Instruction;
-  parsedLine.opcode = opcode;
-  parsedLine.operand = operand;
-
-  return parsedLine;
+  ParsedLine result;
+  result.kind = LineKind::Instruction;
+  result.opcode = opcode;
+  result.operand = operand;
+  return result;
 }
 
-} // namespace assembler
+}  // namespace
+
+ParsedLine parse_line(const std::string& source) {
+  // Nur die Zeichen vor dem ersten Kommentarzeichen betrachten.
+  const std::string line = source.substr(0, source.find(';'));
+  std::istringstream input(line);
+  std::string first;
+
+  if (!(input >> first)) {
+    return {};
+  }
+  if (first.back() == ':') {
+    return parse_label(first, input);
+  }
+  return parse_instruction(first, input);
+}
+
+}  // namespace assembler
