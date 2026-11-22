@@ -209,6 +209,27 @@
           "clear": true
         },
         "problemMatcher": []
+      },
+      {
+        "label": "Assembler: Pass 1 testen (aktuelle Übung)",
+        "type": "shell",
+        "command": "nix",
+        "args": [
+          "develop",
+          "--command",
+          "make",
+          "test_assembler_pass1"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}/.."
+        },
+        "group": "test",
+        "presentation": {
+          "reveal": "always",
+          "panel": "shared",
+          "clear": true
+        },
+        "problemMatcher": []
       }
     ],
     "inputs": [
@@ -217,6 +238,10 @@
         "type": "pickString",
         "description": "Welchen HDL-Test möchtest du ausführen?",
         "options": [
+          {
+            "label": "Assembler: Pass 1 (aktuelle C++17-Übung)",
+            "value": "test_assembler_pass1"
+          },
           {
             "label": "Assembler: Parser (abgeschlossen)",
             "value": "test_assembler_parser"
@@ -322,7 +347,7 @@
             "value": "test_mux"
           }
         ],
-        "default": "test_assembler_parser"
+        "default": "test_assembler_pass1"
       }
     ]
   }

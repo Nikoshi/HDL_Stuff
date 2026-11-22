@@ -30,9 +30,11 @@ stehen Links zum vorherigen und zum nächsten.
 
 15. [Kapitel I: Maschinenwort-Encoder (abgeschlossen)](assembler/01_encoder.md)
 16. [Kapitel II: Zeilenparser (abgeschlossen)](assembler/02_parser.md)
+17. [Kapitel III: Erster Programmdurchlauf (offen)](assembler/03_pass1.md)
 
 C++17-Begleitmaterial: [Grundlagen](assembler/cpp17_einstieg.md) ·
-[Textverarbeitung](assembler/cpp17_text.md).
+[Textverarbeitung](assembler/cpp17_text.md) ·
+[Streams und Collections](assembler/cpp17_collections.md).
 
 ## Nachschlagen
 

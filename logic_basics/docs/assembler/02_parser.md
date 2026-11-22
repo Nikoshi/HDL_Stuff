@@ -197,4 +197,4 @@ auf die 16 ROM-Adressen und lösen Sprungziele auf.
 
 ---
 
-[← Zurück: Encoder](01_encoder.md) · [Zur Kapitelübersicht](../README.md)
+[← Zurück: Encoder](01_encoder.md) · [Weiter: Erster Programmdurchlauf →](03_pass1.md)
